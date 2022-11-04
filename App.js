@@ -141,7 +141,7 @@ let albumsList = [
 
   return (
     <View style={styles.container}> 
-{/* <ScrollView>{albumsList.map((a)=>{return (<View><Text>{a.title}</Text></View>)})}</ScrollView> */}
+<ScrollView>{albumsList.map((a)=>{return (<View style={styles.list}><Text>{a.title}</Text></View>)})}</ScrollView>
     </View>
   );
 }
@@ -154,4 +154,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
   },
+  list: {
+    paddingTop:20
+  }
 });
