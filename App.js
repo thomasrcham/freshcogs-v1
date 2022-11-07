@@ -153,7 +153,7 @@ export default function App() {
     return singleParsedRelease;
   }
 
-  return albums ? <MainDisplay albums={albums} /> : null;
+  return albums ? <MainDisplay albums={albums} key={"main-display"} /> : null;
 }
 
 const styles = StyleSheet.create({
