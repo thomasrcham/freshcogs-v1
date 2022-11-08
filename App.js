@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import "./keys.js";
 import { NavigationContainer } from "@react-navigation/native";
 import MainDisplay from "./MainDisplay.js";
+import TestButton from "./TestButton.js";
 
 export default function App() {
   const [albums, setAlbums] = useState(null);
@@ -30,7 +31,9 @@ export default function App() {
     return singleParsedRelease;
   }
 
-  return albums ? <MainDisplay albums={albums} key={"main-display"} /> : null;
+  return <TestButton />;
+
+  // return albums ? <MainDisplay albums={albums} key={"main-display"} /> : null;
 }
 
 const styles = StyleSheet.create({
