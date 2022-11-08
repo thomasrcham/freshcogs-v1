@@ -15,7 +15,6 @@ export default function App() {
       .then((data) => {
         let returnData = data.releases;
         let parsedReleases = returnData.map((release) => parseInfo(release));
-
         setAlbums(parsedReleases);
       });
   }, []);
