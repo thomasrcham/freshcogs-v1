@@ -3,7 +3,7 @@ import { getFirestore } from "firebase/firestore";
 import { collection, addDoc } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
 import { firebaseConfig } from "./firebaseConfig.js";
-import { Button } from "react-native";
+import { Button, View, Alert } from "react-native";
 import { useState } from "react";
 
 // Initialize Firebase
@@ -17,13 +17,14 @@ function TestButton() {
 
   function getData() {
     fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=5${token}`
+      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500${token}`
     )
       .then((res) => res.json())
       .then((data) => {
         let returnData = data.releases;
         setAlbums(returnData);
-      });
+      })
+      .then(Alert.alert(null, "Fetch Complete"));
   }
 
   async function addData() {
@@ -35,10 +36,10 @@ function TestButton() {
     );
   }
   return (
-    <>
-      <Button value="test" onPress={() => getData()} />
-      <Button value="test" onPress={() => addData()} />
-    </>
+    <View style={{ paddingTop: 100 }}>
+      <Button value="test" title="test" onPress={() => getData()} />
+      <Button value="test" title="test" onPress={() => addData()} />
+    </View>
   );
 }
 
