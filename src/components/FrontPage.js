@@ -34,12 +34,13 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     padding: 20,
     width: "100%",
+    height: "100%",
   },
   imageGrid: {
     width: "50%",
     padding: 10,
-    // borderWidth: 1,
-    // borderColor: "black",
+    borderWidth: 1,
+    borderColor: "black",
     height: 220,
   },
   image: {

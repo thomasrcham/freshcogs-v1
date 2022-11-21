@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import "./keys.js";
 import { NavigationContainer } from "@react-navigation/native";
 import MainDisplay from "./src/components/MainDisplay.js";
+import { Dimensions } from "react-native";
 // import { useFonts } from "expo-font";
 
 export default function App() {
@@ -39,14 +40,15 @@ export default function App() {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.topBar}></View>
-      <View style={{ flex: 0.05 }}></View>
-      <View style={{ flex: 0.83 }}>
-        <MainDisplay albums={albums} key={"main-display"} />
+      <View style={styles.container}>
+        <MainDisplay albums={albums} />
       </View>
-      <View style={{ flex: 0.1 }}></View>
     </View>
   );
 }
+
+const topBarHeight = Dimensions.get("window").height * 0.06;
+const mainWindowHeight = Dimensions.get("window").height * 0.94;
 
 const styles = StyleSheet.create({
   container: {
@@ -56,12 +58,12 @@ const styles = StyleSheet.create({
     backgroundColor: "pink",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 80,
-    padding: 20,
     width: "100%",
+    bottom: 0,
+    // height: mainWindowHeight,
   },
   topBar: {
-    flex: 0.07,
+    height: topBarHeight,
     backgroundColor: "black",
   },
   image: {
