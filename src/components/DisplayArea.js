@@ -8,14 +8,9 @@ import OtherPage from "./OtherPage";
 import FrontPage from "./FrontPage";
 
 const Stack = createNativeStackNavigator();
-function DisplayArea({ albums }) {
+function DisplayArea({ albums, navigation }) {
   return (
-    <View
-      style={{ position: "relative", height: Dimensions.get("window").height }}
-    >
-      <View>
-        <Text>words</Text>
-      </View>
+    <View>
       <View style={styles.mainPageContainer}>
         <NavigationContainer>
           <Stack.Navigator
@@ -31,28 +26,24 @@ function DisplayArea({ albums }) {
           </Stack.Navigator>
         </NavigationContainer>
       </View>
-      <View style={styles.footerContainer}>
-        <Footer />
-      </View>
     </View>
   );
 }
 
-const mainWindowHeight = Dimensions.get("window").height * 0.93;
-const footerWindowHeight = Dimensions.get("window").height * 0.08;
+const mainWindowHeight = Dimensions.get("window").height * 1.01;
 const windowWidth = Dimensions.get("window").width;
 
 export default DisplayArea;
 
 const styles = StyleSheet.create({
   mainPageContainer: { height: mainWindowHeight, width: windowWidth },
-  footerContainer: {
-    height: footerWindowHeight,
-    width: windowWidth,
-    position: "absolute",
-    left: 0,
-    bottom: -5,
-    right: 0,
-    overflow: "visible",
-  },
+  // footerContainer: {
+  //   height: footerWindowHeight,
+  //   width: windowWidth,
+  //   position: "absolute",
+  //   left: 0,
+  //   bottom: -5,
+  //   right: 0,
+  //   overflow: "visible",
+  // },
 });

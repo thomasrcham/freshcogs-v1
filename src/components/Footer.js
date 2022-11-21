@@ -1,15 +1,16 @@
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
-function Footer() {
+function Footer({ navigation }) {
   return (
     <View style={styles.footer}>
       <View style={styles.footerMain}>
         <View style={styles.buttonBox}>
-          <Image
-            style={styles.button}
-            source={require("./icons/vinyl.png")}
-            onPress={() => navigation.navigate("OtherPage")}
-          />
+          <TouchableOpacity onPress={() => navigation.navigate("OtherPage")}>
+            <Image
+              style={styles.button}
+              source={require("./icons/vinyl.png")}
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.buttonBox}>
           <Image style={styles.button} source={require("./icons/music.png")} />

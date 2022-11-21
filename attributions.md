@@ -7,3 +7,5 @@ cog: <a href="https://www.flaticon.com/free-icons/gear" title="gear icons">Gear 
 note in circle: <a href="https://www.flaticon.com/free-icons/ui" title="ui icons">Ui icons created by Tempo_doloe - Flaticon</a>
 
 play button: <a href="https://www.flaticon.com/free-icons/play-button" title="play button icons">Play button icons created by Freepik - Flaticon</a>
+
+user icon: <a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a>
