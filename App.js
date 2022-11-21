@@ -1,10 +1,12 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { useState, useEffect } from "react";
 import "./keys.js";
 import { NavigationContainer } from "@react-navigation/native";
-import MainDisplay from "./MainDisplay.js";
+import MainDisplay from "./src/components/MainDisplay.js";
+// import { useFonts } from "expo-font";
 
 export default function App() {
+  // const [fontsLoaded] = useFonts(font);
   const [albums, setAlbums] = useState(null);
 
   useEffect(() => {
@@ -30,7 +32,20 @@ export default function App() {
     return singleParsedRelease;
   }
 
-  return albums ? <MainDisplay albums={albums} key={"main-display"} /> : null;
+  // if (!fontsLoaded) {
+  //   return <Text>no text</Text>;
+  // }
+
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={styles.topBar}></View>
+      <View style={{ flex: 0.05 }}></View>
+      <View style={{ flex: 0.83 }}>
+        <MainDisplay albums={albums} key={"main-display"} />
+      </View>
+      <View style={{ flex: 0.1 }}></View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -45,6 +60,10 @@ const styles = StyleSheet.create({
     padding: 20,
     width: "100%",
   },
+  topBar: {
+    flex: 0.07,
+    backgroundColor: "black",
+  },
   image: {
     width: undefined,
     height: undefined,
@@ -54,5 +73,6 @@ const styles = StyleSheet.create({
   imageGrid: {
     width: "50%",
     padding: 10,
+    fontFamily: "Martel",
   },
 });
