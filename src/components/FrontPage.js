@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import Footer from "./Footer";
 
@@ -21,11 +22,21 @@ function FrontPage({ albums, navigation }) {
               albums.map((a) => {
                 return (
                   <View style={styles.imageGrid} key={a.id}>
-                    <Image
-                      source={{ uri: a.uri }}
-                      style={styles.image}
-                      key={a.title}
-                    />
+                    <TouchableOpacity
+                      onPress={
+                        // () => console.log(a)
+                        () =>
+                          navigation.navigate("AlbumPage", {
+                            album: a,
+                          })
+                      }
+                    >
+                      <Image
+                        source={{ uri: a.uri }}
+                        style={styles.image}
+                        key={a.title}
+                      />
+                    </TouchableOpacity>
                     <Text key={a.id + "text"}>{a.title}</Text>
                   </View>
                 );

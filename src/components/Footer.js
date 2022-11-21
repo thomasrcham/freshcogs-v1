@@ -5,7 +5,7 @@ function Footer({ navigation }) {
     <View style={styles.footer}>
       <View style={styles.footerMain}>
         <View style={styles.buttonBox}>
-          <TouchableOpacity onPress={() => navigation.navigate("OtherPage")}>
+          <TouchableOpacity onPress={() => navigation.navigate("Collection")}>
             <Image
               style={styles.button}
               source={require("./icons/vinyl.png")}

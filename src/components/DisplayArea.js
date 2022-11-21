@@ -1,11 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Dimensions } from "react-native";
-import Footer from "./Footer";
-import MainWindow from "./MainWindow";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import OtherPage from "./OtherPage";
 import FrontPage from "./FrontPage";
+import AlbumPage from "./AlbumPage";
+import Collection from "./Collection";
 
 const Stack = createNativeStackNavigator();
 function DisplayArea({ albums, navigation }) {
@@ -22,7 +21,8 @@ function DisplayArea({ albums, navigation }) {
             <Stack.Screen name="FrontPage">
               {(props) => <FrontPage {...props} albums={albums} />}
             </Stack.Screen>
-            <Stack.Screen name="OtherPage" component={OtherPage} />
+            <Stack.Screen name="Collection" component={Collection} />
+            <Stack.Screen name="AlbumPage" component={AlbumPage} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>
@@ -37,13 +37,16 @@ export default DisplayArea;
 
 const styles = StyleSheet.create({
   mainPageContainer: { height: mainWindowHeight, width: windowWidth },
-  // footerContainer: {
-  //   height: footerWindowHeight,
-  //   width: windowWidth,
-  //   position: "absolute",
-  //   left: 0,
-  //   bottom: -5,
-  //   right: 0,
-  //   overflow: "visible",
-  // },
+  container: {
+    flex: 2,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    backgroundColor: "pink",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingTop: 50,
+    padding: 20,
+    width: "100%",
+    height: "100%",
+  },
 });
