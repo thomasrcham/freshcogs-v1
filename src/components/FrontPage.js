@@ -3,19 +3,23 @@ import { View, ScrollView, Image, StyleSheet, Text } from "react-native";
 function FrontPage({ albums }) {
   return (
     <ScrollView key={"scroll"}>
-      <View style={styles.container} key={"container"}>
-        {albums.map((a) => {
-          return (
-            <View style={styles.imageGrid} key={a.id}>
-              <Image
-                source={{ uri: a.uri }}
-                style={styles.image}
-                key={a.title}
-              />
-              <Text key={a.id + "text"}>{a.title}</Text>
-            </View>
-          );
-        })}
+      <View style={styles.container}>
+        {albums ? (
+          albums.map((a) => {
+            return (
+              <View style={styles.imageGrid} key={a.id}>
+                <Image
+                  source={{ uri: a.uri }}
+                  style={styles.image}
+                  key={a.title}
+                />
+                <Text key={a.id + "text"}>{a.title}</Text>
+              </View>
+            );
+          })
+        ) : (
+          <Text>no albums</Text>
+        )}
       </View>
     </ScrollView>
   );

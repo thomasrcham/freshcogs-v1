@@ -3,35 +3,29 @@ import { StyleSheet, View, Text, Image } from "react-native";
 function Footer() {
   return (
     <View style={styles.footer}>
-      <View style={styles.buttonBox}>
-        <Image
-          style={styles.button}
-          source={require("./icons/circle-icon.png")}
-        />
-      </View>
-      <View style={styles.buttonBox}>
-        <Image
-          style={styles.button}
-          source={require("./icons/circle-icon.png")}
-        />
-      </View>
-      <View style={styles.bigButtonBox}>
-        <Image
-          style={styles.buttonBig}
-          source={require("./icons/circle-icon.png")}
-        />
-      </View>
-      <View style={styles.buttonBox}>
-        <Image
-          style={styles.button}
-          source={require("./icons/circle-icon.png")}
-        />
-      </View>
-      <View style={styles.buttonBox}>
-        <Image
-          style={styles.button}
-          source={require("./icons/circle-icon.png")}
-        />
+      <View style={styles.footerMain}>
+        <View style={styles.buttonBox}>
+          <Image
+            style={styles.button}
+            source={require("./icons/vinyl.png")}
+            onPress={() => navigation.navigate("OtherPage")}
+          />
+        </View>
+        <View style={styles.buttonBox}>
+          <Image style={styles.button} source={require("./icons/music.png")} />
+        </View>
+        <View style={styles.buttonBox}>
+          <Image
+            style={styles.button}
+            source={require("./icons/play-button.png")}
+          />
+        </View>
+        <View style={styles.buttonBox}>
+          <Image style={styles.button} source={require("./icons/user.png")} />
+        </View>
+        <View style={styles.buttonBox}>
+          <Image style={styles.button} source={require("./icons/gear.png")} />
+        </View>
       </View>
     </View>
   );
@@ -39,62 +33,44 @@ function Footer() {
 
 const styles = StyleSheet.create({
   footer: {
-    display: "flex",
-    flexDirection: "row",
-    backgroundColor: `#fff`,
-    // backgroundColor: `#99607e`,
-    width: "100%",
-    height: "100%",
-  },
-  buttonBox: {
-    backgroundColor: "blue",
-    flex: 1,
-    alignItems: "center",
-    bottom: 0,
-    padding: "2%",
-  },
-  bigButtonBox: {
-    backgroundColor: "blue",
-    flex: 1,
-    alignItems: "center",
-    bottom: 0,
     overflow: "visible",
   },
+  footerMain: {
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: `#f2dae7`,
+    width: "100%",
+    height: "100%",
+    overflow: "visible",
+  },
+  buttonBox: {
+    flex: 1,
+    alignItems: "center",
+    bottom: 0,
+    padding: "1%",
+  },
+  //   bigButtonBox: {
+  //     flex: 1,
+  //     alignItems: "center",
+  //     justifyContent: "flex-end",
+  //     bottom: 0,
+  //     overflow: "visible",
+  //     backgroundColor: "red",
+  //   },
   button: {
     flex: 1,
-    maxHeight: "auto",
+    maxHeight: "90%",
     maxWidth: undefined,
     aspectRatio: 1,
     resizeMode: "contain",
   },
-  buttonBig: {
-    maxHeight: "120%",
-    maxWidth: "150%",
-    overflow: "visible",
-  },
+  //   buttonBig: {
+  //     flex: 1,
+  //     maxHeight: "90%",
+  //     maxHeight: "100%",
+  //     maxWidth: undefined,
+  //     overflow: "visible",
+  //   },
 });
 
 export default Footer;
-
-{
-  /* <Image
-        style={styles.button}
-        source={require("./icons/circle-icon.png")}
-      />
-      <Image
-        style={styles.button}
-        source={require("./icons/circle-icon.png")}
-      />
-      <Image
-        style={styles.buttonBig}
-        source={require("./icons/circle-icon.png")}
-      />
-      <Image
-        style={styles.button}
-        source={require("./icons/circle-icon.png")}
-      />
-      <Image
-        style={styles.button}
-        source={require("./icons/circle-icon.png")}
-      /> */
-}

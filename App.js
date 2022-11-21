@@ -1,8 +1,7 @@
 import { StyleSheet, View, Text } from "react-native";
 import { useState, useEffect } from "react";
 import "./keys.js";
-import { NavigationContainer } from "@react-navigation/native";
-import MainDisplay from "./src/components/MainDisplay.js";
+import DisplayArea from "./src/components/DisplayArea.js";
 import { Dimensions } from "react-native";
 // import { useFonts } from "expo-font";
 
@@ -41,7 +40,7 @@ export default function App() {
     <View style={{ flex: 1 }}>
       <View style={styles.topBar}></View>
       <View style={styles.container}>
-        <MainDisplay albums={albums} />
+        <DisplayArea albums={albums} />
       </View>
     </View>
   );
