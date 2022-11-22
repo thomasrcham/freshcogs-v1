@@ -14,5 +14,8 @@ web-build/
 .DS_Store
 
 keys.js
+discogs.json
+AuthTest.js
+AuthReceive.js
 
 android/

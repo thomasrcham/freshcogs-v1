@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import FrontPage from "./FrontPage";
 import AlbumPage from "./AlbumPage";
 import Collection from "./Collection";
+import AuthTest from "./AuthTest";
+import AuthReceive from "./AuthReceive";
 
 const Stack = createNativeStackNavigator();
 function DisplayArea({ albums, navigation }) {
@@ -16,8 +18,10 @@ function DisplayArea({ albums, navigation }) {
             screenOptions={{
               headerShown: false,
             }}
-            initialRouteName="FrontPage"
+            initialRouteName="AuthTest"
           >
+            <Stack.Screen name="AuthTest" component={AuthTest} />
+            <Stack.Screen name="AuthReceive" component={AuthReceive} />
             <Stack.Screen name="FrontPage">
               {(props) => <FrontPage {...props} albums={albums} />}
             </Stack.Screen>

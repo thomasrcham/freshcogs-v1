@@ -13,13 +13,20 @@ function Footer({ navigation }) {
           </TouchableOpacity>
         </View>
         <View style={styles.buttonBox}>
-          <Image style={styles.button} source={require("./icons/music.png")} />
+          <TouchableOpacity onPress={() => navigation.navigate("AuthTest")}>
+            <Image
+              style={styles.button}
+              source={require("./icons/music.png")}
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.buttonBox}>
-          <Image
-            style={styles.button}
-            source={require("./icons/play-button.png")}
-          />
+          <TouchableOpacity onPress={() => navigation.navigate("AuthReceive")}>
+            <Image
+              style={styles.button}
+              source={require("./icons/play-button.png")}
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.buttonBox}>
           <Image style={styles.button} source={require("./icons/user.png")} />
