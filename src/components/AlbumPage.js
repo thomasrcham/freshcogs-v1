@@ -1,4 +1,4 @@
-import { Text, Image, StyleSheet, View } from "react-native";
+import { Text, Image, StyleSheet, View, Dimensions } from "react-native";
 import { useState, useEffect } from "react";
 import Footer from "./Footer";
 
