@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import "./keys.js";
 import DisplayArea from "./src/components/DisplayArea.js";
 import { Dimensions } from "react-native";
+
 // import { useFonts } from "expo-font";
 
 export default function App() {

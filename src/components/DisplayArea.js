@@ -18,7 +18,7 @@ function DisplayArea({ albums, navigation }) {
             screenOptions={{
               headerShown: false,
             }}
-            initialRouteName="AuthTest"
+            initialRouteName="FrontPage"
           >
             <Stack.Screen name="AuthTest" component={AuthTest} />
             <Stack.Screen name="AuthReceive" component={AuthReceive} />
