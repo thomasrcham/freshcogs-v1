@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Dimensions, Image, StyleSheet, View } from "react-native";
+import { Button, Dimensions, Image, StyleSheet, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import DisplayArea from "./src/components/DisplayArea.js";
@@ -8,7 +8,7 @@ import Collection from "./src/components/Collection.js";
 import Search from "./src/components/Search.js";
 import "./keys.js";
 
-export default function App() {
+export default function App({ navigation }) {
   const [albums, setAlbums] = useState(null);
 
   useEffect(() => {
@@ -24,16 +24,31 @@ export default function App() {
   }, []);
 
   function parseInfo(release) {
+    let artist = release.basic_information.artists[0].name;
+
+    artist.charAt(artist.length - 3) === "("
+      ? (artist = artist.substring(0, artist.length - 4))
+      : artist;
+
+    artist === "Various" ? (artist = "Various Artists") : artist;
+
     let singleParsedRelease = {
       id: release.basic_information.id,
-      artist: release.basic_information.artists[0].name,
+      artist: artist,
       title: release.basic_information.title,
       uri: release.basic_information.cover_image,
     };
+
     return singleParsedRelease;
   }
 
   const Tab = createBottomTabNavigator();
+
+  // const backButton = navigate.goBack()
+  //   ? () => (
+  //       <Button onPress={() => navigation.goBack()} title="Info" color="#fff" />
+  //     )
+  //   : null;
 
   return (
     <NavigationContainer independent={true}>
@@ -53,7 +68,6 @@ export default function App() {
         <Tab.Screen
           name="FrontPage"
           options={{
-            tabBarShowLabel: false,
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.buttonBox}>
@@ -71,7 +85,6 @@ export default function App() {
         <Tab.Screen
           name="Collection"
           options={{
-            tabBarShowLabel: false,
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.buttonBox}>
@@ -164,6 +177,7 @@ const styles = StyleSheet.create({
   buttonBox: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
     bottom: 0,
     padding: "1%",
   },

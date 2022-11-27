@@ -1,4 +1,4 @@
-import { Text, Image, StyleSheet, View, Dimensions } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 function AlbumPage({ route }) {
   const { album } = route.params;
@@ -6,12 +6,18 @@ function AlbumPage({ route }) {
   return (
     <View style={styles.container}>
       <Image
-        style={{ width: "100%", height: "50%" }}
+        style={styles.image}
         source={{
           uri: `${album.uri}`,
         }}
       />
-      <Text>{album.title}</Text>
+      <View>
+        <Text>{album.artist}</Text>
+        <Text>{album.title}</Text>
+      </View>
+      <View>
+        <Text>{album.id}</Text>
+      </View>
     </View>
   );
 }
@@ -30,5 +36,14 @@ const styles = StyleSheet.create({
     padding: 20,
     width: "100%",
     height: "100%",
+  },
+  image: {
+    width: "100%",
+    height: "50%",
+    aspectRatio: 1,
+    resizeMode: "contain",
+    borderColor: "#878684",
+    borderWidth: 2,
+    borderRadius: 4,
   },
 });
