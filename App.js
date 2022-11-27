@@ -1,18 +1,14 @@
-import { StyleSheet, View, Image } from "react-native";
 import { useState, useEffect } from "react";
-import "./keys.js";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import DisplayArea from "./src/components/DisplayArea.js";
-import { Dimensions } from "react-native";
 import FrontPage from "./src/components/FrontPage.js";
 import Collection from "./src/components/Collection.js";
 import Search from "./src/components/Search.js";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-// import { useFonts } from "expo-font";
+import "./keys.js";
 
 export default function App() {
-  // const [fontsLoaded] = useFonts(font);
   const [albums, setAlbums] = useState(null);
 
   useEffect(() => {
@@ -37,15 +33,10 @@ export default function App() {
     return singleParsedRelease;
   }
 
-  // if (!fontsLoaded) {
-  //   return <Text>no text</Text>;
-  // }
-
   const Tab = createBottomTabNavigator();
 
-  // export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer independent={true}>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerStyle: {},
@@ -93,7 +84,7 @@ export default function App() {
             },
           }}
         >
-          {(props) => <Collection {...props} albums={albums} />}
+          {(props) => <DisplayArea {...props} albums={albums} />}
         </Tab.Screen>
         <Tab.Screen
           name="Search"

@@ -1,5 +1,4 @@
 import {
-  Button,
   View,
   ScrollView,
   Image,
@@ -8,7 +7,6 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import Footer from "./Footer";
 
 function Collection({ albums, navigation }) {
   return (
@@ -23,12 +21,10 @@ function Collection({ albums, navigation }) {
                 return (
                   <View style={styles.imageGrid} key={a.id}>
                     <TouchableOpacity
-                      onPress={
-                        // () => console.log(a)
-                        () =>
-                          navigation.navigate("AlbumPage", {
-                            album: a,
-                          })
+                      onPress={() =>
+                        navigation.navigate("AlbumPage", {
+                          album: a,
+                        })
                       }
                     >
                       <Image
@@ -47,30 +43,17 @@ function Collection({ albums, navigation }) {
           </View>
         </ScrollView>
       </View>
-      {/* <View style={styles.footerContainer}>
-        <Footer navigation={navigation} />
-      </View> */}
     </View>
   );
 }
 
 const mainWindowHeight = Dimensions.get("window").height * 0.95;
-const footerWindowHeight = Dimensions.get("window").height * 0.08;
 const windowWidth = Dimensions.get("window").width;
 
 export default Collection;
 
 const styles = StyleSheet.create({
   mainPageContainer: { height: mainWindowHeight, width: windowWidth },
-  footerContainer: {
-    height: footerWindowHeight,
-    width: windowWidth,
-    position: "absolute",
-    left: 0,
-    bottom: -5,
-    right: 0,
-    overflow: "visible",
-  },
   container: {
     flex: 2,
     flexDirection: "row",
