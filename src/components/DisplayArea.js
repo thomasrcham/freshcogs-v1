@@ -2,11 +2,12 @@ import { View, Text, StyleSheet } from "react-native";
 import { Dimensions } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import FrontPage from "./FrontPage";
+import FrontPage from "./Collection";
 import AlbumPage from "./AlbumPage";
-import Collection from "./Collection";
+import Collection from "./Search";
 import AuthTest from "./AuthTest";
 import AuthReceive from "./AuthReceive";
+import Footer from "./Footer";
 
 const Stack = createNativeStackNavigator();
 function DisplayArea({ albums, navigation }) {
@@ -30,11 +31,16 @@ function DisplayArea({ albums, navigation }) {
           </Stack.Navigator>
         </NavigationContainer>
       </View>
+      <View style={styles.footerContainer}>
+        <Footer navigation={navigation} />
+      </View>
     </View>
   );
 }
 
 const mainWindowHeight = Dimensions.get("window").height * 1.01;
+
+const footerWindowHeight = Dimensions.get("window").height * 0.08;
 const windowWidth = Dimensions.get("window").width;
 
 export default DisplayArea;
@@ -52,5 +58,14 @@ const styles = StyleSheet.create({
     padding: 20,
     width: "100%",
     height: "100%",
+  },
+  footerContainer: {
+    height: footerWindowHeight,
+    width: windowWidth,
+    position: "absolute",
+    left: 0,
+    bottom: -5,
+    right: 0,
+    overflow: "visible",
   },
 });

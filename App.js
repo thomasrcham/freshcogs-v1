@@ -1,8 +1,13 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import { useState, useEffect } from "react";
 import "./keys.js";
 import DisplayArea from "./src/components/DisplayArea.js";
 import { Dimensions } from "react-native";
+import FrontPage from "./src/components/FrontPage.js";
+import Collection from "./src/components/Collection.js";
+import Search from "./src/components/Search.js";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // import { useFonts } from "expo-font";
 
@@ -23,7 +28,6 @@ export default function App() {
   }, []);
 
   function parseInfo(release) {
-    let parsedReleases = [];
     let singleParsedRelease = {
       id: release.basic_information.id,
       artist: release.basic_information.artists[0].name,
@@ -37,17 +41,118 @@ export default function App() {
   //   return <Text>no text</Text>;
   // }
 
+  const Tab = createBottomTabNavigator();
+
+  // export default function App() {
   return (
-    <View style={{ flex: 1 }}>
-      <View style={styles.topBar}></View>
-      <View style={styles.container}>
-        <DisplayArea albums={albums} />
-      </View>
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          headerStyle: {},
+          tabBarStyle: {
+            display: "flex",
+            flexDirection: "row",
+            backgroundColor: `#f2dae7`,
+            width: "100%",
+            height: Dimensions.get("window").height * 0.08,
+            overflow: "visible",
+          },
+        })}
+      >
+        <Tab.Screen
+          name="FrontPage"
+          options={{
+            tabBarShowLabel: false,
+            tabBarIcon: ({ size, focused, color }) => {
+              return (
+                <View style={styles.buttonBox}>
+                  <Image
+                    style={styles.button}
+                    source={require("./src/icons/vinyl.png")}
+                  />
+                </View>
+              );
+            },
+          }}
+        >
+          {(props) => <FrontPage {...props} albums={albums} />}
+        </Tab.Screen>
+        <Tab.Screen
+          name="Collection"
+          options={{
+            tabBarShowLabel: false,
+            tabBarIcon: ({ size, focused, color }) => {
+              return (
+                <View style={styles.buttonBox}>
+                  <Image
+                    style={styles.button}
+                    source={require("./src/icons/vinyl.png")}
+                  />
+                </View>
+              );
+            },
+          }}
+        >
+          {(props) => <Collection {...props} albums={albums} />}
+        </Tab.Screen>
+        <Tab.Screen
+          name="Search"
+          options={{
+            tabBarShowLabel: false,
+            tabBarIcon: ({ size, focused, color }) => {
+              return (
+                <View style={styles.buttonBox}>
+                  <Image
+                    style={styles.button}
+                    source={require("./src/icons/vinyl.png")}
+                  />
+                </View>
+              );
+            },
+          }}
+          component={Search}
+        />
+        <Tab.Screen
+          name="Stats"
+          options={{
+            tabBarShowLabel: false,
+            tabBarIcon: ({ size, focused, color }) => {
+              return (
+                <View style={styles.buttonBox}>
+                  <Image
+                    style={styles.button}
+                    source={require("./src/icons/vinyl.png")}
+                  />
+                </View>
+              );
+            },
+          }}
+          component={Collection}
+        />
+        <Tab.Screen
+          name="Settings"
+          options={{
+            tabBarShowLabel: false,
+            tabBarIcon: ({ size, focused, color }) => {
+              return (
+                <View style={styles.buttonBox}>
+                  <Image
+                    style={styles.button}
+                    source={require("./src/icons/vinyl.png")}
+                  />
+                </View>
+              );
+            },
+          }}
+          component={Collection}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 
 const topBarHeight = Dimensions.get("window").height * 0.06;
+const footerWindowHeight = Dimensions.get("window").height * 0.08;
 const mainWindowHeight = Dimensions.get("window").height * 0.94;
 
 const styles = StyleSheet.create({
@@ -60,21 +165,22 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     bottom: 0,
-    // height: mainWindowHeight,
   },
   topBar: {
     height: topBarHeight,
     backgroundColor: "black",
   },
-  image: {
-    width: undefined,
-    height: undefined,
+  buttonBox: {
+    flex: 1,
+    alignItems: "center",
+    bottom: 0,
+    padding: "1%",
+  },
+  button: {
+    flex: 1,
+    maxHeight: "90%",
+    maxWidth: undefined,
     aspectRatio: 1,
     resizeMode: "contain",
-  },
-  imageGrid: {
-    width: "50%",
-    padding: 10,
-    fontFamily: "Martel",
   },
 });
