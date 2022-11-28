@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import albumReducer from "./AlbumSlice";
+import albumReducer from "./albumSlice";
 
 export const store = configureStore({
   reducer: {
