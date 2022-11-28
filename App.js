@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Button, Dimensions, Image, StyleSheet, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Provider } from "react-redux";
+import { Store } from "./src/components/redux/store";
 import DisplayArea from "./src/components/DisplayArea.js";
 import FrontPage from "./src/components/FrontPage.js";
 import Collection from "./src/components/Collection.js";
