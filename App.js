@@ -11,6 +11,9 @@ import Search from "./src/components/SearchPage.js";
 import "./keys.js";
 
 export default function App({ navigation }) {
+  const { albumsStore } = useSelector((state) => state.albumReducer);
+  const dispatch = useDispatch;
+
   const [albums, setAlbums] = useState(null);
 
   useEffect(() => {
@@ -34,6 +37,8 @@ export default function App({ navigation }) {
 
     artist === "Various" ? (artist = "Various Artists") : artist;
 
+    dispatch(setAlbums(release.basic_information.title));
+
     let singleParsedRelease = {
       id: release.basic_information.id,
       artist: artist,
@@ -53,105 +58,107 @@ export default function App({ navigation }) {
   //   : null;
 
   return (
-    <NavigationContainer independent={true}>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          // headerShown: false,
-          headerStyle: {},
-          tabBarStyle: {
-            display: "flex",
-            flexDirection: "row",
-            backgroundColor: `#f2dae7`,
-            width: "100%",
-            height: Dimensions.get("window").height * 0.08,
-            overflow: "visible",
-          },
-        })}
-      >
-        <Tab.Screen
-          name="FrontPage"
-          options={{
-            tabBarIcon: ({ size, focused, color }) => {
-              return (
-                <View style={styles.buttonBox}>
-                  <Image
-                    style={styles.button}
-                    source={require("./src/icons/vinyl.png")}
-                  />
-                </View>
-              );
+    <Provider store={Store}>
+      <NavigationContainer independent={true}>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            // headerShown: false,
+            headerStyle: {},
+            tabBarStyle: {
+              display: "flex",
+              flexDirection: "row",
+              backgroundColor: `#f2dae7`,
+              width: "100%",
+              height: Dimensions.get("window").height * 0.08,
+              overflow: "visible",
             },
-          }}
+          })}
         >
-          {(props) => <FrontPage {...props} albums={albums} />}
-        </Tab.Screen>
-        <Tab.Screen
-          name="Collection"
-          options={{
-            tabBarIcon: ({ size, focused, color }) => {
-              return (
-                <View style={styles.buttonBox}>
-                  <Image
-                    style={styles.button}
-                    source={require("./src/icons/vinyl.png")}
-                  />
-                </View>
-              );
-            },
-          }}
-        >
-          {(props) => <DisplayArea {...props} albums={albums} />}
-        </Tab.Screen>
-        <Tab.Screen
-          name="Search"
-          options={{
-            tabBarIcon: ({ size, focused, color }) => {
-              return (
-                <View style={styles.buttonBox}>
-                  <Image
-                    style={styles.button}
-                    source={require("./src/icons/vinyl.png")}
-                  />
-                </View>
-              );
-            },
-          }}
-          component={Search}
-        />
-        <Tab.Screen
-          name="Stats"
-          options={{
-            tabBarIcon: ({ size, focused, color }) => {
-              return (
-                <View style={styles.buttonBox}>
-                  <Image
-                    style={styles.button}
-                    source={require("./src/icons/vinyl.png")}
-                  />
-                </View>
-              );
-            },
-          }}
-          component={Collection}
-        />
-        <Tab.Screen
-          name="Settings"
-          options={{
-            tabBarIcon: ({ size, focused, color }) => {
-              return (
-                <View style={styles.buttonBox}>
-                  <Image
-                    style={styles.button}
-                    source={require("./src/icons/vinyl.png")}
-                  />
-                </View>
-              );
-            },
-          }}
-          component={Collection}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+          <Tab.Screen
+            name="FrontPage"
+            options={{
+              tabBarIcon: ({ size, focused, color }) => {
+                return (
+                  <View style={styles.buttonBox}>
+                    <Image
+                      style={styles.button}
+                      source={require("./src/icons/vinyl.png")}
+                    />
+                  </View>
+                );
+              },
+            }}
+          >
+            {(props) => <FrontPage {...props} albums={albums} />}
+          </Tab.Screen>
+          <Tab.Screen
+            name="Collection"
+            options={{
+              tabBarIcon: ({ size, focused, color }) => {
+                return (
+                  <View style={styles.buttonBox}>
+                    <Image
+                      style={styles.button}
+                      source={require("./src/icons/vinyl.png")}
+                    />
+                  </View>
+                );
+              },
+            }}
+          >
+            {(props) => <DisplayArea {...props} albums={albums} />}
+          </Tab.Screen>
+          <Tab.Screen
+            name="Search"
+            options={{
+              tabBarIcon: ({ size, focused, color }) => {
+                return (
+                  <View style={styles.buttonBox}>
+                    <Image
+                      style={styles.button}
+                      source={require("./src/icons/vinyl.png")}
+                    />
+                  </View>
+                );
+              },
+            }}
+            component={Search}
+          />
+          <Tab.Screen
+            name="Stats"
+            options={{
+              tabBarIcon: ({ size, focused, color }) => {
+                return (
+                  <View style={styles.buttonBox}>
+                    <Image
+                      style={styles.button}
+                      source={require("./src/icons/vinyl.png")}
+                    />
+                  </View>
+                );
+              },
+            }}
+            component={Collection}
+          />
+          <Tab.Screen
+            name="Settings"
+            options={{
+              tabBarIcon: ({ size, focused, color }) => {
+                return (
+                  <View style={styles.buttonBox}>
+                    <Image
+                      style={styles.button}
+                      source={require("./src/icons/vinyl.png")}
+                    />
+                  </View>
+                );
+              },
+            }}
+            component={Collection}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
