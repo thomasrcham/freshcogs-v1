@@ -1,6 +1,6 @@
 import { Button, StyleSheet, Text, View } from "react-native";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { addAlbum } from "../redux/AlbumSlice";
+import { addAlbum } from "../redux/albumSlice";
 
 export default function FrontPage() {
   const dispatch = useDispatch();

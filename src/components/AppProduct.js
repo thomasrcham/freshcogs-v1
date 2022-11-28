@@ -3,7 +3,7 @@ import { Button, Dimensions, Image, StyleSheet, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { addAlbum } from "../redux/AlbumSlice";
+import { addAlbum } from "../redux/albumSlice";
 import DisplayArea from "./DisplayArea.js";
 import FrontPage from "./FrontPage.js";
 import Collection from "./Collection.js";
@@ -45,7 +45,12 @@ export default function AppProduct({ navigation }) {
     };
 
     dispatch(
-      addAlbum({ title: release.basic_information.title, artist: artist })
+      addAlbum({
+        id: release.basic_information.id,
+        artist: artist,
+        title: release.basic_information.title,
+        uri: release.basic_information.cover_image,
+      })
     );
 
     return singleParsedRelease;
