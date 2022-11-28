@@ -1,11 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 
 function SearchPage({ navigation }) {
-  return (
-    <View style={styles.container}>
-      <Text>Search Page</Text>
-    </View>
-  );
+  return <View style={styles.container}></View>;
 }
 
 export default SearchPage;

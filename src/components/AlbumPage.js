@@ -1,7 +1,10 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import { addAlbum } from "../redux/AlbumSlice";
 
 function AlbumPage({ route }) {
   const { album } = route.params;
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
@@ -18,6 +21,7 @@ function AlbumPage({ route }) {
       <View>
         <Text>{album.id}</Text>
       </View>
+      {/* <Button title="words" onPress={() => dispatch(addAlbum(album.title))} /> */}
     </View>
   );
 }
