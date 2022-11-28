@@ -44,9 +44,14 @@ export default function AppProduct({ navigation }) {
 
     let singleParsedRelease = {
       id: release.basic_information.id,
+      master_id: release.basic_information.master_id,
       artist: artist,
       title: release.basic_information.title,
       uri: release.basic_information.cover_image,
+      date_added: release.date_added,
+      genres: release.basic_information.genres.concat(
+        release.basic_information.styles
+      ),
     };
 
     dispatch(
