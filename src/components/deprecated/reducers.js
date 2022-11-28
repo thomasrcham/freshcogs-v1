@@ -1,13 +1,13 @@
-import SET_ALBUMS from "./actions";
+import SET_ALBUMS from "../../redux/actions";
 
 const initialState = {
-  title: "",
+  title: "words",
 };
 
 function albumReducer(state = initialState, action) {
   switch (action.type) {
     case SET_ALBUMS:
-      return { ...state, album: action.payload };
+      return { ...state, title: action.albumTitle };
     default:
       return state;
   }
