@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 
-function Search({ navigation }) {
+function SearchPage({ navigation }) {
   return (
     <View style={styles.container}>
       <Text>Search Page</Text>
@@ -8,7 +8,7 @@ function Search({ navigation }) {
   );
 }
 
-export default Search;
+export default SearchPage;
 
 const styles = StyleSheet.create({
   container: {

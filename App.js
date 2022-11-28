@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import DisplayArea from "./src/components/DisplayArea.js";
 import FrontPage from "./src/components/FrontPage.js";
 import Collection from "./src/components/Collection.js";
-import Search from "./src/components/Search.js";
+import Search from "./src/components/SearchPage.js";
 import "./keys.js";
 
 export default function App({ navigation }) {
