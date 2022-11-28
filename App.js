@@ -54,6 +54,7 @@ export default function App({ navigation }) {
     <NavigationContainer independent={true}>
       <Tab.Navigator
         screenOptions={({ route }) => ({
+          // headerShown: false,
           headerStyle: {},
           tabBarStyle: {
             display: "flex",
@@ -102,7 +103,6 @@ export default function App({ navigation }) {
         <Tab.Screen
           name="Search"
           options={{
-            tabBarShowLabel: false,
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.buttonBox}>
@@ -119,7 +119,6 @@ export default function App({ navigation }) {
         <Tab.Screen
           name="Stats"
           options={{
-            tabBarShowLabel: false,
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.buttonBox}>
@@ -136,7 +135,6 @@ export default function App({ navigation }) {
         <Tab.Screen
           name="Settings"
           options={{
-            tabBarShowLabel: false,
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.buttonBox}>
