@@ -31,6 +31,11 @@ export default function AppProduct({ navigation }) {
   function parseInfo(release) {
     let artist = release.basic_information.artists[0].name;
 
+    // let descriptions = release.basic_information.formats
+    //   .map((f) => f.descriptions)
+    //   .concat();
+    // console.log(descriptions);
+
     artist.charAt(artist.length - 3) === "("
       ? (artist = artist.substring(0, artist.length - 4))
       : artist;
@@ -47,9 +52,14 @@ export default function AppProduct({ navigation }) {
     dispatch(
       addAlbum({
         id: release.basic_information.id,
+        master_id: release.basic_information.master_id,
         artist: artist,
         title: release.basic_information.title,
         uri: release.basic_information.cover_image,
+        date_added: release.date_added,
+        genres: release.basic_information.genres.concat(
+          release.basic_information.styles
+        ),
       })
     );
 

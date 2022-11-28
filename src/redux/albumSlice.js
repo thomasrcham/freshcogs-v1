@@ -10,13 +10,10 @@ export const albumSlice = createSlice({
     addAlbum: (state, action) => {
       state.albums.push(action.payload);
       // console.log(action.payload);
-      // console.log(current(state.albums));
-    },
-    callAlbum: (state, action) => {
-      state.albums.find((a) => a.id === action.payload);
+      console.log(current(state.albums));
     },
   },
 });
 
-export const { addAlbum, callAlbum } = albumSlice.actions;
+export const { addAlbum } = albumSlice.actions;
 export default albumSlice.reducer;

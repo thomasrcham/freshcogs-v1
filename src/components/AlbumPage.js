@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { addAlbum, callAlbum } from "../redux/albumSlice";
+import { addAlbum } from "../redux/albumSlice";
 
 function AlbumPage({ route }) {
   const { album } = route.params;
   const dispatch = useDispatch();
   const [displayAlbum, setDisplayAlbum] = useState(null);
 
-  useEffect(() => {
-    setDisplayAlbum(dispatch(callAlbum(album)).payload);
-  }, []);
+  useEffect(() => {}, []);
 
-  console.log(displayAlbum);
+  // console.log(displayAlbum);
 
   let display = displayAlbum ? (
     <>
