@@ -1,36 +1,25 @@
-import { useEffect, useState } from "react";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
-import { Provider, useDispatch, useSelector } from "react-redux";
-import { addAlbum } from "../redux/albumSlice";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 function AlbumPage({ route }) {
   const { album } = route.params;
-  const dispatch = useDispatch();
-  const [displayAlbum, setDisplayAlbum] = useState(null);
 
-  useEffect(() => {}, []);
-
-  // console.log(displayAlbum);
-
-  let display = displayAlbum ? (
-    <>
+  return (
+    <View style={styles.container}>
       <Image
         style={styles.image}
         source={{
-          uri: `${displayAlbum.uri}`,
+          uri: `${album.uri}`,
         }}
       />
       <View>
-        <Text>{displayAlbum.artist}</Text>
-        <Text>{displayAlbum.title}</Text>
+        <Text>{album.artist}</Text>
+        <Text>{album.title}</Text>
       </View>
       <View>
-        <Text>{displayAlbum.id}</Text>
+        <Text>{album.id}</Text>
       </View>
-    </>
-  ) : null;
-
-  return <View style={styles.container}>{display}</View>;
+    </View>
+  );
 }
 
 export default AlbumPage;

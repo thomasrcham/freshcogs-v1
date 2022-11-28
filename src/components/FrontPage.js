@@ -1,26 +1,58 @@
-import { Button, StyleSheet, Text, View } from "react-native";
-import { Provider, useDispatch, useSelector } from "react-redux";
-import { addAlbum } from "../redux/albumSlice";
+import { useEffect, useState } from "react";
+import {
+  Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-export default function FrontPage() {
-  const album = {
-    artist: "Radiohead",
-    id: 1158751,
-    title: "In Rainbows",
-    uri: "https://i.discogs.com/8wHYeJHpnyK0eb7A68y417FWTa9GdLjSW9gr4bMvY5E/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExNTg3/NTEtMTIwMDU4OTA5/Ni5qcGVn.jpeg",
-  };
-  const dispatch = useDispatch();
-  // const album = useSelector((state) => state.album.title);
-
+export default function FrontPage({ displayAlbums }) {
   return (
-    <View style={styles.container}>
-      <Button title="words" onPress={() => onPresh()} />
-      {/* <Text>{album}</Text> */}
+    <View
+      style={{ position: "relative", height: Dimensions.get("window").height }}
+    >
+      <View style={styles.mainPageContainer}>
+        <ScrollView key={"scroll"}>
+          <View style={styles.container}>
+            {displayAlbums ? (
+              displayAlbums.map((a) => {
+                return (
+                  <View style={styles.imageGrid} key={a.id}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate("AlbumPage", {
+                          album: a,
+                        })
+                      }
+                    >
+                      <Image
+                        source={{ uri: a.uri }}
+                        style={styles.image}
+                        key={a.title}
+                      />
+                    </TouchableOpacity>
+                    <Text key={a.id + "text"}>{a.title}</Text>
+                  </View>
+                );
+              })
+            ) : (
+              <Text>no albums</Text>
+            )}
+          </View>
+        </ScrollView>
+      </View>
     </View>
   );
 }
 
+const mainWindowHeight = Dimensions.get("window").height * 0.95;
+const windowWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
+  mainPageContainer: { height: mainWindowHeight, width: windowWidth },
   container: {
     flex: 2,
     flexDirection: "row",
@@ -28,9 +60,26 @@ const styles = StyleSheet.create({
     backgroundColor: "pink",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 50,
+    paddingTop: 30,
     padding: 20,
     width: "100%",
     height: "100%",
+  },
+  imageGrid: {
+    width: "50%",
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "black",
+    height: 220,
+  },
+  image: {
+    aspectRatio: 1,
+    resizeMode: "contain",
+    borderColor: "#878684",
+    borderWidth: 2,
+    borderRadius: 4,
+  },
+  text: {
+    textAlign: "center",
   },
 });

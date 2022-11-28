@@ -13,18 +13,21 @@ import "../../keys.js";
 export default function AppProduct({ navigation }) {
   // const { titles } = useSelector((state) => state.albumTitleReducer);
   const dispatch = useDispatch();
-
   const [albums, setAlbums] = useState(null);
+  const [displayAlbums, setDisplayAlbums] = useState(null);
+
+  albums ? console.log(albums.length) : null;
 
   useEffect(() => {
     fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=5${token}`
+      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=20${token}`
     )
       .then((res) => res.json())
       .then((data) => {
         let returnData = data.releases;
         let parsedReleases = returnData.map((release) => parseInfo(release));
         setAlbums(parsedReleases);
+        randomArray(parsedReleases);
       });
   }, []);
 
@@ -71,6 +74,14 @@ export default function AppProduct({ navigation }) {
     return singleParsedRelease;
   }
 
+  function randomArray(releases) {
+    let newArray = [];
+    for (let i = 0; i < 5; i += 1) {
+      newArray.push(releases[Math.floor(Math.random() * releases.length)]);
+    }
+    setDisplayAlbums(newArray);
+  }
+
   const Tab = createBottomTabNavigator();
 
   // const backButton = navigate.goBack()
@@ -110,7 +121,7 @@ export default function AppProduct({ navigation }) {
             },
           }}
         >
-          {(props) => <FrontPage {...props} albums={albums} />}
+          {(props) => <FrontPage {...props} displayAlbums={displayAlbums} />}
         </Tab.Screen>
         <Tab.Screen
           name="Collection"

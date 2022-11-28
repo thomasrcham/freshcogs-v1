@@ -10,7 +10,7 @@ export const albumSlice = createSlice({
     addAlbum: (state, action) => {
       state.albums.push(action.payload);
       // console.log(action.payload);
-      console.log(current(state.albums));
+      // console.log(current(state.albums));
     },
   },
 });
