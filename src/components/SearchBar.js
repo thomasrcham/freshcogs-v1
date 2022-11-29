@@ -44,7 +44,7 @@ export default function SearchBar({
             color="black"
             style={{ padding: 1 }}
             onPress={() => {
-              setSearchPhrase("");
+              setSearchPhrase(null);
             }}
           />
         )}
@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
-    // backgroundColor: "pink",
     alignItems: "center",
     justifyContent: "flex-start",
     padding: 10,

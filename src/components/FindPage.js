@@ -9,9 +9,10 @@ import {
 } from "react-native";
 import { useState } from "react";
 import SearchBar from "./SearchBar";
+import List from "./List";
 
 export default function FindPage({ albums }) {
-  const [searchPhrase, setSearchPhrase] = useState("");
+  const [searchPhrase, setSearchPhrase] = useState(null);
   const [clicked, setClicked] = useState(false);
 
   return (
@@ -25,8 +26,10 @@ export default function FindPage({ albums }) {
             setClicked={setClicked}
           />
         </View>
+
         <View style={styles.list}>
-          <Text>List starts here</Text>
+          <Text>{searchPhrase ? `Searching by: ${searchPhrase}` : null}</Text>
+          <List albums={albums} />
         </View>
       </View>
     </View>
@@ -39,16 +42,21 @@ const windowWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   mainPageContainer: { height: mainWindowHeight, width: windowWidth },
   container: {
-    flex: 2,
-    flexDirection: "column",
-    flexWrap: "wrap",
+    // flex: 1,
+    // flexDirection: "column",
+    // flexWrap: "wrap",
     backgroundColor: "pink",
-    alignItems: "center",
-    alignContent: "space-between",
+    // alignItems: "center",
+    // alignContent: "space-between",
     width: "100%",
     bottom: 0,
   },
   searchBar: {
     height: barWindowHeight,
+    width: "100%",
+    backgroundColor: "red",
+  },
+  list: {
+    // height: 50,
   },
 });
