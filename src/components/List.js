@@ -1,9 +1,6 @@
-import { setStatusBarStyle } from "expo-status-bar";
-import { useState } from "react";
 import {
   FlatList,
   Image,
-  SafeAreaView,
   StatusBar,
   StyleSheet,
   Text,
@@ -11,30 +8,22 @@ import {
   View,
 } from "react-native";
 
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
+const Item = ({ item, onPress }) => (
+  <TouchableOpacity onPress={onPress} style={[styles.item]}>
     <View style={styles.imageContainer}>
       <Image source={{ uri: item.uri }} style={styles.image} key={item.title} />
     </View>
-    <Text style={[styles.title, textColor]}>
-      {item.artist} - {item.title}
-    </Text>
+    <View style={{ overflow: "hidden" }}>
+      <Text style={[styles.title]}>
+        {item.artist} - {item.title}
+      </Text>
+    </View>
   </TouchableOpacity>
 );
 
-export default function List({ albums }) {
+export default function List({ albums, searchPhrase }) {
   const renderItem = ({ item }) => {
-    // const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
-    // const color = item.id === selectedId ? "white" : "black";
-
-    return (
-      <Item
-        item={item}
-        onPress={() => setSelectedId(item.id)}
-        // backgroundColor={{ backgroundColor }}
-        // textColor={{ color }}
-      />
-    );
+    return <Item item={item} onPress={() => setSelectedId(item.id)} />;
   };
   return (
     <View style={styles.listContainer}>
@@ -43,7 +32,7 @@ export default function List({ albums }) {
         data={albums}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-        // extraData={selectedId}
+        extraData={albums}
       />
     </View>
   );
@@ -55,7 +44,6 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
   },
   listContainer: {
-    // flex: 2,
     height: "100%",
   },
   item: {
@@ -63,6 +51,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 5,
     alignItems: "center",
+    borderTopWidth: 1,
+    borderTopColor: "#878684",
   },
   imageContainer: {
     resizeMode: "contain",
@@ -74,9 +64,13 @@ const styles = StyleSheet.create({
     width: undefined,
     height: undefined,
     aspectRatio: 1,
+    borderColor: "#878684",
+    borderWidth: 2,
+    borderRadius: 4,
   },
   title: {
     fontSize: 16,
     paddingLeft: 5,
+    overflow: "hidden",
   },
 });

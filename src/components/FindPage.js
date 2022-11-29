@@ -7,13 +7,33 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import List from "./List";
+import Filter from "./Filters";
 
 export default function FindPage({ albums }) {
   const [searchPhrase, setSearchPhrase] = useState(null);
+  const [localAlbums, setLocalAlbums] = useState(null);
   const [clicked, setClicked] = useState(false);
+
+  useEffect(() => {
+    setLocalAlbums(albums);
+  }, [albums]);
+
+  function handleSearch() {
+    let searchedList = "";
+    searchPhrase
+      ? (searchedList = albums.filter(
+          (a) =>
+            String(a.title.toLowerCase()).includes(
+              searchPhrase.toLowerCase()
+            ) ||
+            String(a.artist.toLowerCase()).includes(searchPhrase.toLowerCase())
+        ))
+      : (searchedList = albums);
+    setLocalAlbums(searchedList);
+  }
 
   return (
     <View style={styles.mainPageContainer}>
@@ -24,12 +44,27 @@ export default function FindPage({ albums }) {
             setSearchPhrase={setSearchPhrase}
             clicked={clicked}
             setClicked={setClicked}
+            handleSearch={handleSearch}
           />
         </View>
-
+        <View style={styles.searchBar}>
+          <Filter
+            searchPhrase={searchPhrase}
+            setSearchPhrase={setSearchPhrase}
+            clicked={clicked}
+            setClicked={setClicked}
+            handleSearch={handleSearch}
+          />
+        </View>
         <View style={styles.list}>
-          <Text>{searchPhrase ? `Searching by: ${searchPhrase}` : null}</Text>
-          <List albums={albums} />
+          <Text>
+            {localAlbums
+              ? localAlbums.length < albums.length
+                ? `Searching by: ${searchPhrase}`
+                : null
+              : null}
+          </Text>
+          <List albums={localAlbums} />
         </View>
       </View>
     </View>

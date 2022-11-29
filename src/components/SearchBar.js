@@ -10,6 +10,7 @@ import { Feather, Entypo } from "@expo/vector-icons";
 
 export default function SearchBar({
   navigation,
+  handleSearch,
   searchPhrase,
   setSearchPhrase,
   clicked,
@@ -37,27 +38,25 @@ export default function SearchBar({
             setClicked(true);
           }}
         />
-        {clicked && (
-          <Entypo
-            name="cross"
-            size={20}
-            color="black"
-            style={{ padding: 1 }}
-            onPress={() => {
-              setSearchPhrase(null);
-            }}
-          />
-        )}
       </View>
       {clicked && (
-        <View>
+        <View style={styles.buttons}>
           <Button
-            title="Cancel"
+            color="#33cc33"
+            title="✓"
+            onPress={() => {
+              Keyboard.dismiss();
+              setClicked(false);
+              handleSearch();
+            }}
+          />
+          <Button
+            title="✕"
             onPress={() => {
               Keyboard.dismiss();
               setClicked(false);
             }}
-          ></Button>
+          />
         </View>
       )}
     </View>
@@ -95,5 +94,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 10,
     width: "90%",
+  },
+  buttons: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    width: "100%",
   },
 });
