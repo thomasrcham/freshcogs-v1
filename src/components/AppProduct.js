@@ -50,7 +50,6 @@ export default function AppProduct({ navigation }) {
         let parsedReleases = returnData.map((release) => parseInfo(release));
         setAlbums(parsedReleases);
         randomArray(parsedReleases);
-        console.log(parsedReleases);
       });
   }, []);
 
@@ -101,8 +100,12 @@ export default function AppProduct({ navigation }) {
 
   function randomArray(releases) {
     let newArray = [];
-    for (let i = 0; i < 6; i += 1) {
-      newArray.push(releases[Math.floor(Math.random() * releases.length)]);
+    for (let i = 0; i < 6; i = newArray.length) {
+      let newItem = releases[Math.floor(Math.random() * releases.length)];
+      if (newArray.map((a) => a.id).includes(newItem.id)) {
+        return;
+      }
+      newArray.push(newItem);
     }
     setDisplayAlbums(newArray);
   }
@@ -221,7 +224,7 @@ export default function AppProduct({ navigation }) {
 
 const topBarHeight = Dimensions.get("window").height * 0.06;
 const footerWindowHeight = Dimensions.get("window").height * 0.08;
-const mainWindowHeight = Dimensions.get("window").height * 0.94;
+const mainWindowHeight = Dimensions.get("window").height * 0.8;
 
 const styles = StyleSheet.create({
   container: {
@@ -233,6 +236,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     bottom: 0,
+    height: mainWindowHeight,
   },
   topBar: {
     height: topBarHeight,

@@ -35,6 +35,11 @@ export default function FindPage({ albums }) {
     setLocalAlbums(searchedList);
   }
 
+  function handleClear() {
+    setLocalAlbums(albums);
+    setSearchPhrase(null);
+  }
+
   return (
     <View style={styles.mainPageContainer}>
       <View style={styles.container}>
@@ -45,6 +50,7 @@ export default function FindPage({ albums }) {
             clicked={clicked}
             setClicked={setClicked}
             handleSearch={handleSearch}
+            handleClear={handleClear}
           />
         </View>
         <View style={styles.searchBar}>

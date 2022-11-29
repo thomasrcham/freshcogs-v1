@@ -10,6 +10,7 @@ import { Feather, Entypo } from "@expo/vector-icons";
 
 export default function SearchBar({
   navigation,
+  handleClear,
   handleSearch,
   searchPhrase,
   setSearchPhrase,
@@ -31,7 +32,7 @@ export default function SearchBar({
         />
         <TextInput
           style={styles.input}
-          placeholder="Search"
+          placeholder="Search by Artist or Title"
           value={searchPhrase}
           onChangeText={setSearchPhrase}
           onFocus={() => {
@@ -46,19 +47,24 @@ export default function SearchBar({
             title="✓"
             onPress={() => {
               Keyboard.dismiss();
-              setClicked(false);
+              // setClicked(false);
               handleSearch();
             }}
           />
+        </View>
+      )}
+      {clicked || searchPhrase ? (
+        <View style={styles.buttons}>
           <Button
             title="✕"
             onPress={() => {
               Keyboard.dismiss();
               setClicked(false);
+              handleClear();
             }}
           />
         </View>
-      )}
+      ) : null}
     </View>
   );
 }
