@@ -9,18 +9,41 @@ import FrontPage from "./FrontPage.js";
 import Collection from "./Collection.js";
 import Search from "./SearchPage.js";
 import "../../keys.js";
+import AuthTest from "./AuthTest";
+import AuthPass from "./AuthPass";
 
 export default function AppProduct({ navigation }) {
   // const { titles } = useSelector((state) => state.albumTitleReducer);
   const dispatch = useDispatch();
   const [albums, setAlbums] = useState(null);
   const [displayAlbums, setDisplayAlbums] = useState(null);
+  const [user, setUser] = useState(null);
 
-  albums ? console.log(albums.length) : null;
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+  myHeaders.append(
+    "User-Agent",
+    "Flashcogs/1.0 +https://github.com/thomasrcham/discogs-app-v3"
+  );
+  myHeaders.append(
+    "Authorization",
+    `OAuth oauth_consumer_key=${consumerKey},oauth_token=${userToken},oauth_signature_method="PLAINTEXT",oauth_timestamp="${dateTime}",oauth_nonce="${dateTime}",oauth_version="1.0",oauth_signature=""&"consumer_secret=${consumerKey}`
+  );
+
+  var requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
 
   useEffect(() => {
+    fetch("https://api.discogs.com/users/theyear1000", requestOptions)
+      .then((response) => response.text())
+      .then((result) => setUser(result))
+      .catch((error) => console.log("error", error));
+
     fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=20${token}`
+      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=60${token}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -30,6 +53,8 @@ export default function AppProduct({ navigation }) {
         randomArray(parsedReleases);
       });
   }, []);
+
+  var dateTime = Math.round(new Date().getTime() / 1000);
 
   function parseInfo(release) {
     let artist = release.basic_information.artists[0].name;
@@ -57,26 +82,26 @@ export default function AppProduct({ navigation }) {
       ),
     };
 
-    dispatch(
-      addAlbum({
-        id: release.basic_information.id,
-        master_id: release.basic_information.master_id,
-        artist: artist,
-        title: release.basic_information.title,
-        uri: release.basic_information.cover_image,
-        date_added: release.date_added,
-        genres: release.basic_information.genres.concat(
-          release.basic_information.styles
-        ),
-      })
-    );
+    // dispatch(
+    //   addAlbum({
+    //     id: release.basic_information.id,
+    //     master_id: release.basic_information.master_id,
+    //     artist: artist,
+    //     title: release.basic_information.title,
+    //     uri: release.basic_information.cover_image,
+    //     date_added: release.date_added,
+    //     genres: release.basic_information.genres.concat(
+    //       release.basic_information.styles
+    //     ),
+    //   })
+    // );
 
     return singleParsedRelease;
   }
 
   function randomArray(releases) {
     let newArray = [];
-    for (let i = 0; i < 5; i += 1) {
+    for (let i = 0; i < 6; i += 1) {
       newArray.push(releases[Math.floor(Math.random() * releases.length)]);
     }
     setDisplayAlbums(newArray);
@@ -157,7 +182,7 @@ export default function AppProduct({ navigation }) {
           component={Search}
         />
         <Tab.Screen
-          name="Stats"
+          name="Auth"
           options={{
             tabBarIcon: ({ size, focused, color }) => {
               return (
@@ -170,7 +195,7 @@ export default function AppProduct({ navigation }) {
               );
             },
           }}
-          component={Collection}
+          component={AuthTest}
         />
         <Tab.Screen
           name="Settings"
@@ -186,7 +211,7 @@ export default function AppProduct({ navigation }) {
               );
             },
           }}
-          component={Collection}
+          component={AuthPass}
         />
       </Tab.Navigator>
     </NavigationContainer>

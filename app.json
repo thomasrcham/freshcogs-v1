@@ -2,7 +2,7 @@
   "expo": {
     "name": "discogs-app-v3",
     "slug": "discogs-app-v3",
-    "scheme": "discogs-app-v3",
+    "scheme": "flashcogs",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

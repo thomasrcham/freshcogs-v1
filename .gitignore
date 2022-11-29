@@ -17,5 +17,6 @@ keys.js
 discogs.json
 AuthTest.js
 AuthReceive.js
+AuthPass.js
 
 android/
