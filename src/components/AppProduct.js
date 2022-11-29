@@ -5,13 +5,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { addAlbum } from "../redux/albumSlice";
 import DisplayArea from "./DisplayArea.js";
-// import FrontPage from "./deprecated/FrontPage.js";
-import Collection from "./Collection.js";
-import Search from "./SearchPage.js";
 import "../../keys.js";
 import AuthTest from "./AuthTest";
 import AuthPass from "./AuthPass";
-import SearchPage from "./SearchPage.js";
+import SearchBar from "./SearchBar.js";
+import FindPage from "./FindPage";
 
 export default function AppProduct({ navigation }) {
   // const { titles } = useSelector((state) => state.albumTitleReducer);
@@ -181,7 +179,7 @@ export default function AppProduct({ navigation }) {
             },
           }}
         >
-          {(props) => <SearchPage {...props} albums={albums} />}
+          {(props) => <FindPage {...props} albums={albums} />}
         </Tab.Screen>
         <Tab.Screen
           name="Auth"
