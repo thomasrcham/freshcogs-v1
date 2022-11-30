@@ -2,22 +2,28 @@ import { useState, useEffect } from "react";
 import { Button, Dimensions, Image, StyleSheet, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Provider, useDispatch, useSelector } from "react-redux";
-import { addAlbum } from "../redux/albumSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+// import { Provider, useDispatch, useSelector } from "react-redux";
+// import { addAlbum } from "../redux/albumSlice";
 import DisplayArea from "./DisplayArea.js";
-import "../../keys.js";
+import Settings from "./Settings.js";
 import AuthTest from "./AuthTest";
-import AuthPass from "./AuthPass";
-import SearchBar from "./SearchBar.js";
+import AuthPass from "./deprecated/AuthPass";
 import FindPage from "./FindPage";
+import "../../keys.js";
 
 export default function AppProduct({ navigation }) {
   // const { titles } = useSelector((state) => state.albumTitleReducer);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [albums, setAlbums] = useState(null);
   const [displayAlbums, setDisplayAlbums] = useState(null);
   const [user, setUser] = useState(null);
 
+  //VARIABLE ESTABLISHMENT
+
+  var dateTime = Math.round(new Date().getTime() / 1000);
+
+  //fetch request setup
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
   myHeaders.append(
@@ -35,14 +41,41 @@ export default function AppProduct({ navigation }) {
     redirect: "follow",
   };
 
-  useEffect(() => {
-    fetch("https://api.discogs.com/users/theyear1000", requestOptions)
-      .then((response) => response.text())
-      .then((result) => setUser(result))
-      .catch((error) => console.log("error", error));
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("@storage_Key");
+      let data = jsonValue != null ? JSON.parse(jsonValue) : null;
+      randomArray(data);
+      setAlbums(data);
+    } catch (e) {
+      console.log(e);
+      runFetch();
+    }
+  };
+  //DATA FETCH
 
+  useEffect(() => {
+    getData();
+    //   fetch("https://api.discogs.com/users/theyear1000", requestOptions)
+    //     .then((response) => response.text())
+    //     .then((result) => setUser(result))
+    //     .catch((error) => console.log("error", error));
+
+    //   fetch(
+    //     `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=30${token}`
+    //   )
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //       let returnData = data.releases;
+    //       let parsedReleases = returnData.map((release) => parseInfo(release));
+    //       setAlbums(parsedReleases);
+    //       randomArray(parsedReleases);
+    //     });
+  }, []);
+
+  function runFetch() {
     fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500${token}`
+      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=30${token}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -51,10 +84,9 @@ export default function AppProduct({ navigation }) {
         setAlbums(parsedReleases);
         randomArray(parsedReleases);
       });
-  }, []);
+  }
 
-  var dateTime = Math.round(new Date().getTime() / 1000);
-
+  //FETCHED DATA MANIP AND STATE SET
   function parseInfo(release) {
     let artist = release.basic_information.artists[0].name;
 
@@ -103,20 +135,15 @@ export default function AppProduct({ navigation }) {
     for (let i = 0; i < 6; i = newArray.length) {
       let newItem = releases[Math.floor(Math.random() * releases.length)];
       if (newArray.map((a) => a.id).includes(newItem.id)) {
-        return;
+        null;
+      } else {
+        newArray.push(newItem);
       }
-      newArray.push(newItem);
     }
     setDisplayAlbums(newArray);
   }
 
   const Tab = createBottomTabNavigator();
-
-  // const backButton = navigate.goBack()
-  //   ? () => (
-  //       <Button onPress={() => navigation.goBack()} title="Info" color="#fff" />
-  //     )
-  //   : null;
 
   return (
     <NavigationContainer independent={true}>
@@ -215,15 +242,17 @@ export default function AppProduct({ navigation }) {
               );
             },
           }}
-          component={AuthPass}
-        />
+        >
+          {(props) => (
+            <Settings {...props} albums={albums} setAlbums={setAlbums} />
+          )}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );
 }
 
 const topBarHeight = Dimensions.get("window").height * 0.06;
-const footerWindowHeight = Dimensions.get("window").height * 0.08;
 const mainWindowHeight = Dimensions.get("window").height * 0.8;
 
 const styles = StyleSheet.create({
