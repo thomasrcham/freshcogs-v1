@@ -18,6 +18,7 @@ export default function AppProduct({ navigation }) {
   const [albums, setAlbums] = useState(null);
   const [displayAlbums, setDisplayAlbums] = useState(null);
   const [user, setUser] = useState(null);
+  const [folder, setFolder] = useState(null);
 
   //VARIABLE ESTABLISHMENT
 
@@ -73,15 +74,12 @@ export default function AppProduct({ navigation }) {
 
   useEffect(() => {
     getData();
-    //   fetch("https://api.discogs.com/users/theyear1000", requestOptions)
-    //     .then((response) => response.text())
-    //     .then((result) => setUser(result))
-    //     .catch((error) => console.log("error", error));
+    //
   }, []);
 
   function runFetch() {
     fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=30${token}`
+      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500${token}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -89,6 +87,7 @@ export default function AppProduct({ navigation }) {
         let parsedReleases = returnData.map((release) => parseInfo(release));
         handleAlbumState(parsedReleases);
         randomArray(parsedReleases);
+        console.log(`seeding from fetch, items: ${parsedReleases.length}`);
       });
   }
 
@@ -117,6 +116,7 @@ export default function AppProduct({ navigation }) {
       genres: release.basic_information.genres.concat(
         release.basic_information.styles
       ),
+      folder: 0,
     };
 
     // dispatch(
@@ -216,7 +216,9 @@ export default function AppProduct({ navigation }) {
             },
           }}
         >
-          {(props) => <FindPage {...props} albums={albums} />}
+          {(props) => (
+            <FindPage {...props} albums={albums} setFolder={setFolder} />
+          )}
         </Tab.Screen>
         <Tab.Screen
           name="Auth"
@@ -250,7 +252,14 @@ export default function AppProduct({ navigation }) {
           }}
         >
           {(props) => (
-            <Settings {...props} albums={albums} setAlbums={setAlbums} />
+            <Settings
+              {...props}
+              albums={albums}
+              handleAlbumState={handleAlbumState}
+              requestOptions={requestOptions}
+              runFetch={runFetch}
+              setAlbums={setAlbums}
+            />
           )}
         </Tab.Screen>
       </Tab.Navigator>
