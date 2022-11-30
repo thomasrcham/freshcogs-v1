@@ -41,17 +41,34 @@ export default function AppProduct({ navigation }) {
     redirect: "follow",
   };
 
+  // Local storage and retrieval
   const getData = async () => {
     try {
-      const jsonValue = await AsyncStorage.getItem("@storage_Key");
+      const jsonValue = await AsyncStorage.getItem("@albums");
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
+      console.log(`loading from local, items: ${data.length}`);
       randomArray(data);
-      setAlbums(data);
+      handleAlbumState(data);
     } catch (e) {
-      console.log(e);
+      console.log(`loading from local failed + ${e}`);
       runFetch();
     }
   };
+
+  const storeData = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("@albums", jsonValue);
+    } catch (e) {
+      console.log(`storage error + ${e}`);
+    }
+  };
+
+  const handleAlbumState = (data) => {
+    storeData(data);
+    setAlbums(data);
+  };
+
   //DATA FETCH
 
   useEffect(() => {
@@ -60,17 +77,6 @@ export default function AppProduct({ navigation }) {
     //     .then((response) => response.text())
     //     .then((result) => setUser(result))
     //     .catch((error) => console.log("error", error));
-
-    //   fetch(
-    //     `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=30${token}`
-    //   )
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       let returnData = data.releases;
-    //       let parsedReleases = returnData.map((release) => parseInfo(release));
-    //       setAlbums(parsedReleases);
-    //       randomArray(parsedReleases);
-    //     });
   }, []);
 
   function runFetch() {
@@ -81,7 +87,7 @@ export default function AppProduct({ navigation }) {
       .then((data) => {
         let returnData = data.releases;
         let parsedReleases = returnData.map((release) => parseInfo(release));
-        setAlbums(parsedReleases);
+        handleAlbumState(parsedReleases);
         randomArray(parsedReleases);
       });
   }
