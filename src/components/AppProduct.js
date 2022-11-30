@@ -42,7 +42,7 @@ export default function AppProduct({ navigation }) {
       .catch((error) => console.log("error", error));
 
     fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=50${token}`
+      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500${token}`
     )
       .then((res) => res.json())
       .then((data) => {
