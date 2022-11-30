@@ -73,6 +73,7 @@ export default function Settings({
           albums.map((album) => {
             if (ids.includes(album.id)) {
               album.folder = f.folderName;
+              console.log(f.folderName + ": " + album.folder);
             } else {
               album.folder = album.folder;
             }

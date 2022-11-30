@@ -43,8 +43,8 @@ export default function FindPage({ albums }) {
 
   function handleFilter(input) {
     setFolderFilter(input);
-    let newArray = localAlbums.filter((a) => (a.folder = input));
-    console.log(newArray);
+    let newArray = localAlbums.filter((a) => a.folder === "Classical");
+    setLocalAlbums(newArray);
   }
 
   return (

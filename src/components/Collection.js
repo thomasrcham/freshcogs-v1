@@ -18,6 +18,8 @@ function Collection({ albums, navigation }) {
           <View style={styles.container}>
             {albums ? (
               albums.map((a) => {
+                let shortTitle =
+                  a.title.length > 40 ? a.title.slice(0, 40) : a.title;
                 return (
                   <View style={styles.imageGrid} key={a.id}>
                     <TouchableOpacity
@@ -33,7 +35,9 @@ function Collection({ albums, navigation }) {
                         key={a.title}
                       />
                     </TouchableOpacity>
-                    <Text key={a.id + "text"}>{a.title}</Text>
+                    <View style={styles.textBox}>
+                      <Text key={a.id + "text"}>{shortTitle}</Text>
+                    </View>
                   </View>
                 );
               })
@@ -72,6 +76,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "black",
     height: 220,
+    overflow: "hidden",
   },
   image: {
     aspectRatio: 1,
@@ -79,6 +84,10 @@ const styles = StyleSheet.create({
     borderColor: "#878684",
     borderWidth: 2,
     borderRadius: 4,
+  },
+  textBox: {
+    flex: 1,
+    justifyContent: "center",
   },
   text: {
     textAlign: "center",
