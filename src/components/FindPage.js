@@ -16,6 +16,7 @@ export default function FindPage({ albums }) {
   const [searchPhrase, setSearchPhrase] = useState(null);
   const [localAlbums, setLocalAlbums] = useState(null);
   const [clicked, setClicked] = useState(false);
+  const [folderFilter, setFolderFilter] = useState(null);
 
   useEffect(() => {
     setLocalAlbums(albums);
@@ -40,6 +41,12 @@ export default function FindPage({ albums }) {
     setSearchPhrase(null);
   }
 
+  function handleFilter(input) {
+    setFolderFilter(input);
+    let newArray = localAlbums.filter((a) => (a.folder = input));
+    console.log(newArray);
+  }
+
   return (
     <View style={styles.mainPageContainer}>
       <View style={styles.container}>
@@ -55,11 +62,14 @@ export default function FindPage({ albums }) {
         </View>
         <View style={styles.searchBar}>
           <Filter
-            searchPhrase={searchPhrase}
-            setSearchPhrase={setSearchPhrase}
             clicked={clicked}
             setClicked={setClicked}
+            handleFilter={handleFilter}
+            folderFilter={folderFilter}
+            setFolderFilter={setFolderFilter}
             handleSearch={handleSearch}
+            searchPhrase={searchPhrase}
+            setSearchPhrase={setSearchPhrase}
           />
         </View>
         <View style={styles.list}>

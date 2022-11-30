@@ -18,7 +18,6 @@ export default function AppProduct({ navigation }) {
   const [albums, setAlbums] = useState(null);
   const [displayAlbums, setDisplayAlbums] = useState(null);
   const [user, setUser] = useState(null);
-  const [folder, setFolder] = useState(null);
 
   //VARIABLE ESTABLISHMENT
 
@@ -216,9 +215,7 @@ export default function AppProduct({ navigation }) {
             },
           }}
         >
-          {(props) => (
-            <FindPage {...props} albums={albums} setFolder={setFolder} />
-          )}
+          {(props) => <FindPage {...props} albums={albums} />}
         </Tab.Screen>
         <Tab.Screen
           name="Auth"

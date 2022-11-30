@@ -71,18 +71,15 @@ export default function Settings({
           let returnData = result.releases;
           let ids = returnData.map((a) => a.id);
           albums.map((album) => {
-            console.log(album.title);
             if (ids.includes(album.id)) {
               album.folder = f.folderName;
+            } else {
+              album.folder = album.folder;
             }
           });
           handleAlbumState(albums);
         })
         .catch((error) => console.log("error", error));
-
-      // ;
-
-      //
     });
   };
 
@@ -96,7 +93,7 @@ export default function Settings({
       <Button title="load from storage" onPress={() => getData()} />
       <Button title="clear local storage" onPress={() => storeData(null)} />
       <Button title="refresh fetch data" onPress={() => runFetch()} />
-      <Button title="log user data" onPress={() => getUserData()} />
+      <Button title="set folder values" onPress={() => getUserData()} />
     </View>
   );
 }

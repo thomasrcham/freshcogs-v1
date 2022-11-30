@@ -8,11 +8,15 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
-export default function SearchBar({ navigation }) {
+export default function SearchBar({ navigation, handleFilter }) {
   return (
     <View style={styles.container}>
       <View style={styles.searchBar__unclicked}>
-        <TextInput style={styles.input} placeholder="FilterGoesHere" />
+        <Button
+          title="set filter to christmas"
+          onPress={() => handleFilter("Christmas")}
+        />
+        {/* <TextInput style={styles.input} placeholder="FilterGoesHere" /> */}
       </View>
     </View>
   );
