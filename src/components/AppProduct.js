@@ -65,7 +65,6 @@ export default function AppProduct({ navigation }) {
   };
 
   const handleAlbumState = (data) => {
-    console.log(data);
     storeData(data);
     setAlbums(data);
   };
@@ -79,7 +78,7 @@ export default function AppProduct({ navigation }) {
 
   function runFetch() {
     fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=30${token}`
+      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500${token}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -116,7 +115,9 @@ export default function AppProduct({ navigation }) {
         release.basic_information.styles
       ),
       folder: 0,
-      isReissue: !desc.find((item) => item.slice(0, 2).toLowerCase() === "re"),
+      isReissue: !desc.find((item) =>
+        item ? item.slice(0, 2).toLowerCase() === "re" : null
+      ),
     };
 
     return singleParsedRelease;

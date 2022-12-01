@@ -27,7 +27,9 @@ export default function Settings({
     }
   };
 
-  let display = albums ? albums[0].title : "None in state";
+  let display = albums
+    ? albums.filter((a) => a.isReissue === true).length
+    : "None in state";
 
   return (
     <View>
@@ -37,10 +39,12 @@ export default function Settings({
       <Button title="load from storage" onPress={() => getData()} />
       <Button title="clear local storage" onPress={() => storeData(null)} />
       <Button title="refresh fetch data" onPress={() => runFetch()} />
-      <Button title="set folder values" onPress={() => getUserData()} />
+      {/* <Button title="set folder values" onPress={() => getUserData()} /> */}
       <Button
-        title="console.log Album[0]"
-        onPress={() => console.log(albums[0])}
+        title="console.log random album]"
+        onPress={() =>
+          console.log(albums[Math.floor(Math.random() * albums.length)])
+        }
       />
     </View>
   );
