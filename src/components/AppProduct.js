@@ -44,31 +44,51 @@ export default function AppProduct({ navigation }) {
   };
 
   // Local storage and retrieval
-  const getData = async () => {
+
+  const getData = () => {
+    albumDataGet();
+    folderDataGet();
+  };
+
+  const albumDataGet = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem("@albums");
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
-      console.log(`loading from local, items: ${data.length}`);
+      console.log(`loading albums from local, items: ${data.length}`);
       randomArray(data);
-      handleAlbumState(data);
+      handleStorage(data, folders);
     } catch (e) {
-      console.log(`loading from local failed + ${e}`);
+      console.log(`Album retrieval failure: ${e}`);
       runFetch();
     }
   };
 
-  const storeData = async (value) => {
+  const folderDataGet = async () => {
     try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("@albums", jsonValue);
+      const jsonValue = await AsyncStorage.getItem("@folders");
+      let data = jsonValue != null ? JSON.parse(jsonValue) : null;
+      console.log(`loading folders from local, items: ${data.length}`);
+      handleStorage(albums, data);
     } catch (e) {
-      console.log(`storage error + ${e}`);
+      console.log(`Folder retrieval failure: ${e}`);
     }
   };
 
-  const handleAlbumState = (data) => {
-    storeData(data);
-    setAlbums(data);
+  const handleStorage = (albumsValue, foldersValue) => {
+    multiStoreData(albumsValue, foldersValue);
+    setAlbums(albumsValue);
+    setFolders(foldersValue);
+  };
+
+  const multiStoreData = async (albumsValue, foldersValue) => {
+    const albumsPair = ["@albums", JSON.stringify(albumsValue)];
+    const foldersPair = ["@folders", JSON.stringify(foldersValue)];
+    try {
+      await AsyncStorage.multiSet([albumsPair, foldersPair]);
+    } catch (e) {
+      console.log(`Storage failure: ${e}`);
+    }
+    console.log("Multi-storage success");
   };
 
   //DATA FETCH
@@ -86,7 +106,7 @@ export default function AppProduct({ navigation }) {
       .then((data) => {
         let returnData = data.releases;
         let parsedReleases = returnData.map((release) => parseInfo(release));
-        handleAlbumState(parsedReleases);
+        handleStorage(parsedReleases, folders);
         randomArray(parsedReleases);
         getUserData(parsedReleases);
         console.log(`seeding from fetch, items: ${parsedReleases.length}`);
@@ -160,7 +180,7 @@ export default function AppProduct({ navigation }) {
               album.folder = f.folderName;
             }
           });
-          handleAlbumState(parsedReleases);
+          handleStorage(parsedReleases, folders);
         })
         .catch((error) => console.log("error", error));
     });
@@ -290,13 +310,14 @@ export default function AppProduct({ navigation }) {
             <Settings
               {...props}
               albums={albums}
+              folders={folders}
               getData={getData}
               getUserData={getUserData}
-              handleAlbumState={handleAlbumState}
+              handleStorage={handleStorage}
               requestOptions={requestOptions}
               runFetch={runFetch}
               setAlbums={setAlbums}
-              storeData={storeData}
+              setFolders={setFolders}
             />
           )}
         </Tab.Screen>

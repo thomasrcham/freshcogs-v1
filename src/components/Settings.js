@@ -1,30 +1,50 @@
 import { Button, Text, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Settings({
   albums,
+  folders,
   getData,
-  handleAlbumState,
+  handleStorage,
   requestOptions,
   runFetch,
   setAlbums,
-  storeData,
+  setFolders,
 }) {
-  // const storeData = async (value) => {
+  // const multiStoreData = async (albumsValue, foldersValue) => {
+  //   const albumsPair = ["@albums", JSON.stringify(albumsValue)];
+  //   const foldersPair = ["@folders", JSON.stringify(foldersValue)];
   //   try {
-  //     const jsonValue = JSON.stringify(value);
-  //     await AsyncStorage.setItem("@albums", jsonValue);
+  //     await AsyncStorage.multiSet([albumsPair, foldersPair]);
   //   } catch (e) {
-  //     // saving error
+  //     console.log(`Storage failure: ${e}`);
   //   }
+  //   console.log("Stored");
   // };
 
-  // const getData = async () => {
+  // const multiGetData = () => {
+  //   albumDataGet();
+  //   folderDataGet();
+  // };
+
+  // const albumDataGet = async () => {
   //   try {
   //     const jsonValue = await AsyncStorage.getItem("@albums");
-  //     setAlbums(jsonValue != null ? JSON.parse(jsonValue) : null);
-  //     console.log(`loading from local, items: ${data.length}`);
+  //     // setAlbums(jsonValue != null ? JSON.parse(jsonValue) : null);
+  //     let data = jsonValue != null ? JSON.parse(jsonValue) : null;
+  //     console.log(`loading albums from local , items: ${data.length}`);
   //   } catch (e) {
-  //     // error reading value
+  //     console.log(`Album retrieval failure: ${e}`);
+  //   }
+  // };
+  // const folderDataGet = async () => {
+  //   try {
+  //     const jsonValue = await AsyncStorage.getItem("@folders");
+  //     let data = jsonValue != null ? JSON.parse(jsonValue) : null;
+  //     // setAlbums(jsonValue != null ? JSON.parse(jsonValue) : null);
+  //     console.log(`loading folders from local, items: ${data.length}`);
+  //   } catch (e) {
+  //     console.log(`Folder retrieval failure: ${e}`);
   //   }
   // };
 
@@ -35,10 +55,16 @@ export default function Settings({
   return (
     <View>
       <Text>{display}</Text>
-      <Button title="store album state" onPress={() => storeData(albums)} />
+      <Button
+        title="store state in local"
+        onPress={() => handleStorage(albums, folders)}
+      />
       <Button title="clear album state" onPress={() => setAlbums(null)} />
       <Button title="load from storage" onPress={() => getData()} />
-      <Button title="clear local storage" onPress={() => storeData(null)} />
+      <Button
+        title="clear local storage"
+        onPress={() => handleStorage(null, null)}
+      />
       <Button title="refresh fetch data" onPress={() => runFetch()} />
       {/* <Button title="set folder values" onPress={() => getUserData()} /> */}
       <Button

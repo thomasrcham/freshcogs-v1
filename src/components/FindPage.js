@@ -77,13 +77,13 @@ export default function FindPage({ albums, folders }) {
           />
         </View>
         <View style={styles.list}>
-          <Text>
+          {/* <Text>
             {localAlbums && albums
               ? localAlbums.length < albums.length
                 ? `Searching by: ${searchPhrase}`
                 : null
               : null}
-          </Text>
+          </Text> */}
           <List albums={localAlbums} />
         </View>
       </View>
