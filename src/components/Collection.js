@@ -5,16 +5,63 @@ import {
   StyleSheet,
   Text,
   Dimensions,
+  FlatList,
   TouchableOpacity,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
+const Item = ({ item, onPress }) => (
+  <View style={styles.imageGrid} key={item.id}>
+    <TouchableOpacity
+      onPress={onPress}
+      // () => {
+      //   console.log(item);
+      // }
+      // navigation.navigate("AlbumPage", {
+      //   album: item,
+      // })
+      // }
+    >
+      <Image source={{ uri: item.uri }} style={styles.image} key={item.title} />
+    </TouchableOpacity>
+    <View style={styles.textBox}>
+      <Text key={item.id + "text"}>{item.title}</Text>
+    </View>
+  </View>
+);
 
 function Collection({ albums, navigation }) {
+  const renderItem = ({ item }) => {
+    return (
+      <Item
+        item={item}
+        onPress={() =>
+          navigation.navigate("AlbumPage", {
+            album: item,
+          })
+        }
+      />
+    );
+  };
+
   return (
     <View
       style={{ position: "relative", height: Dimensions.get("window").height }}
     >
       <View style={styles.mainPageContainer}>
-        <ScrollView key={"scroll"}>
+        {albums ? (
+          <FlatList
+            style={styles.container}
+            data={albums}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            extraData={albums}
+            numColumns="2"
+          />
+        ) : (
+          <Text>no albums</Text>
+        )}
+        {/* <ScrollView key={"scroll"}>
           <View style={styles.container}>
             {albums ? (
               albums.map((a) => {
@@ -45,7 +92,7 @@ function Collection({ albums, navigation }) {
               <Text>no albums</Text>
             )}
           </View>
-        </ScrollView>
+        </ScrollView> */}
       </View>
     </View>
   );
@@ -59,16 +106,16 @@ export default Collection;
 const styles = StyleSheet.create({
   mainPageContainer: { height: mainWindowHeight, width: windowWidth },
   container: {
-    flex: 2,
-    flexDirection: "row",
-    flexWrap: "wrap",
+    // flex: 2,
+    // flexDirection: "row",
+    // flexWrap: "wrap",
     backgroundColor: "pink",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingTop: 30,
+    // alignItems: "center",
+    // justifyContent: "space-between",
+    // paddingTop: 30,
     padding: 20,
-    width: "100%",
-    height: "100%",
+    // width: "100%",
+    // height: "100%",
   },
   imageGrid: {
     width: "50%",
