@@ -74,7 +74,7 @@ export default function FindPage({ albums }) {
         </View>
         <View style={styles.list}>
           <Text>
-            {localAlbums
+            {localAlbums && albums
               ? localAlbums.length < albums.length
                 ? `Searching by: ${searchPhrase}`
                 : null

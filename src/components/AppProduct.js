@@ -65,6 +65,7 @@ export default function AppProduct({ navigation }) {
   };
 
   const handleAlbumState = (data) => {
+    console.log(data);
     storeData(data);
     setAlbums(data);
   };
@@ -78,7 +79,7 @@ export default function AppProduct({ navigation }) {
 
   function runFetch() {
     fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500${token}`
+      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=30${token}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -86,6 +87,7 @@ export default function AppProduct({ navigation }) {
         let parsedReleases = returnData.map((release) => parseInfo(release));
         handleAlbumState(parsedReleases);
         randomArray(parsedReleases);
+        getUserData(parsedReleases);
         console.log(`seeding from fetch, items: ${parsedReleases.length}`);
       });
   }
@@ -93,20 +95,13 @@ export default function AppProduct({ navigation }) {
   //FETCHED DATA MANIP AND STATE SET
   function parseInfo(release) {
     let artist = release.basic_information.artists[0].name;
-    let sort_artist = release.basic_information.artists_sort;
-
-    // let descriptions = release.basic_information.formats
-    //   .map((f) => f.descriptions)
-    //   .concat();
-    // console.log(descriptions);
+    let desc = release.basic_information.formats
+      .map((f) => f.descriptions)
+      .flat();
 
     artist.charAt(artist.length - 3) === "("
       ? (artist = artist.substring(0, artist.length - 4))
       : artist;
-
-    sort_artist.charAt(sort_artist.length - 3) === "("
-      ? (sort_artist = sort_artist.substring(0, sort_artist.length - 4))
-      : sort_artist;
 
     artist === "Various" ? (artist = "Various Artists") : artist;
 
@@ -114,7 +109,6 @@ export default function AppProduct({ navigation }) {
       id: release.basic_information.id,
       master_id: release.basic_information.master_id,
       artist: artist,
-      sort_artist: sort_artist,
       title: release.basic_information.title,
       uri: release.basic_information.cover_image,
       date_added: release.date_added,
@@ -122,24 +116,53 @@ export default function AppProduct({ navigation }) {
         release.basic_information.styles
       ),
       folder: 0,
+      isReissue: !desc.find((item) => item.slice(0, 2).toLowerCase() === "re"),
     };
-
-    // dispatch(
-    //   addAlbum({
-    //     id: release.basic_information.id,
-    //     master_id: release.basic_information.master_id,
-    //     artist: artist,
-    //     title: release.basic_information.title,
-    //     uri: release.basic_information.cover_image,
-    //     date_added: release.date_added,
-    //     genres: release.basic_information.genres.concat(
-    //       release.basic_information.styles
-    //     ),
-    //   })
-    // );
 
     return singleParsedRelease;
   }
+
+  const getUserData = (parsedReleases) => {
+    fetch(
+      `https://api.discogs.com/users/theyear1000/collection/folders`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        let returnData = result.folders;
+        let names = returnData.map((f) => ({
+          folderID: f.id,
+          folderName: f.name,
+        }));
+        let folders = names.filter((f) => f.folderID != 0);
+        folderAssignment(parsedReleases, folders);
+      })
+      .catch((error) => console.log("error", error));
+  };
+
+  const folderAssignment = (parsedReleases, folders) => {
+    folders.map((f) => {
+      //pulls releases for each folder
+      fetch(
+        `https://api.discogs.com/users/theyear1000/collection/folders/${f.folderID}/releases?per_page=500`,
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          let returnData = result.releases;
+          let ids = returnData.map((a) => a.id);
+          parsedReleases.map((album) => {
+            if (ids.includes(album.id)) {
+              album.folder = f.folderName;
+            } else {
+              album.folder = album.folder;
+            }
+          });
+          handleAlbumState(parsedReleases);
+        })
+        .catch((error) => console.log("error", error));
+    });
+  };
 
   function randomArray(releases) {
     let newArray = [];
@@ -258,6 +281,8 @@ export default function AppProduct({ navigation }) {
             <Settings
               {...props}
               albums={albums}
+              folderAssignment={folderAssignment}
+              getUserData={getUserData}
               handleAlbumState={handleAlbumState}
               requestOptions={requestOptions}
               runFetch={runFetch}
