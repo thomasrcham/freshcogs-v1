@@ -48,21 +48,21 @@ export default function FindPage({ albums, folders }) {
     setLocalAlbums(newArray);
   }
 
-  function handleSort(sortID) {
-    console.log(`${albums.length}, ${sortID}`);
-    function compare(a, b) {
-      let thing = sortID;
-      if (a.thing < b.thing) {
-        console.log(a.thing + " < " + b.thing);
-      }
-      if (a.thing > b.thing) {
-        console.log(a.thing + " > " + b.thing);
-      }
-      return 0;
-    }
-    let sortAlbums = albums.sort(compare);
-    // console.log(sortAlbums);
-  }
+  // function handleSort(sortID) {
+  //   console.log(`${albums.length}, ${sortID}`);
+  //   function compare(a, b) {
+  //     let thing = sortID;
+  //     if (a.thing < b.thing) {
+  //       console.log(a.thing + " < " + b.thing);
+  //     }
+  //     if (a.thing > b.thing) {
+  //       console.log(a.thing + " > " + b.thing);
+  //     }
+  //     return 0;
+  //   }
+  //   let sortAlbums = albums.sort(compare);
+  //   // console.log(sortAlbums);
+  // }
 
   return (
     <View style={styles.mainPageContainer}>
