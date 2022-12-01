@@ -42,9 +42,13 @@ function Collection({ albums, navigation }) {
     <View
       style={{ position: "relative", height: Dimensions.get("window").height }}
     >
-      <View style={styles.textBox}>
-        <Text>Filter:</Text>
-      </View>
+      {albums ? (
+        albums.length > 6 ? (
+          <View style={styles.textBox}>
+            <Text> Filter: </Text>
+          </View>
+        ) : null
+      ) : null}
       <View style={styles.mainPageContainer}>
         {albums ? (
           <FlatList
@@ -69,17 +73,23 @@ const windowWidth = Dimensions.get("window").width;
 export default Collection;
 
 const styles = StyleSheet.create({
-  mainPageContainer: { height: mainWindowHeight, width: windowWidth },
+  mainPageContainer: {
+    height: mainWindowHeight,
+    width: windowWidth,
+    marginBottom: 100,
+  },
   container: {
     backgroundColor: "pink",
     padding: 10,
+    // paddingBottom: 200,
+    marginBottom: 80,
   },
   imageGrid: {
     width: "50%",
     padding: 10,
     // borderWidth: 1,
     borderColor: "black",
-    height: 250,
+    height: 225,
     overflow: "hidden",
   },
   image: {

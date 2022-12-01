@@ -7,9 +7,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { addAlbum } from "../redux/albumSlice";
 import DisplayArea from "./DisplayArea.js";
 import Settings from "./Settings.js";
-import AuthTest from "./AuthTest";
+import AuthTest from "./deprecated/AuthTest";
 import AuthPass from "./deprecated/AuthPass";
 import FindPage from "./FindPage";
+import UserPage from "./UserPage";
 import "../../keys.js";
 
 export default function AppProduct({ navigation }) {
@@ -199,6 +200,10 @@ export default function AppProduct({ navigation }) {
         <Tab.Screen
           name="FrontPage"
           options={{
+            headerStyle: {
+              backgroundColor: "pink",
+            },
+            headerTitle: "Albums for Today:",
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.buttonBox}>
@@ -209,6 +214,9 @@ export default function AppProduct({ navigation }) {
                 </View>
               );
             },
+          }}
+          header={{
+            title: "title",
           }}
         >
           {(props) => <DisplayArea {...props} albums={displayAlbums} />}
@@ -248,7 +256,7 @@ export default function AppProduct({ navigation }) {
           {(props) => <FindPage {...props} albums={albums} />}
         </Tab.Screen>
         <Tab.Screen
-          name="Auth"
+          name="User"
           options={{
             tabBarIcon: ({ size, focused, color }) => {
               return (
@@ -261,7 +269,7 @@ export default function AppProduct({ navigation }) {
               );
             },
           }}
-          component={AuthTest}
+          component={UserPage}
         />
         <Tab.Screen
           name="Settings"
