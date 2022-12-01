@@ -23,7 +23,12 @@ const Item = ({ item, onPress }) => (
 
 export default function List({ albums, searchPhrase }) {
   const renderItem = ({ item }) => {
-    return <Item item={item} onPress={() => setSelectedId(item.id)} />;
+    return (
+      <Item
+        item={item}
+        // onPress={() => setSelectedId(item.id)}
+      />
+    );
   };
   return (
     <View style={styles.listContainer}>

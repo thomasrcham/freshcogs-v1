@@ -93,6 +93,7 @@ export default function AppProduct({ navigation }) {
   //FETCHED DATA MANIP AND STATE SET
   function parseInfo(release) {
     let artist = release.basic_information.artists[0].name;
+    let sort_artist = release.basic_information.artists_sort;
 
     // let descriptions = release.basic_information.formats
     //   .map((f) => f.descriptions)
@@ -103,12 +104,17 @@ export default function AppProduct({ navigation }) {
       ? (artist = artist.substring(0, artist.length - 4))
       : artist;
 
+    sort_artist.charAt(sort_artist.length - 3) === "("
+      ? (sort_artist = sort_artist.substring(0, sort_artist.length - 4))
+      : sort_artist;
+
     artist === "Various" ? (artist = "Various Artists") : artist;
 
     let singleParsedRelease = {
       id: release.basic_information.id,
       master_id: release.basic_information.master_id,
       artist: artist,
+      sort_artist: sort_artist,
       title: release.basic_information.title,
       uri: release.basic_information.cover_image,
       date_added: release.date_added,
