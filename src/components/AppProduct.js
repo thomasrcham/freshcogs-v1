@@ -7,8 +7,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { addAlbum } from "../redux/albumSlice";
 import DisplayArea from "./DisplayArea.js";
 import Settings from "./Settings.js";
-import AuthTest from "./deprecated/AuthTest";
-import AuthPass from "./deprecated/AuthPass";
 import FindPage from "./FindPage";
 import UserPage from "./UserPage";
 import "../../keys.js";
@@ -75,6 +73,7 @@ export default function AppProduct({ navigation }) {
   };
 
   const handleStorage = (albumsValue, foldersValue) => {
+    console.log("handleStorage called");
     multiStoreData(albumsValue, foldersValue);
     setAlbums(albumsValue);
     setFolders(foldersValue);
@@ -100,7 +99,7 @@ export default function AppProduct({ navigation }) {
 
   function runFetch() {
     fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500${token}`
+      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=20${token}`
     )
       .then((res) => res.json())
       .then((data) => {

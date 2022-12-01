@@ -15,6 +15,7 @@ import Filters from "./Filters";
 export default function FindPage({ albums, folders }) {
   const [searchPhrase, setSearchPhrase] = useState(null);
   const [localAlbums, setLocalAlbums] = useState(null);
+  const [sortedAlbums, setSortedAlbums] = useState(null);
   const [clicked, setClicked] = useState(false);
   const [folderFilter, setFolderFilter] = useState(null);
 
@@ -42,12 +43,25 @@ export default function FindPage({ albums, folders }) {
   }
 
   function handleFilter(input) {
-    console.log(input);
-    // setFolderFilter(input);
-    // let newArray = input
-    //   ? localAlbums.filter((a) => a.folder === input)
-    //   : albums;
-    // setLocalAlbums(newArray);
+    setFolderFilter(input);
+    let newArray = input ? albums.filter((a) => a.folder === input) : albums;
+    setLocalAlbums(newArray);
+  }
+
+  function handleSort(sortID) {
+    console.log(`${albums.length}, ${sortID}`);
+    function compare(a, b) {
+      let thing = sortID;
+      if (a.thing < b.thing) {
+        console.log(a.thing + " < " + b.thing);
+      }
+      if (a.thing > b.thing) {
+        console.log(a.thing + " > " + b.thing);
+      }
+      return 0;
+    }
+    let sortAlbums = albums.sort(compare);
+    // console.log(sortAlbums);
   }
 
   return (
@@ -71,6 +85,7 @@ export default function FindPage({ albums, folders }) {
             handleFilter={handleFilter}
             folderFilter={folderFilter}
             setFolderFilter={setFolderFilter}
+            handleSort={handleSort}
             handleSearch={handleSearch}
             searchPhrase={searchPhrase}
             setSearchPhrase={setSearchPhrase}
@@ -116,7 +131,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     height: filterBarWindowHeight,
     width: "100%",
-    backgroundColor: "blue",
+    // backgroundColor: "blue",
   },
   list: {
     // height: 50,

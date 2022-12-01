@@ -22,6 +22,7 @@ const Item = ({ item, onPress }) => (
 );
 
 export default function List({ albums, searchPhrase }) {
+  albums ? console.log(`list component: ${albums.length}`) : null;
   const renderItem = ({ item }) => {
     return (
       <Item
