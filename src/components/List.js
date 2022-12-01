@@ -56,13 +56,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 5,
     alignItems: "center",
+    // justifyContent: "center",
     borderTopWidth: 1,
     borderTopColor: "#878684",
   },
   imageContainer: {
     resizeMode: "contain",
     height: "80%",
-    width: "10%",
+    width: "13%",
+    paddingBottom: 6,
+    // maxHeight: "8%",
   },
   image: {
     flex: 1,
@@ -77,5 +80,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingLeft: 5,
     overflow: "hidden",
+    marginRight: 50,
+    maxHeight: 40,
   },
 });

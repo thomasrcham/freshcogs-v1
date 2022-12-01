@@ -6,18 +6,27 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
 
-export default function SearchBar({ navigation, handleFilter }) {
+export default function Filters({ navigation, handleFilter, folders }) {
+  let folderList = folders
+    ? folders.map((f) => ({
+        key: f.folderID,
+        value: f.folderName,
+      }))
+    : null;
   return (
-    <View style={styles.container}>
-      <View style={styles.searchBar__unclicked}>
-        <Button
-          title="set filter to christmas"
-          onPress={() => handleFilter("Christmas")}
-        />
-        {/* <TextInput style={styles.input} placeholder="FilterGoesHere" /> */}
-      </View>
+    <View style={styles.buttons}>
+      <Button title="Folder" onPress={() => handleFilter("Christmas")} />
+      <Button
+        title="✕"
+        onPress={() => {
+          handleFilter(null);
+        }}
+      />
+      {/* <Button title="Genre" onPress={() => handleFilter("Christmas")} />
+      <Button title="Decade" onPress={() => handleFilter("Christmas")} /> */}
+      {/* <Button title="Folder" onPress={() => handleFilter("Christmas")} /> */}
+      {/* <TextInput style={styles.input} placeholder="FilterGoesHere" /> */}
     </View>
   );
 }
@@ -32,23 +41,6 @@ const styles = StyleSheet.create({
     padding: 10,
     width: "100%",
   },
-  searchBar__unclicked: {
-    padding: 10,
-    flexDirection: "row",
-    width: "100%",
-    backgroundColor: "#d9dbda",
-    borderRadius: 15,
-    alignItems: "center",
-  },
-  searchBar__clicked: {
-    padding: 10,
-    flexDirection: "row",
-    width: "80%",
-    backgroundColor: "#d9dbda",
-    borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "space-evenly",
-  },
   input: {
     fontSize: 20,
     marginLeft: 10,
@@ -58,7 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
-    alignItems: "center",
+    alignItems: "flex-end",
     justifyContent: "space-evenly",
     width: "100%",
   },

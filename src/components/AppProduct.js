@@ -19,6 +19,7 @@ export default function AppProduct({ navigation }) {
   const [albums, setAlbums] = useState(null);
   const [displayAlbums, setDisplayAlbums] = useState(null);
   const [user, setUser] = useState(null);
+  const [folders, setFolders] = useState(null);
 
   //VARIABLE ESTABLISHMENT
 
@@ -137,6 +138,7 @@ export default function AppProduct({ navigation }) {
           folderName: f.name,
         }));
         let folders = names.filter((f) => f.folderID != 0);
+        setFolders(folders);
         folderAssignment(parsedReleases, folders);
       })
       .catch((error) => console.log("error", error));
@@ -156,8 +158,6 @@ export default function AppProduct({ navigation }) {
           parsedReleases.map((album) => {
             if (ids.includes(album.id)) {
               album.folder = f.folderName;
-            } else {
-              album.folder = album.folder;
             }
           });
           handleAlbumState(parsedReleases);
@@ -253,7 +253,7 @@ export default function AppProduct({ navigation }) {
             },
           }}
         >
-          {(props) => <FindPage {...props} albums={albums} />}
+          {(props) => <FindPage {...props} albums={albums} folders={folders} />}
         </Tab.Screen>
         <Tab.Screen
           name="User"
@@ -290,12 +290,13 @@ export default function AppProduct({ navigation }) {
             <Settings
               {...props}
               albums={albums}
-              folderAssignment={folderAssignment}
+              getData={getData}
               getUserData={getUserData}
               handleAlbumState={handleAlbumState}
               requestOptions={requestOptions}
               runFetch={runFetch}
               setAlbums={setAlbums}
+              storeData={storeData}
             />
           )}
         </Tab.Screen>

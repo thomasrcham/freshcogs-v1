@@ -10,9 +10,9 @@ import {
 import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import List from "./List";
-import Filter from "./Filters";
+import Filters from "./Filters";
 
-export default function FindPage({ albums }) {
+export default function FindPage({ albums, folders }) {
   const [searchPhrase, setSearchPhrase] = useState(null);
   const [localAlbums, setLocalAlbums] = useState(null);
   const [clicked, setClicked] = useState(false);
@@ -42,9 +42,12 @@ export default function FindPage({ albums }) {
   }
 
   function handleFilter(input) {
-    setFolderFilter(input);
-    let newArray = localAlbums.filter((a) => a.folder === "Classical");
-    setLocalAlbums(newArray);
+    console.log(input);
+    // setFolderFilter(input);
+    // let newArray = input
+    //   ? localAlbums.filter((a) => a.folder === input)
+    //   : albums;
+    // setLocalAlbums(newArray);
   }
 
   return (
@@ -60,9 +63,10 @@ export default function FindPage({ albums }) {
             handleClear={handleClear}
           />
         </View>
-        <View style={styles.searchBar}>
-          <Filter
+        <View style={styles.filterBar}>
+          <Filters
             clicked={clicked}
+            folders={folders}
             setClicked={setClicked}
             handleFilter={handleFilter}
             folderFilter={folderFilter}
@@ -87,7 +91,8 @@ export default function FindPage({ albums }) {
   );
 }
 const mainWindowHeight = Dimensions.get("window").height * 1.01;
-const barWindowHeight = Dimensions.get("window").height * 0.08;
+const searchBarWindowHeight = Dimensions.get("window").height * 0.08;
+const filterBarWindowHeight = Dimensions.get("window").height * 0.06;
 const windowWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
@@ -103,9 +108,15 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   searchBar: {
-    height: barWindowHeight,
+    height: searchBarWindowHeight,
     width: "100%",
     backgroundColor: "red",
+  },
+  filterBar: {
+    // flex: 1,
+    height: filterBarWindowHeight,
+    width: "100%",
+    backgroundColor: "blue",
   },
   list: {
     // height: 50,
