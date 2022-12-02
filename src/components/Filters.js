@@ -14,9 +14,10 @@ export default function Filters({
   handleFilter,
   handleSort,
   folders,
+  viewClick,
+  setViewClick,
 }) {
-  const [viewClick, setViewClick] = useState(0);
-  // const [sortClick, setSortClick] = useState(false);
+  const [clicked, setClicked] = useState(false);
 
   let sortOptions = [
     { id: 1, value: "Artist", sortTerm: "artist" },
@@ -51,23 +52,6 @@ export default function Filters({
   let filterDisplay;
 
   switch (viewClick) {
-    case 0:
-      filterDisplay = (
-        <View style={styles.buttonBox}>
-          <Pressable
-            style={styles.pressable}
-            onPress={() => {
-              setViewClick(2);
-            }}
-          >
-            <Text>Sort</Text>
-          </Pressable>
-          <Pressable style={styles.pressable} onPress={() => setViewClick(1)}>
-            <Text>Folder</Text>
-          </Pressable>
-        </View>
-      );
-      break;
     case 1:
       filterDisplay = (
         <View style={styles.buttonBox}>
@@ -77,7 +61,7 @@ export default function Filters({
             onPress={() => {
               {
                 handleFilter(null);
-                setViewClick(0);
+                setClicked(false);
               }
             }}
           >
@@ -95,7 +79,7 @@ export default function Filters({
             onPress={() => {
               {
                 handleSort(null);
-                setViewClick(0);
+                setClicked(false);
               }
             }}
           >
@@ -106,24 +90,31 @@ export default function Filters({
       break;
   }
 
-  return filterDisplay;
-  // <View style={styles.buttonBox}>
-  //   {folderClick ? (
-  //
-  //   ) : (
-  //   )}
-  //   {sortClick ? (
-  //
-  //   ) : (
-
-  //   )}
-
-  // {/* <Button title="Genre" onPress={() => handleFilter("Christmas")} />
-  // <Button title="Decade" onPress={() => handleFilter("Christmas")} /> */}
-  // {/* <Button title="Folder" onPress={() => handleFilter("Christmas")} /> */}
-  // {/* <TextInput style={styles.input} placeholder="FilterGoesHere" /> */}
-  // </View>
-  // );
+  return (
+    <>
+      <View style={styles.buttonBox}>
+        <Pressable
+          style={styles.pressable}
+          onPress={() => {
+            setViewClick(2);
+            setClicked(true);
+          }}
+        >
+          <Text>Sort</Text>
+        </Pressable>
+        <Pressable
+          style={styles.pressable}
+          onPress={() => {
+            setClicked(true);
+            setViewClick(1);
+          }}
+        >
+          <Text>Folder</Text>
+        </Pressable>
+      </View>
+      {clicked ? filterDisplay : null}
+    </>
+  );
 }
 
 const styles = StyleSheet.create({

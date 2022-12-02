@@ -18,12 +18,13 @@ export default function FindPage({ albums, folders }) {
   const [sortedAlbums, setSortedAlbums] = useState(null);
   const [clicked, setClicked] = useState(false);
   const [folderFilter, setFolderFilter] = useState(null);
-  const [sortSelector, setSortSelector] = useState("artist");
+  const [sortSelector, setSortSelector] = useState("none");
+  const [viewClick, setViewClick] = useState(0);
 
-  albums ? console.log("findpage: " + albums.length) : console.log("no albums");
-  localAlbums
-    ? console.log("findpage: " + localAlbums.length)
-    : console.log("no local albums");
+  // albums ? console.log("findpage: " + albums.length) : console.log("no albums");
+  // localAlbums
+  //   ? console.log("findpage: " + localAlbums.length)
+  //   : console.log("no local albums");
 
   useEffect(() => {
     setLocalAlbums(albums);
@@ -60,7 +61,8 @@ export default function FindPage({ albums, folders }) {
           }
           return 0;
         }
-        setLocalAlbums(albums.sort(compareArtist));
+        let artistArray = albums.sort(compareArtist);
+        setLocalAlbums(artistArray);
         setSortSelector("artist");
         break;
       case "date":
@@ -73,10 +75,16 @@ export default function FindPage({ albums, folders }) {
           }
           return 0;
         }
-        setLocalAlbums(albums.sort(compareDate));
+        let dateArray = albums.sort(compareArtist);
+        setLocalAlbums(dateArray);
         setSortSelector("date");
         break;
+      case "none":
+        setLocalAlbums(albums);
+        setSortSelector(null);
+        break;
       default:
+        setLocalAlbums(albums);
         setSortSelector(null);
     }
   }
@@ -135,6 +143,8 @@ export default function FindPage({ albums, folders }) {
             // handleSearch={handleSearch}
             searchPhrase={searchPhrase}
             setSearchPhrase={setSearchPhrase}
+            viewClick={viewClick}
+            setViewClick={setViewClick}
           />
         </View>
         <View style={styles.list}>
@@ -153,7 +163,7 @@ export default function FindPage({ albums, folders }) {
 }
 const mainWindowHeight = Dimensions.get("window").height * 1.01;
 const searchBarWindowHeight = Dimensions.get("window").height * 0.08;
-const filterBarWindowHeight = Dimensions.get("window").height * 0.06;
+const filterBarWindowHeight = Dimensions.get("window").height * 0.1;
 const windowWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({

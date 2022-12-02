@@ -21,9 +21,9 @@ export default function AppProduct({ navigation }) {
   const [user, setUser] = useState(null);
   const [folders, setFolders] = useState(null);
 
-  albums
-    ? console.log("main: " + albums.length)
-    : console.log("main: no albums");
+  // albums
+  //   ? console.log("main: " + albums.length)
+  //   : console.log("main: no albums");
 
   //VARIABLE ESTABLISHMENT
 
@@ -49,9 +49,9 @@ export default function AppProduct({ navigation }) {
 
   // Local storage and retrieval
 
-  useEffect(() => {
-    multiStoreData(albums, folders);
-  }, [albums, folders]);
+  // useEffect(() => {
+  //   albums && folders ? multiStoreData(albums, folders) : null;
+  // }, [albums, folders]);
 
   const getData = () => {
     albumDataGet();
@@ -66,7 +66,6 @@ export default function AppProduct({ navigation }) {
       console.log(`loading albums from local, items: ${data.length}`);
       randomArray(data);
       setAlbums(data);
-      // handleStorage(data, folders);
     } catch (e) {
       console.log(`Album retrieval failure: ${e}`);
       runFetch();
@@ -78,28 +77,37 @@ export default function AppProduct({ navigation }) {
       const jsonValue = await AsyncStorage.getItem("@folders");
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
       console.log(`loading folders from local, items: ${data.length}`);
-      // handleStorage(albums, data);
+      setFolders(data);
     } catch (e) {
       console.log(`Folder storage retrieval failure: ${e}`);
     }
   };
 
-  const handleStorage = (albumsValue, foldersValue) => {
-    console.log(
-      albumsValue
-        ? "handleStorage called: " + albumsValue.length
-        : "handleStorage called: 0 albums stored"
-    );
+  const handleStorage = async (albumsValue, foldersValue) => {
+    // console.log(
+    //   albumsValue
+    //     ? "handleStorage called: " + albumsValue.length + " albums to store"
+    //     : "handleStorage called: 0 albums stored"
+    // );
+    // console.log(
+    //   foldersValue
+    //     ? "handleStorage called: " + foldersValue.length + " folders to store"
+    //     : "handleStorage called: 0 folders stored"
+    // );
 
     setAlbums(albumsValue);
     setFolders(foldersValue);
     albumsValue
       ? console.log("albums to be stored: " + albumsValue.length)
       : console.log("no albums to store");
-    // multiStoreData(albumsValue, foldersValue);
+    foldersValue
+      ? console.log("folders to be stored: " + foldersValue.length)
+      : console.log("no folders to store");
+    albums && folders ? multiStoreData(albumsValue, foldersValue) : null;
   };
 
   const multiStoreData = async (albumsValue, foldersValue) => {
+    console.log("multiStore Called");
     const albumsPair = ["@albums", JSON.stringify(albumsValue)];
     const foldersPair = ["@folders", JSON.stringify(foldersValue)];
     try {
@@ -118,7 +126,6 @@ export default function AppProduct({ navigation }) {
 
   useEffect(() => {
     getData();
-    //
   }, []);
 
   function runFetch() {
