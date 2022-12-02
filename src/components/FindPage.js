@@ -29,19 +29,13 @@ export default function FindPage({ albums, folders }) {
     setLocalAlbums(albums);
   }, [albums]);
 
-  function handleSearch() {
-    let searchedList = "";
-    searchPhrase
-      ? (searchedList = albums.filter(
-          (a) =>
-            String(a.title.toLowerCase()).includes(
-              searchPhrase.toLowerCase()
-            ) ||
-            String(a.artist.toLowerCase()).includes(searchPhrase.toLowerCase())
-        ))
-      : (searchedList = albums);
-    setLocalAlbums(searchedList);
-  }
+  useEffect(() => {
+    displayList();
+  }, [searchPhrase, folderFilter, sortSelector]);
+
+  // function handleSearch(input) {
+  //   setSearchTerm(input)
+  // }
 
   function handleClear() {
     setLocalAlbums(albums);
@@ -51,8 +45,6 @@ export default function FindPage({ albums, folders }) {
   function handleFilter(input) {
     console.log("handlefilter");
     setFolderFilter(input);
-    let newArray = input ? albums.filter((a) => a.folder === input) : albums;
-    setLocalAlbums(newArray);
   }
 
   function handleSort(sortTerm) {
@@ -91,6 +83,22 @@ export default function FindPage({ albums, folders }) {
 
   let listDisplay;
 
+  function displayList() {
+    let searchedAlbums = searchPhrase
+      ? (searchedAlbums = albums.filter(
+          (a) =>
+            String(a.title.toLowerCase()).includes(
+              searchPhrase.toLowerCase()
+            ) ||
+            String(a.artist.toLowerCase()).includes(searchPhrase.toLowerCase())
+        ))
+      : albums;
+    let filterAlbums = folderFilter
+      ? searchedAlbums.filter((a) => a.folder === folderFilter)
+      : searchedAlbums;
+    setLocalAlbums(filterAlbums);
+  }
+
   switch (sortSelector) {
     case "artist":
       listDisplay = <List localAlbums={localAlbums} />;
@@ -99,7 +107,7 @@ export default function FindPage({ albums, folders }) {
       listDisplay = <List localAlbums={localAlbums} />;
       break;
     default:
-      listDisplay = null;
+      listDisplay = <List localAlbums={localAlbums} />;
   }
 
   return (
@@ -111,7 +119,7 @@ export default function FindPage({ albums, folders }) {
             setSearchPhrase={setSearchPhrase}
             clicked={clicked}
             setClicked={setClicked}
-            handleSearch={handleSearch}
+            // handleSearch={handleSearch}
             handleClear={handleClear}
           />
         </View>
@@ -124,7 +132,7 @@ export default function FindPage({ albums, folders }) {
             folderFilter={folderFilter}
             setFolderFilter={setFolderFilter}
             handleSort={handleSort}
-            handleSearch={handleSearch}
+            // handleSearch={handleSearch}
             searchPhrase={searchPhrase}
             setSearchPhrase={setSearchPhrase}
           />

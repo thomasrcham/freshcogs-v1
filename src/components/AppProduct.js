@@ -49,9 +49,14 @@ export default function AppProduct({ navigation }) {
 
   // Local storage and retrieval
 
+  useEffect(() => {
+    multiStoreData(albums, folders);
+  }, [albums, folders]);
+
   const getData = () => {
     albumDataGet();
     folderDataGet();
+    handleStorage(albums, folders);
   };
 
   const albumDataGet = async () => {
@@ -60,7 +65,8 @@ export default function AppProduct({ navigation }) {
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
       console.log(`loading albums from local, items: ${data.length}`);
       randomArray(data);
-      handleStorage(data, folders);
+      setAlbums(data);
+      // handleStorage(data, folders);
     } catch (e) {
       console.log(`Album retrieval failure: ${e}`);
       runFetch();
@@ -72,17 +78,25 @@ export default function AppProduct({ navigation }) {
       const jsonValue = await AsyncStorage.getItem("@folders");
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
       console.log(`loading folders from local, items: ${data.length}`);
-      handleStorage(albums, data);
+      // handleStorage(albums, data);
     } catch (e) {
       console.log(`Folder storage retrieval failure: ${e}`);
     }
   };
 
   const handleStorage = (albumsValue, foldersValue) => {
-    console.log("handleStorage called: " + albumsValue.length);
-    multiStoreData(albumsValue, foldersValue);
+    console.log(
+      albumsValue
+        ? "handleStorage called: " + albumsValue.length
+        : "handleStorage called: 0 albums stored"
+    );
+
     setAlbums(albumsValue);
     setFolders(foldersValue);
+    albumsValue
+      ? console.log("albums to be stored: " + albumsValue.length)
+      : console.log("no albums to store");
+    // multiStoreData(albumsValue, foldersValue);
   };
 
   const multiStoreData = async (albumsValue, foldersValue) => {
@@ -93,7 +107,11 @@ export default function AppProduct({ navigation }) {
     } catch (e) {
       console.log(`Storage failure: ${e}`);
     }
-    console.log("Multi-storage success");
+    console.log(
+      albumsValue && foldersValue
+        ? `Multi-storage success: Albums: ${albumsValue.length}, Folders: ${foldersValue.length}`
+        : `Multi-storage failure`
+    );
   };
 
   //DATA FETCH

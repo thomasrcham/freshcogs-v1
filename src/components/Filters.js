@@ -145,18 +145,5 @@ const styles = StyleSheet.create({
     padding: 4,
     backgroundColor: "#DADADD",
     borderRadius: 3,
-    // boxS
-    // :inset 0px 1px 0px 0px #a6827e;
-    // background:linear-gradient(to bottom, #7d5d3b 5%, #634b30 100%);
-    // ;
-
-    // display:inline-block;
-    // cursor:pointer;
-    // color:#ffffff;
-    // font-family:Arial;
-    // font-size:11px;
-    // padding:6px 12px;
-    // text-decoration:none;
-    // text-shadow:0px 1px 0px #4d3534}
   },
 });

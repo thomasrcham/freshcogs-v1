@@ -11,7 +11,7 @@ import { Feather, Entypo } from "@expo/vector-icons";
 export default function SearchBar({
   navigation,
   handleClear,
-  handleSearch,
+  // handleSearch,
   searchPhrase,
   setSearchPhrase,
   clicked,
@@ -48,7 +48,7 @@ export default function SearchBar({
             onPress={() => {
               Keyboard.dismiss();
               // setClicked(false);
-              handleSearch();
+              // handleSearch();
             }}
           />
         </View>
