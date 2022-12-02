@@ -23,20 +23,23 @@ export default function Settings({
   //   : null;
 
   function yearReplaceTimer() {
-    setInterval(yearReplace, 5000);
+    setInterval(yearReplace, 10000);
   }
 
   function yearReplace() {
     let needsReplacement = albums
-      ? albums.filter((a) => a.isReissue === true).slice(0, 3)
-      : null;
-    needsReplacement
+      ? albums.filter((a) => a.isReissue === true).slice(0, 5)
+      : console.log("none to set as needs replacement");
+    needsReplacement.length > 0
       ? needsReplacement.map((album) => individualYearReplace(album))
-      : null;
-    // : clearTimeout();
+      : clearInterval();
+
     console.log(
       needsReplacement
-        ? `left to handle: ${albums.filter((a) => a.isReissue === true).length}`
+        ? `left to handle: ${
+            albums.filter((a) => a.isReissue === true).length -
+            needsReplacement.length
+          }`
         : `finished`
     );
   }
