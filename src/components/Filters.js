@@ -20,7 +20,7 @@ export default function Filters({
 
   let sortOptions = [
     { id: 1, value: "Artist", sortTerm: "artist" },
-    { id: 2, value: "Date Added", sortTerm: "date_added" },
+    { id: 2, value: "Date Added", sortTerm: "date" },
   ];
   let sortDisplay = sortOptions.map((f) => (
     <Pressable
@@ -34,17 +34,19 @@ export default function Filters({
     </Pressable>
   ));
 
-  let folderDisplay = folders.map((f) => (
-    <Pressable
-      style={styles.pressable}
-      key={f.folderID}
-      onPress={() => {
-        handleFilter(f.folderName);
-      }}
-    >
-      <Text>{f.folderName}</Text>
-    </Pressable>
-  ));
+  let folderDisplay = folders
+    ? folders.map((f) => (
+        <Pressable
+          style={styles.pressable}
+          key={f.folderID}
+          onPress={() => {
+            handleFilter(f.folderName);
+          }}
+        >
+          <Text>{f.folderName}</Text>
+        </Pressable>
+      ))
+    : null;
 
   let filterDisplay;
 

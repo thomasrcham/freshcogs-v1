@@ -10,6 +10,8 @@ import Settings from "./Settings.js";
 import FindPage from "./FindPage";
 import UserPage from "./UserPage";
 import "../../keys.js";
+// import { addAlbum } from "../redux/albumSlice.js";
+// import { Provider, useDispatch, useSelector } from "react-redux";
 
 export default function AppProduct({ navigation }) {
   // const { titles } = useSelector((state) => state.albumTitleReducer);
@@ -18,6 +20,10 @@ export default function AppProduct({ navigation }) {
   const [displayAlbums, setDisplayAlbums] = useState(null);
   const [user, setUser] = useState(null);
   const [folders, setFolders] = useState(null);
+
+  albums
+    ? console.log("main: " + albums.length)
+    : console.log("main: no albums");
 
   //VARIABLE ESTABLISHMENT
 
@@ -68,12 +74,12 @@ export default function AppProduct({ navigation }) {
       console.log(`loading folders from local, items: ${data.length}`);
       handleStorage(albums, data);
     } catch (e) {
-      console.log(`Folder retrieval failure: ${e}`);
+      console.log(`Folder storage retrieval failure: ${e}`);
     }
   };
 
   const handleStorage = (albumsValue, foldersValue) => {
-    console.log("handleStorage called");
+    console.log("handleStorage called: " + albumsValue.length);
     multiStoreData(albumsValue, foldersValue);
     setAlbums(albumsValue);
     setFolders(foldersValue);
@@ -99,7 +105,7 @@ export default function AppProduct({ navigation }) {
 
   function runFetch() {
     fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=20${token}`
+      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=100${token}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -115,15 +121,19 @@ export default function AppProduct({ navigation }) {
   //FETCHED DATA MANIP AND STATE SET
   function parseInfo(release) {
     let artist = release.basic_information.artists[0].name;
-    let desc = release.basic_information.formats
-      .map((f) => f.descriptions)
-      .flat();
 
     artist.charAt(artist.length - 3) === "("
       ? (artist = artist.substring(0, artist.length - 4))
       : artist;
 
     artist === "Various" ? (artist = "Various Artists") : artist;
+
+    let desc = release.basic_information.formats
+      .map((f) => f.descriptions)
+      .flat();
+
+    let newDate = new Date(release.date_added);
+    let ISODate = newDate.toISOString();
 
     let singleParsedRelease = {
       id: release.basic_information.id,
@@ -132,6 +142,7 @@ export default function AppProduct({ navigation }) {
       title: release.basic_information.title,
       uri: release.basic_information.cover_image,
       date_added: release.date_added,
+      ISODate: ISODate,
       genres: release.basic_information.genres.concat(
         release.basic_information.styles
       ),
@@ -140,7 +151,7 @@ export default function AppProduct({ navigation }) {
         item ? item.slice(0, 2).toLowerCase() === "re" : null
       ),
     };
-
+    // dispatch(addAlbum(singleParsedRelease));
     return singleParsedRelease;
   }
 

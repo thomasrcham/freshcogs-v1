@@ -7,7 +7,7 @@ export const albumSlice = createSlice({
   },
 
   reducers: {
-    addAlbum: (state, action) => {
+    addAlbums: (state, action) => {
       state.albums.push(action.payload);
       // console.log(action.payload);
       // console.log(current(state.albums));

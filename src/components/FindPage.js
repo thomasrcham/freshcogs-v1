@@ -18,6 +18,12 @@ export default function FindPage({ albums, folders }) {
   const [sortedAlbums, setSortedAlbums] = useState(null);
   const [clicked, setClicked] = useState(false);
   const [folderFilter, setFolderFilter] = useState(null);
+  const [sortSelector, setSortSelector] = useState("artist");
+
+  albums ? console.log("findpage: " + albums.length) : console.log("no albums");
+  localAlbums
+    ? console.log("findpage: " + localAlbums.length)
+    : console.log("no local albums");
 
   useEffect(() => {
     setLocalAlbums(albums);
@@ -43,26 +49,58 @@ export default function FindPage({ albums, folders }) {
   }
 
   function handleFilter(input) {
+    console.log("handlefilter");
     setFolderFilter(input);
     let newArray = input ? albums.filter((a) => a.folder === input) : albums;
     setLocalAlbums(newArray);
   }
 
-  // function handleSort(sortID) {
-  //   console.log(`${albums.length}, ${sortID}`);
-  //   function compare(a, b) {
-  //     let thing = sortID;
-  //     if (a.thing < b.thing) {
-  //       console.log(a.thing + " < " + b.thing);
-  //     }
-  //     if (a.thing > b.thing) {
-  //       console.log(a.thing + " > " + b.thing);
-  //     }
-  //     return 0;
-  //   }
-  //   let sortAlbums = albums.sort(compare);
-  //   // console.log(sortAlbums);
-  // }
+  function handleSort(sortTerm) {
+    console.log(`${albums.length}, ${sortTerm}`);
+    switch (sortTerm) {
+      case "artist":
+        function compareArtist(a, b) {
+          if (a.artist < b.artist) {
+            return -1;
+          }
+          if (a.artist > b.artist) {
+            return 1;
+          }
+          return 0;
+        }
+        setLocalAlbums(albums.sort(compareArtist));
+        setSortSelector("artist");
+        break;
+      case "date":
+        function compareDate(a, b) {
+          if (a.ISODate < b.ISODate) {
+            return -1;
+          }
+          if (a.ISODate > b.ISODate) {
+            return 1;
+          }
+          return 0;
+        }
+        setLocalAlbums(albums.sort(compareDate));
+        setSortSelector("date");
+        break;
+      default:
+        setSortSelector(null);
+    }
+  }
+
+  let listDisplay;
+
+  switch (sortSelector) {
+    case "artist":
+      listDisplay = <List localAlbums={localAlbums} />;
+      break;
+    case "date":
+      listDisplay = <List localAlbums={localAlbums} />;
+      break;
+    default:
+      listDisplay = null;
+  }
 
   return (
     <View style={styles.mainPageContainer}>
@@ -99,7 +137,7 @@ export default function FindPage({ albums, folders }) {
                 : null
               : null}
           </Text> */}
-          <List albums={localAlbums} />
+          {listDisplay}
         </View>
       </View>
     </View>

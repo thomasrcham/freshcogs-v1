@@ -21,8 +21,10 @@ const Item = ({ item, onPress }) => (
   </TouchableOpacity>
 );
 
-export default function List({ albums, searchPhrase }) {
-  albums ? console.log(`list component: ${albums.length}`) : null;
+export default function List({ localAlbums, searchPhrase }) {
+  localAlbums
+    ? console.log(`list component: ${localAlbums.length}`)
+    : console.log(`list component: no albums`);
   const renderItem = ({ item }) => {
     return (
       <Item
@@ -35,10 +37,10 @@ export default function List({ albums, searchPhrase }) {
     <View style={styles.listContainer}>
       <FlatList
         style={styles.listContainer}
-        data={albums}
+        data={localAlbums}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-        extraData={albums}
+        extraData={localAlbums}
       />
     </View>
   );
