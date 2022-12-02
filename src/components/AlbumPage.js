@@ -27,6 +27,7 @@ function AlbumPage({ route, navigation }) {
           <View>
             <Text>{album.id}</Text>
             <Text>{album.folder}</Text>
+            <Text>{album.year}</Text>
           </View>
         </View>
         <View style={styles.backButton}>

@@ -1,3 +1,5 @@
+
+//RELEASE EXAMPLE
 "id"=>1158751, 
 "instance_id"=>920602891, 
 "date_added"=>"2022-01-20T18:30:44-08:00", 
@@ -66,7 +68,7 @@
     "styles"=>["Indie Rock"]
 
 
-
+USER EXAMPLE
 {
     "id": 12986221, 
     "resource_url": "https://api.discogs.com/users/theyear1000", 

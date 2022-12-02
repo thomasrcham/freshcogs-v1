@@ -1,5 +1,7 @@
 import { Button, Text, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useState } from "react";
+import albumSlice from "../redux/albumSlice";
 
 export default function Settings({
   albums,
@@ -11,46 +13,43 @@ export default function Settings({
   setAlbums,
   setFolders,
 }) {
-  // const multiStoreData = async (albumsValue, foldersValue) => {
-  //   const albumsPair = ["@albums", JSON.stringify(albumsValue)];
-  //   const foldersPair = ["@folders", JSON.stringify(foldersValue)];
-  //   try {
-  //     await AsyncStorage.multiSet([albumsPair, foldersPair]);
-  //   } catch (e) {
-  //     console.log(`Storage failure: ${e}`);
-  //   }
-  //   console.log("Stored");
-  // };
-
-  // const multiGetData = () => {
-  //   albumDataGet();
-  //   folderDataGet();
-  // };
-
-  // const albumDataGet = async () => {
-  //   try {
-  //     const jsonValue = await AsyncStorage.getItem("@albums");
-  //     // setAlbums(jsonValue != null ? JSON.parse(jsonValue) : null);
-  //     let data = jsonValue != null ? JSON.parse(jsonValue) : null;
-  //     console.log(`loading albums from local , items: ${data.length}`);
-  //   } catch (e) {
-  //     console.log(`Album retrieval failure: ${e}`);
-  //   }
-  // };
-  // const folderDataGet = async () => {
-  //   try {
-  //     const jsonValue = await AsyncStorage.getItem("@folders");
-  //     let data = jsonValue != null ? JSON.parse(jsonValue) : null;
-  //     // setAlbums(jsonValue != null ? JSON.parse(jsonValue) : null);
-  //     console.log(`loading folders from local, items: ${data.length}`);
-  //   } catch (e) {
-  //     console.log(`Folder retrieval failure: ${e}`);
-  //   }
-  // };
-
+  const [fixedYearArray, setFixedYearArray] = useState([]);
   let display = albums
     ? albums.filter((a) => a.isReissue === true).length
     : "None in state";
+
+  // let needsReplacement = albums
+  //   ? albums.filter((a) => a.isReissue === true).slice(0, 20)
+  //   : null;
+
+  function yearReplaceTimer() {
+    setInterval(yearReplace, 5000);
+  }
+
+  function yearReplace() {
+    let needsReplacement = albums
+      ? albums.filter((a) => a.isReissue === true).slice(0, 3)
+      : null;
+    needsReplacement
+      ? needsReplacement.map((album) => individualYearReplace(album))
+      : null;
+    // : clearTimeout();
+    console.log(
+      needsReplacement
+        ? `left to handle: ${albums.filter((a) => a.isReissue === true).length}`
+        : `finished`
+    );
+  }
+
+  function individualYearReplace(album) {
+    console.log(`${album.title}, ${album.year}, ${album.master_id}`);
+    fetch(`https://api.discogs.com/masters/${album.master_id}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        album.isReissue = false;
+        album.year = result.year;
+      });
+  }
 
   return (
     <View>
@@ -73,6 +72,8 @@ export default function Settings({
           console.log(albums[Math.floor(Math.random() * albums.length)])
         }
       />
+      <Button title="year replacement" onPress={() => yearReplaceTimer()} />
+      <Button title="stop" onPress={() => clearInterval()} />
     </View>
   );
 }

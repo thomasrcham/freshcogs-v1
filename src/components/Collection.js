@@ -10,10 +10,6 @@ import {
 
 const Item = ({ item, onPress }) => (
   <View style={styles.imageGrid} key={item.id}>
-    {/* <View style={styles.textBox}>
-      <Text>{item.artist}</Text>
-      <Text>{item.title}</Text>
-    </View> */}
     <TouchableOpacity onPress={onPress}>
       <Image source={{ uri: item.uri }} style={styles.image} key={item.title} />
     </TouchableOpacity>
@@ -43,14 +39,21 @@ function Collection({ albums, navigation }) {
       style={{ position: "relative", height: Dimensions.get("window").height }}
     >
       {albums ? (
-        albums.length > 6 ? (
-          <View style={styles.textBox}>
-            <Text> Filter: </Text>
+        albums.length <= 6 ? (
+          <View style={styles.mainPageContainer}>
+            <FlatList
+              style={styles.container}
+              data={albums}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+              extraData={albums}
+              numColumns="2"
+            />
           </View>
         ) : null
       ) : null}
       <View style={styles.mainPageContainer}>
-        {albums ? (
+        {albums && albums.length > 6 ? (
           <FlatList
             style={styles.container}
             data={albums}

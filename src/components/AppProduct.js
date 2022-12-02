@@ -129,6 +129,7 @@ export default function AppProduct({ navigation }) {
   }, []);
 
   function runFetch() {
+    console.log("fetching");
     fetch(
       `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=100${token}`
     )
@@ -172,9 +173,10 @@ export default function AppProduct({ navigation }) {
         release.basic_information.styles
       ),
       folder: 0,
-      isReissue: !desc.find((item) =>
+      isReissue: !!desc.find((item) =>
         item ? item.slice(0, 2).toLowerCase() === "re" : null
       ),
+      year: release.basic_information.year,
     };
     // dispatch(addAlbum(singleParsedRelease));
     return singleParsedRelease;
