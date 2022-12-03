@@ -281,7 +281,14 @@ export default function AppProduct({ navigation }) {
         </Tab.Screen>
         <Tab.Screen
           name="Collection"
+          tabBarLabelStyle={{
+            backgroundColor: "black",
+          }}
           options={{
+            headerStyle: {
+              backgroundColor: "black",
+            },
+            headerTintColor: "white",
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.buttonBox}>

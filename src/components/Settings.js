@@ -24,7 +24,7 @@ export default function Settings({
       let needsReplacement = albums
         ? albums.filter((a) => a.isReissue === true).slice(0, 5)
         : console.log("none to set as needs replacement");
-      console.log(needsReplacement.length);
+
       if (needsReplacement.length === 0) {
         console.log("finished");
         clearInterval(myInterval);
