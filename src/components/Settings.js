@@ -5,6 +5,7 @@ import albumSlice from "../redux/albumSlice";
 
 export default function Settings({
   albums,
+  albumDataGet,
   folders,
   getData,
   handleStorage,
@@ -18,30 +19,25 @@ export default function Settings({
     ? albums.filter((a) => a.isReissue === true).length
     : "None in state";
 
-  // let needsReplacement = albums
-  //   ? albums.filter((a) => a.isReissue === true).slice(0, 20)
-  //   : null;
-
   function yearReplaceTimer() {
-    setInterval(yearReplace, 10000);
-  }
-
-  function yearReplace() {
-    let needsReplacement = albums
-      ? albums.filter((a) => a.isReissue === true).slice(0, 5)
-      : console.log("none to set as needs replacement");
-    needsReplacement.length > 0
-      ? needsReplacement.map((album) => individualYearReplace(album))
-      : clearInterval();
-
-    console.log(
-      needsReplacement
-        ? `left to handle: ${
-            albums.filter((a) => a.isReissue === true).length -
-            needsReplacement.length
+    let myInterval = setInterval(() => {
+      let needsReplacement = albums
+        ? albums.filter((a) => a.isReissue === true).slice(0, 5)
+        : console.log("none to set as needs replacement");
+      console.log(needsReplacement.length);
+      if (needsReplacement.length === 0) {
+        console.log("finished");
+        clearInterval(myInterval);
+        handleStorage(albums, folders);
+      } else {
+        console.log(
+          `remaining albums that need year replaced: ${
+            albums.filter((a) => a.isReissue === true).length
           }`
-        : `finished`
-    );
+        );
+        needsReplacement.map((album) => individualYearReplace(album));
+      }
+    }, 10000);
   }
 
   function individualYearReplace(album) {
@@ -76,7 +72,6 @@ export default function Settings({
         }
       />
       <Button title="year replacement" onPress={() => yearReplaceTimer()} />
-      <Button title="stop" onPress={() => clearInterval()} />
     </View>
   );
 }

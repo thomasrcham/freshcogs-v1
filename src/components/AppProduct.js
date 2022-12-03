@@ -131,7 +131,8 @@ export default function AppProduct({ navigation }) {
   function runFetch() {
     console.log("fetching");
     fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=100${token}`
+      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500`,
+      requestOptions
     )
       .then((res) => res.json())
       .then((data) => {
@@ -347,6 +348,7 @@ export default function AppProduct({ navigation }) {
             <Settings
               {...props}
               albums={albums}
+              albumDataGet={albumDataGet}
               folders={folders}
               getData={getData}
               getUserData={getUserData}
