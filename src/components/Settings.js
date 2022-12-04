@@ -107,20 +107,18 @@ export default function Settings({
 
   let sectionList = [];
 
-  const sectionListCreate = (input) => {
-    // console.log(input);
+  const generateSectionList = (input) => {
     let filteredInput = input;
     for (let i = 1; i > 0; i = filteredInput.length) {
       let yearValue = filteredInput[0].year;
       let albumsArray = input.filter((a) => a.year === yearValue);
       let yearSection = { year: yearValue, albums: albumsArray };
-      // console.log(yearSection);
+
       sectionList.push(yearSection);
       filteredInput = filteredInput.filter((a) => a.year != yearValue);
       console.log("filteredInput.length " + filteredInput.length);
       console.log("sectionList: " + sectionList);
     }
-    // console.log(sectionList);
   };
 
   return (
