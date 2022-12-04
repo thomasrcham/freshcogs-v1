@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useRef } from "react";
 
 const Item = ({ item, onPress }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item]}>
@@ -21,7 +22,7 @@ const Item = ({ item, onPress }) => (
   </TouchableOpacity>
 );
 
-export default function List({ localAlbums, navigation }) {
+export default function List({ listRef, localAlbums, navigation }) {
   localAlbums
     ? console.log(`list component: ${localAlbums.length}`)
     : console.log(`list component: no albums`);
@@ -47,6 +48,7 @@ export default function List({ localAlbums, navigation }) {
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           extraData={localAlbums}
+          ref={listRef}
         />
       </View>
     </>

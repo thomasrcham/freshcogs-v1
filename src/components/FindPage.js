@@ -7,10 +7,11 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import SearchBar from "./SearchBar";
 import List from "./List";
 import Filters from "./Filters";
+import styles from "./styles/style.js";
 
 export default function FindPage({ albums, folders, navigation }) {
   const [searchPhrase, setSearchPhrase] = useState(null);
@@ -20,6 +21,7 @@ export default function FindPage({ albums, folders, navigation }) {
   const [folderFilter, setFolderFilter] = useState(null);
   const [sortSelector, setSortSelector] = useState("none");
   const [viewClick, setViewClick] = useState(0);
+  const listRef = useRef(null);
 
   // albums ? console.log("findpage: " + albums.length) : console.log("no albums");
   // localAlbums
@@ -109,18 +111,36 @@ export default function FindPage({ albums, folders, navigation }) {
 
   switch (sortSelector) {
     case "artist":
-      listDisplay = <List localAlbums={localAlbums} navigation={navigation} />;
+      listDisplay = (
+        <List
+          localAlbums={localAlbums}
+          navigation={navigation}
+          listRef={listRef}
+        />
+      );
       break;
     case "date":
-      listDisplay = <List localAlbums={localAlbums} navigation={navigation} />;
+      listDisplay = (
+        <List
+          localAlbums={localAlbums}
+          navigation={navigation}
+          listRef={listRef}
+        />
+      );
       break;
     default:
-      listDisplay = <List localAlbums={localAlbums} navigation={navigation} />;
+      listDisplay = (
+        <List
+          localAlbums={localAlbums}
+          navigation={navigation}
+          listRef={listRef}
+        />
+      );
   }
 
   return (
     <View style={styles.mainPageContainer}>
-      <View style={styles.container}>
+      <View style={styles.resultsPageContainer}>
         <View style={styles.searchBar}>
           <SearchBar
             searchPhrase={searchPhrase}
@@ -147,7 +167,7 @@ export default function FindPage({ albums, folders, navigation }) {
             setViewClick={setViewClick}
           />
         </View>
-        <View style={styles.list}>
+        <View style={styles.resultsList}>
           {/* <Text>
             {localAlbums && albums
               ? localAlbums.length < albums.length
@@ -158,38 +178,48 @@ export default function FindPage({ albums, folders, navigation }) {
           {listDisplay}
         </View>
       </View>
+      <View style={styles.backButton}>
+        <View>
+          <Button
+            title="⬆️"
+            onPress={() => {
+              listRef.current.scrollToOffset({ offset: 0, animated: true });
+            }}
+          />
+        </View>
+      </View>
     </View>
   );
 }
-const mainWindowHeight = Dimensions.get("window").height * 1.01;
-const searchBarWindowHeight = Dimensions.get("window").height * 0.08;
-const filterBarWindowHeight = Dimensions.get("window").height * 0.1;
-const windowWidth = Dimensions.get("window").width;
+// const mainWindowHeight = Dimensions.get("window").height * 1.01;
+// const searchBarWindowHeight = Dimensions.get("window").height * 0.08;
+// const filterBarWindowHeight = Dimensions.get("window").height * 0.1;
+// const windowWidth = Dimensions.get("window").width;
 
-const styles = StyleSheet.create({
-  mainPageContainer: { height: mainWindowHeight, width: windowWidth },
-  container: {
-    // flex: 1,
-    // flexDirection: "column",
-    // flexWrap: "wrap",
-    backgroundColor: "pink",
-    // alignItems: "center",
-    // alignContent: "space-between",
-    width: "100%",
-    bottom: 0,
-  },
-  searchBar: {
-    height: searchBarWindowHeight,
-    width: "100%",
-    backgroundColor: "red",
-  },
-  filterBar: {
-    // flex: 1,
-    height: filterBarWindowHeight,
-    width: "100%",
-    // backgroundColor: "blue",
-  },
-  list: {
-    // height: 50,
-  },
-});
+// const styles = StyleSheet.create({
+//   mainPageContainer: { height: mainWindowHeight, width: windowWidth },
+//   resultsPageContainer: {
+//     // flex: 1,
+//     // flexDirection: "column",
+//     // flexWrap: "wrap",
+//     backgroundColor: "pink",
+//     // alignItems: "center",
+//     // alignContent: "space-between",
+//     width: "100%",
+//     bottom: 0,
+//   },
+//   searchBar: {
+//     height: searchBarWindowHeight,
+//     width: "100%",
+//     backgroundColor: "red",
+//   },
+//   filterBar: {
+//     // flex: 1,
+//     height: filterBarWindowHeight,
+//     width: "100%",
+//     // backgroundColor: "blue",
+//   },
+//   resultsList: {
+//     // height: 50,
+//   },
+// });

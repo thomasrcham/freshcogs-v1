@@ -7,7 +7,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { addAlbum } from "../redux/albumSlice";
 import CollectionDisplayArea from "./CollectionDisplayArea.js";
 import Settings from "./Settings.js";
-import FindPage from "./FindPage";
 import UserPage from "./UserPage";
 import styles from "./styles/style.js";
 import "../../keys.js";

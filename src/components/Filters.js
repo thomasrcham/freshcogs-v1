@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 import { useState } from "react";
+import styles from "./styles/style.js";
 
 export default function Filters({
   navigation,
@@ -25,7 +26,7 @@ export default function Filters({
   ];
   let sortDisplay = sortOptions.map((f) => (
     <Pressable
-      style={styles.pressable}
+      style={styles.filterPressable}
       key={f.id}
       onPress={() => {
         handleSort(f.sortTerm);
@@ -38,7 +39,7 @@ export default function Filters({
   let folderDisplay = folders
     ? folders.map((f) => (
         <Pressable
-          style={styles.pressable}
+          style={styles.filterPressable}
           key={f.folderID}
           onPress={() => {
             handleFilter(f.folderName);
@@ -54,10 +55,10 @@ export default function Filters({
   switch (viewClick) {
     case 1:
       filterDisplay = (
-        <View style={styles.buttonBox}>
+        <View style={styles.filterButtonBox}>
           {folderDisplay}
           <Pressable
-            style={styles.pressable}
+            style={styles.filterPressable}
             onPress={() => {
               {
                 handleFilter(null);
@@ -72,10 +73,10 @@ export default function Filters({
       break;
     case 2:
       filterDisplay = (
-        <View style={styles.buttonBox}>
+        <View style={styles.filterButtonBox}>
           {sortDisplay}
           <Pressable
-            style={styles.pressable}
+            style={styles.filterPressable}
             onPress={() => {
               {
                 handleSort(null);
@@ -92,9 +93,9 @@ export default function Filters({
 
   return (
     <>
-      <View style={styles.buttonBox}>
+      <View style={styles.filterButtonBox}>
         <Pressable
-          style={styles.pressable}
+          style={styles.filterPressable}
           onPress={() => {
             setViewClick(2);
             setClicked(true);
@@ -103,7 +104,7 @@ export default function Filters({
           <Text>Sort</Text>
         </Pressable>
         <Pressable
-          style={styles.pressable}
+          style={styles.filterPressable}
           onPress={() => {
             setClicked(true);
             setViewClick(1);
@@ -117,24 +118,24 @@ export default function Filters({
   );
 }
 
-const styles = StyleSheet.create({
-  buttonBox: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "flex-end",
-    justifyContent: "space-evenly",
-    width: "100%",
-    marginTop: 8,
-    // marginLeft: 10,
-  },
-  buttons: {},
-  pressable: {
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "#54381e",
-    padding: 4,
-    backgroundColor: "#DADADD",
-    borderRadius: 3,
-  },
-});
+// const styles = StyleSheet.create({
+//   filterButtonBox: {
+//     flex: 1,
+//     flexDirection: "row",
+//     flexWrap: "wrap",
+//     alignItems: "flex-end",
+//     justifyContent: "space-evenly",
+//     width: "100%",
+//     marginTop: 8,
+//     // marginLeft: 10,
+//   },
+//   buttons: {},
+//   filterPressable: {
+//     borderWidth: 1,
+//     borderStyle: "solid",
+//     borderColor: "#54381e",
+//     padding: 4,
+//     backgroundColor: "#DADADD",
+//     borderRadius: 3,
+//   },
+// });
