@@ -50,6 +50,79 @@ export default function Settings({
       });
   }
 
+  function sectionFetch() {
+    console.log("fetching");
+    fetch(
+      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=50`,
+      requestOptions
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        let returnData = data.releases;
+        let parsedReleases = returnData.map((release) => parseInfo(release));
+        sectionListCreate(parsedReleases);
+        console.log(`${parsedReleases.length}`);
+      });
+  }
+
+  function parseInfo(release) {
+    let artist = release.basic_information.artists[0].name;
+
+    artist.charAt(artist.length - 3) === "("
+      ? (artist = artist.substring(0, artist.length - 4))
+      : artist;
+
+    artist === "Various" ? (artist = "Various Artists") : artist;
+
+    let desc = release.basic_information.formats
+      .map((f) => f.descriptions)
+      .flat();
+
+    let newDate = new Date(release.date_added);
+    let ISODate = newDate.toISOString();
+
+    let genres = release.basic_information.genres
+      .concat(release.basic_information.styles)
+      .filter((genre) => genre != "Folk, World, & Country")
+      .filter((genre) => genre != "Stage & Screen");
+
+    let singleParsedRelease = {
+      id: release.basic_information.id,
+      master_id: release.basic_information.master_id,
+      artist: artist,
+      title: release.basic_information.title,
+      uri: release.basic_information.cover_image,
+      date_added: release.date_added,
+      ISODate: ISODate,
+      genres: genres,
+      folder: 0,
+      isReissue: !!desc.find((item) =>
+        item ? item.slice(0, 2).toLowerCase() === "re" : null
+      ),
+      year: release.basic_information.year,
+    };
+    // dispatch(addAlbum(singleParsedRelease));
+    return singleParsedRelease;
+  }
+
+  let sectionList = [];
+
+  const sectionListCreate = (input) => {
+    // console.log(input);
+    let filteredInput = input;
+    for (let i = 1; i > 0; i = filteredInput.length) {
+      let yearValue = filteredInput[0].year;
+      let albumsArray = input.filter((a) => a.year === yearValue);
+      let yearSection = { year: yearValue, albums: albumsArray };
+      // console.log(yearSection);
+      sectionList.push(yearSection);
+      filteredInput = filteredInput.filter((a) => a.year != yearValue);
+      console.log("filteredInput.length " + filteredInput.length);
+      console.log("sectionList: " + sectionList);
+    }
+    // console.log(sectionList);
+  };
+
   return (
     <View>
       <Text>{display}</Text>
@@ -71,13 +144,7 @@ export default function Settings({
           console.log(albums[Math.floor(Math.random() * albums.length)])
         }
       />
-      <Button title="year replacement" onPress={() => yearReplaceTimer()} />
-      <Button
-        title="find revolver"
-        onPress={() =>
-          console.log(albums.filter((a) => a.title === "Revolver"))
-        }
-      />
+      <Button title="section fetch" onPress={() => sectionFetch()} />
     </View>
   );
 }
