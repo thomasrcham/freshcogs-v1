@@ -38,20 +38,20 @@ export default StyleSheet.create({
   },
   albumDataContainer: {
     flex: 1,
+    flexGrow: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 10,
     backgroundColor: "grey",
     marginTop: 20,
     borderRadius: 5,
+    minHeight: "25%",
   },
   albumInfo: {
     paddingLeft: 10,
-    maxWidth: "60%",
+    maxWidth: "58%",
     flexDirection: "column",
     justifyContent: "space-between",
-    borderWidth: 1,
-    borderColor: "white",
   },
   albumInfoBasicText: {
     paddingTop: 3,
@@ -64,7 +64,8 @@ export default StyleSheet.create({
     flexDirection: "row",
     backgroundColor: `#dcdcdc`,
     borderRadius: 8,
-    minHeight: "10%",
+    minHeight: "12%",
+    alignItems: "center",
   },
   backButton: {
     padding: 10,
