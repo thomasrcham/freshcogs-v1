@@ -9,6 +9,7 @@ import DisplayArea from "./DisplayArea.js";
 import Settings from "./Settings.js";
 import FindPage from "./FindPage";
 import UserPage from "./UserPage";
+import styles from "./styles/style.js";
 import "../../keys.js";
 // import { addAlbum } from "../redux/albumSlice.js";
 // import { Provider, useDispatch, useSelector } from "react-redux";
@@ -162,6 +163,11 @@ export default function AppProduct({ navigation }) {
     let newDate = new Date(release.date_added);
     let ISODate = newDate.toISOString();
 
+    let genres = release.basic_information.genres
+      .concat(release.basic_information.styles)
+      .filter((genre) => genre != "Folk, World, & Country")
+      .filter((genre) => genre != "Stage & Screen");
+
     let singleParsedRelease = {
       id: release.basic_information.id,
       master_id: release.basic_information.master_id,
@@ -170,9 +176,7 @@ export default function AppProduct({ navigation }) {
       uri: release.basic_information.cover_image,
       date_added: release.date_added,
       ISODate: ISODate,
-      genres: release.basic_information.genres.concat(
-        release.basic_information.styles
-      ),
+      genres: genres,
       folder: 0,
       isReissue: !!desc.find((item) =>
         item ? item.slice(0, 2).toLowerCase() === "re" : null
@@ -264,9 +268,9 @@ export default function AppProduct({ navigation }) {
             headerTitle: "Albums for Today:",
             tabBarIcon: ({ size, focused, color }) => {
               return (
-                <View style={styles.buttonBox}>
+                <View style={styles.tabButtonBox}>
                   <Image
-                    style={styles.button}
+                    style={styles.tabButton}
                     source={require("../icons/vinyl.png")}
                   />
                 </View>
@@ -291,9 +295,9 @@ export default function AppProduct({ navigation }) {
             headerTintColor: "white",
             tabBarIcon: ({ size, focused, color }) => {
               return (
-                <View style={styles.buttonBox}>
+                <View style={styles.tabButtonBox}>
                   <Image
-                    style={styles.button}
+                    style={styles.tabButton}
                     source={require("../icons/vinyl.png")}
                   />
                 </View>
@@ -308,9 +312,9 @@ export default function AppProduct({ navigation }) {
           options={{
             tabBarIcon: ({ size, focused, color }) => {
               return (
-                <View style={styles.buttonBox}>
+                <View style={styles.tabButtonBox}>
                   <Image
-                    style={styles.button}
+                    style={styles.tabButton}
                     source={require("../icons/vinyl.png")}
                   />
                 </View>
@@ -325,9 +329,9 @@ export default function AppProduct({ navigation }) {
           options={{
             tabBarIcon: ({ size, focused, color }) => {
               return (
-                <View style={styles.buttonBox}>
+                <View style={styles.tabButtonBox}>
                   <Image
-                    style={styles.button}
+                    style={styles.tabButton}
                     source={require("../icons/vinyl.png")}
                   />
                 </View>
@@ -341,9 +345,9 @@ export default function AppProduct({ navigation }) {
           options={{
             tabBarIcon: ({ size, focused, color }) => {
               return (
-                <View style={styles.buttonBox}>
+                <View style={styles.tabButtonBox}>
                   <Image
-                    style={styles.button}
+                    style={styles.tabButton}
                     source={require("../icons/vinyl.png")}
                   />
                 </View>
@@ -372,37 +376,37 @@ export default function AppProduct({ navigation }) {
   );
 }
 
-const topBarHeight = Dimensions.get("window").height * 0.06;
-const mainWindowHeight = Dimensions.get("window").height * 0.8;
+// const topBarHeight = Dimensions.get("window").height * 0.06;
+// const mainWindowHeight = Dimensions.get("window").height * 0.8;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 2,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    backgroundColor: "pink",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    bottom: 0,
-    height: mainWindowHeight,
-  },
-  topBar: {
-    height: topBarHeight,
-    backgroundColor: "black",
-  },
-  buttonBox: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    bottom: 0,
-    padding: "1%",
-  },
-  button: {
-    flex: 1,
-    maxHeight: "90%",
-    maxWidth: undefined,
-    aspectRatio: 1,
-    resizeMode: "contain",
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 2,
+//     flexDirection: "row",
+//     flexWrap: "wrap",
+//     backgroundColor: "pink",
+//     alignItems: "center",
+//     justifyContent: "space-between",
+//     width: "100%",
+//     bottom: 0,
+//     height: mainWindowHeight,
+//   },
+//   topBar: {
+//     height: topBarHeight,
+//     backgroundColor: "black",
+//   },
+//   buttonBox: {
+//     flex: 1,
+//     alignItems: "center",
+//     justifyContent: "center",
+//     bottom: 0,
+//     padding: "1%",
+//   },
+//   button: {
+//     flex: 1,
+//     maxHeight: "90%",
+//     maxWidth: undefined,
+//     aspectRatio: 1,
+//     resizeMode: "contain",
+//   },
+// });

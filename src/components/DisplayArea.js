@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AlbumPage from "./AlbumPage";
 import Collection from "./Collection";
+import styles from "./styles/style.js";
 
 const Stack = createNativeStackNavigator();
 function DisplayArea({ albums }) {
@@ -27,13 +28,12 @@ function DisplayArea({ albums }) {
     </View>
   );
 }
-
-const mainWindowHeight = Dimensions.get("window").height * 1.01;
-const footerWindowHeight = Dimensions.get("window").height * 0.08;
-const windowWidth = Dimensions.get("window").width;
-
 export default DisplayArea;
 
-const styles = StyleSheet.create({
-  mainPageContainer: { height: mainWindowHeight, width: windowWidth },
-});
+// const mainWindowHeight = Dimensions.get("window").height * 1.01;
+// const footerWindowHeight = Dimensions.get("window").height * 0.08;
+// const windowWidth = Dimensions.get("window").width;
+
+// const styles = StyleSheet.create({
+//   mainPageContainer: { height: mainWindowHeight, width: windowWidth },
+// });
