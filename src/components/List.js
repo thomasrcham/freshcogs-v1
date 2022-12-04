@@ -21,7 +21,7 @@ const Item = ({ item, onPress }) => (
   </TouchableOpacity>
 );
 
-export default function List({ localAlbums }) {
+export default function List({ localAlbums, navigation }) {
   localAlbums
     ? console.log(`list component: ${localAlbums.length}`)
     : console.log(`list component: no albums`);
@@ -29,7 +29,11 @@ export default function List({ localAlbums }) {
     return (
       <Item
         item={item}
-        // onPress={() => setSelectedId(item.id)}
+        onPress={() =>
+          navigation.navigate("AlbumPage", {
+            album: item,
+          })
+        }
       />
     );
   };

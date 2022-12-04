@@ -12,7 +12,7 @@ import SearchBar from "./SearchBar";
 import List from "./List";
 import Filters from "./Filters";
 
-export default function FindPage({ albums, folders }) {
+export default function FindPage({ albums, folders, navigation }) {
   const [searchPhrase, setSearchPhrase] = useState(null);
   const [localAlbums, setLocalAlbums] = useState(null);
   const [sortedAlbums, setSortedAlbums] = useState(null);
@@ -109,13 +109,13 @@ export default function FindPage({ albums, folders }) {
 
   switch (sortSelector) {
     case "artist":
-      listDisplay = <List localAlbums={localAlbums} />;
+      listDisplay = <List localAlbums={localAlbums} navigation={navigation} />;
       break;
     case "date":
-      listDisplay = <List localAlbums={localAlbums} />;
+      listDisplay = <List localAlbums={localAlbums} navigation={navigation} />;
       break;
     default:
-      listDisplay = <List localAlbums={localAlbums} />;
+      listDisplay = <List localAlbums={localAlbums} navigation={navigation} />;
   }
 
   return (

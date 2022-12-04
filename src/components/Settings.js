@@ -72,6 +72,12 @@ export default function Settings({
         }
       />
       <Button title="year replacement" onPress={() => yearReplaceTimer()} />
+      <Button
+        title="find revolver"
+        onPress={() =>
+          console.log(albums.filter((a) => a.title === "Revolver"))
+        }
+      />
     </View>
   );
 }

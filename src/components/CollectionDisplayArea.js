@@ -7,7 +7,7 @@ import Collection from "./Collection";
 import styles from "./styles/style.js";
 
 const Stack = createNativeStackNavigator();
-function DisplayArea({ albums }) {
+export default function CollectionDisplayArea({ albums }) {
   return (
     <View>
       <View style={styles.mainPageContainer}>
@@ -28,7 +28,6 @@ function DisplayArea({ albums }) {
     </View>
   );
 }
-export default DisplayArea;
 
 // const mainWindowHeight = Dimensions.get("window").height * 1.01;
 // const footerWindowHeight = Dimensions.get("window").height * 0.08;

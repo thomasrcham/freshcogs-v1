@@ -5,12 +5,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { Provider, useDispatch, useSelector } from "react-redux";
 // import { addAlbum } from "../redux/albumSlice";
-import DisplayArea from "./DisplayArea.js";
+import CollectionDisplayArea from "./CollectionDisplayArea.js";
 import Settings from "./Settings.js";
 import FindPage from "./FindPage";
 import UserPage from "./UserPage";
 import styles from "./styles/style.js";
 import "../../keys.js";
+import SearchDisplayArea from "./SearchDisplayArea.js";
 // import { addAlbum } from "../redux/albumSlice.js";
 // import { Provider, useDispatch, useSelector } from "react-redux";
 
@@ -281,7 +282,9 @@ export default function AppProduct({ navigation }) {
             title: "title",
           }}
         >
-          {(props) => <DisplayArea {...props} albums={displayAlbums} />}
+          {(props) => (
+            <CollectionDisplayArea {...props} albums={displayAlbums} />
+          )}
         </Tab.Screen>
         <Tab.Screen
           name="Collection"
@@ -305,7 +308,7 @@ export default function AppProduct({ navigation }) {
             },
           }}
         >
-          {(props) => <DisplayArea {...props} albums={albums} />}
+          {(props) => <CollectionDisplayArea {...props} albums={albums} />}
         </Tab.Screen>
         <Tab.Screen
           name="Search"
@@ -322,7 +325,9 @@ export default function AppProduct({ navigation }) {
             },
           }}
         >
-          {(props) => <FindPage {...props} albums={albums} folders={folders} />}
+          {(props) => (
+            <SearchDisplayArea {...props} albums={albums} folders={folders} />
+          )}
         </Tab.Screen>
         <Tab.Screen
           name="User"
