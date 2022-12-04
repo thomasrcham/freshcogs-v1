@@ -67,7 +67,7 @@ function AlbumPage({ route, navigation }) {
           </View>
           <View style={{ flex: 0.3 }}></View>
           <View style={{ flex: 1 }}>
-            <Pressable style={styles.albumPagePressables}>
+            <Pressable onPress={handleClick} style={styles.albumPagePressables}>
               <View>
                 <Image
                   style={{ aspectRatio: 1, height: 25, marginRight: 5 }}
