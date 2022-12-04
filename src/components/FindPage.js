@@ -65,7 +65,7 @@ export default function FindPage({ albums, folders, navigation }) {
         }
         let artistArray = albums.sort(compareArtist);
         setLocalAlbums(artistArray);
-        setSortSelector("artist");
+        setSortSelector("Artist");
         break;
       case "date":
         function compareDate(a, b) {
@@ -79,7 +79,7 @@ export default function FindPage({ albums, folders, navigation }) {
         }
         let dateArray = albums.sort(compareDate);
         setLocalAlbums(dateArray);
-        setSortSelector("date");
+        setSortSelector("Date Added");
         break;
       case "yearA":
         function compareYearAsc(a, b) {
@@ -93,7 +93,7 @@ export default function FindPage({ albums, folders, navigation }) {
         }
         let yearAscArray = albums.sort(compareYearAsc);
         setLocalAlbums(yearAscArray);
-        setSortSelector("yearA");
+        setSortSelector("Year, Asc");
         break;
       case "yearD":
         function compareYearDesc(a, b) {
@@ -107,7 +107,7 @@ export default function FindPage({ albums, folders, navigation }) {
         }
         let yearDescArray = albums.sort(compareYearDesc);
         setLocalAlbums(yearDescArray);
-        setSortSelector("yearD");
+        setSortSelector("Year, Desc");
         break;
       case "none":
         setLocalAlbums(albums);
@@ -195,6 +195,11 @@ export default function FindPage({ albums, folders, navigation }) {
             setViewClick={setViewClick}
           />
         </View>
+        <Text>
+          {searchPhrase ? "Searching ✪" : null}
+          {folderFilter ? `Folder Shown: ${folderFilter} ✪ ` : null}
+          {sortSelector ? `Sorting by ${sortSelector}` : null}
+        </Text>
         <View style={styles.resultsList}>
           {/* <Text>
             {localAlbums && albums

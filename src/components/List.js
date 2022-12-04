@@ -40,7 +40,6 @@ export default function List({ listRef, localAlbums, navigation }) {
   };
   return (
     <>
-      <Text>Results:</Text>
       <View style={styles.listContainer}>
         <FlatList
           style={styles.listContainer}
