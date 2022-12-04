@@ -23,6 +23,8 @@ export default function Filters({
   let sortOptions = [
     { id: 1, value: "Artist", sortTerm: "artist" },
     { id: 2, value: "Date Added", sortTerm: "date" },
+    { id: 3, value: "Year Asc", sortTerm: "yearA" },
+    { id: 4, value: "Year Desc", sortTerm: "yearD" },
   ];
   let sortDisplay = sortOptions.map((f) => (
     <Pressable

@@ -77,9 +77,37 @@ export default function FindPage({ albums, folders, navigation }) {
           }
           return 0;
         }
-        let dateArray = albums.sort(compareArtist);
+        let dateArray = albums.sort(compareDate);
         setLocalAlbums(dateArray);
         setSortSelector("date");
+        break;
+      case "yearA":
+        function compareYearAsc(a, b) {
+          if (a.year < b.year) {
+            return -1;
+          }
+          if (a.year > b.year) {
+            return 1;
+          }
+          return 0;
+        }
+        let yearAscArray = albums.sort(compareYearAsc);
+        setLocalAlbums(yearAscArray);
+        setSortSelector("yearA");
+        break;
+      case "yearD":
+        function compareYearDesc(a, b) {
+          if (a.year < b.year) {
+            return 1;
+          }
+          if (a.year > b.year) {
+            return -1;
+          }
+          return 0;
+        }
+        let yearDescArray = albums.sort(compareYearDesc);
+        setLocalAlbums(yearDescArray);
+        setSortSelector("yearD");
         break;
       case "none":
         setLocalAlbums(albums);

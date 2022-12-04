@@ -4,7 +4,7 @@ const mainWindowHeight = Dimensions.get("window").height * 0.95;
 const windowWidth = Dimensions.get("window").width;
 const buttonWidth = Dimensions.get("window").width * 0.3;
 const searchBarWindowHeight = Dimensions.get("window").height * 0.08;
-const filterBarWindowHeight = Dimensions.get("window").height * 0.1;
+const filterBarWindowHeight = Dimensions.get("window").height * 0.05;
 const topBarHeight = Dimensions.get("window").height * 0.06;
 
 export default StyleSheet.create({
@@ -178,7 +178,7 @@ export default StyleSheet.create({
     backgroundColor: "red",
   },
   filterBar: {
-    height: filterBarWindowHeight,
+    height: Dimensions.get("window").height * 0.1,
     width: "100%",
   },
   resultsList: {
