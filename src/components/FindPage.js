@@ -13,7 +13,7 @@ import List from "./List";
 import Filters from "./Filters";
 import styles from "./styles/style.js";
 
-export default function FindPage({ albums, folders, navigation }) {
+export default function FindPage({ albums, folders, navigation, sectionList }) {
   const [searchPhrase, setSearchPhrase] = useState(null);
   const [localAlbums, setLocalAlbums] = useState(null);
   const [sortedAlbums, setSortedAlbums] = useState(null);
@@ -144,6 +144,7 @@ export default function FindPage({ albums, folders, navigation }) {
           localAlbums={localAlbums}
           navigation={navigation}
           listRef={listRef}
+          sectionList={sectionList}
         />
       );
       break;
@@ -153,6 +154,7 @@ export default function FindPage({ albums, folders, navigation }) {
           localAlbums={localAlbums}
           navigation={navigation}
           listRef={listRef}
+          sectionList={sectionList}
         />
       );
       break;
@@ -162,6 +164,7 @@ export default function FindPage({ albums, folders, navigation }) {
           localAlbums={localAlbums}
           navigation={navigation}
           listRef={listRef}
+          sectionList={sectionList}
         />
       );
   }
@@ -193,6 +196,7 @@ export default function FindPage({ albums, folders, navigation }) {
             setSearchPhrase={setSearchPhrase}
             viewClick={viewClick}
             setViewClick={setViewClick}
+            sectionList={sectionList}
           />
         </View>
         <Text>

@@ -183,6 +183,39 @@ export default StyleSheet.create({
   },
   resultsList: {
     // height: 50,
+  }, //list page
+  listContainer: {
+    height: "100%",
+  },
+  listItem: {
+    flex: 1,
+    flexDirection: "row",
+    padding: 5,
+    alignItems: "center",
+    borderTopWidth: 1,
+    borderTopColor: "#878684",
+  },
+  listImageContainer: {
+    resizeMode: "contain",
+    height: "80%",
+    width: "13%",
+    paddingBottom: 6,
+  },
+  listImage: {
+    flex: 1,
+    width: undefined,
+    height: undefined,
+    aspectRatio: 1,
+    borderColor: "#878684",
+    borderWidth: 2,
+    borderRadius: 4,
+  },
+  listTitle: {
+    fontSize: 16,
+    paddingLeft: 5,
+    overflow: "hidden",
+    marginRight: 50,
+    maxHeight: 40,
   },
 });
 
@@ -200,4 +233,11 @@ export default StyleSheet.create({
 //   text: {
 //     textAlign: "center",
 //   },
+// listTitle: {
+//   fontSize: 16,
+//   paddingLeft: 5,
+//   overflow: "hidden",
+//   marginRight: 50,
+//   maxHeight: 40,
+// },
 // });

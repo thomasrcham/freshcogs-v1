@@ -29,6 +29,7 @@ export default function Settings({
         console.log("finished");
         clearInterval(myInterval);
         handleStorage(albums, folders);
+        generateSectionList(albums);
       } else {
         console.log(
           `remaining albums that need year replaced: ${
@@ -108,16 +109,16 @@ export default function Settings({
   let sectionList = [];
 
   const generateSectionList = (input) => {
-    let filteredInput = input;
+    let filteredInput = albums;
     for (let i = 1; i > 0; i = filteredInput.length) {
       let yearValue = filteredInput[0].year;
-      let albumsArray = input.filter((a) => a.year === yearValue);
+      let albumsArray = albums.filter((a) => a.year === yearValue);
       let yearSection = { year: yearValue, albums: albumsArray };
 
       sectionList.push(yearSection);
       filteredInput = filteredInput.filter((a) => a.year != yearValue);
-      console.log("filteredInput.length " + filteredInput.length);
-      console.log("sectionList: " + sectionList);
+      // console.log("filteredInput.length " + filteredInput.length);
+      // console.log("sectionList: " + sectionList);
     }
   };
 
@@ -135,14 +136,14 @@ export default function Settings({
         onPress={() => handleStorage(null, null)}
       />
       <Button title="refresh fetch data" onPress={() => runFetch()} />
-      {/* <Button title="set folder values" onPress={() => getUserData()} /> */}
+      {/* <Button title="set folder values" onPress={() => getFolderData()} /> */}
       <Button
         title="console.log random album"
         onPress={() =>
           console.log(albums[Math.floor(Math.random() * albums.length)])
         }
       />
-      <Button title="section fetch" onPress={() => sectionFetch()} />
+      <Button title="year replace" onPress={() => yearReplaceTimer()} />
     </View>
   );
 }

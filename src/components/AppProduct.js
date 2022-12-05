@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Dimensions, Image, StyleSheet, View } from "react-native";
+import { Dimensions, Image, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -11,8 +11,6 @@ import UserPage from "./UserPage";
 import styles from "./styles/style.js";
 import "../../keys.js";
 import SearchDisplayArea from "./SearchDisplayArea.js";
-// import { addAlbum } from "../redux/albumSlice.js";
-// import { Provider, useDispatch, useSelector } from "react-redux";
 
 export default function AppProduct({ navigation }) {
   // const { titles } = useSelector((state) => state.albumTitleReducer);
@@ -21,10 +19,7 @@ export default function AppProduct({ navigation }) {
   const [displayAlbums, setDisplayAlbums] = useState(null);
   const [user, setUser] = useState(null);
   const [folders, setFolders] = useState(null);
-
-  // albums
-  //   ? console.log("main: " + albums.length)
-  //   : console.log("main: no albums");
+  const [sectionList, setSectionList] = useState(null);
 
   //VARIABLE ESTABLISHMENT
 
@@ -85,17 +80,6 @@ export default function AppProduct({ navigation }) {
   };
 
   const handleStorage = async (albumsValue, foldersValue) => {
-    // console.log(
-    //   albumsValue
-    //     ? "handleStorage called: " + albumsValue.length + " albums to store"
-    //     : "handleStorage called: 0 albums stored"
-    // );
-    // console.log(
-    //   foldersValue
-    //     ? "handleStorage called: " + foldersValue.length + " folders to store"
-    //     : "handleStorage called: 0 folders stored"
-    // );
-
     setAlbums(albumsValue);
     setFolders(foldersValue);
     albumsValue
@@ -104,7 +88,9 @@ export default function AppProduct({ navigation }) {
     foldersValue
       ? console.log("folders to be stored: " + foldersValue.length)
       : console.log("no folders to store");
-    albums && folders ? multiStoreData(albumsValue, foldersValue) : null;
+    albumsValue && foldersValue
+      ? multiStoreData(albumsValue, foldersValue)
+      : null;
   };
 
   const multiStoreData = async (albumsValue, foldersValue) => {
@@ -141,7 +127,7 @@ export default function AppProduct({ navigation }) {
         let parsedReleases = returnData.map((release) => parseInfo(release));
         handleStorage(parsedReleases, folders);
         randomArray(parsedReleases);
-        getUserData(parsedReleases);
+        getFolderData(parsedReleases);
         console.log(`seeding from fetch, items: ${parsedReleases.length}`);
       });
   }
@@ -187,7 +173,7 @@ export default function AppProduct({ navigation }) {
     return singleParsedRelease;
   }
 
-  const getUserData = (parsedReleases) => {
+  const getFolderData = (parsedReleases) => {
     fetch(
       `https://api.discogs.com/users/theyear1000/collection/folders`,
       requestOptions
@@ -325,7 +311,12 @@ export default function AppProduct({ navigation }) {
           }}
         >
           {(props) => (
-            <SearchDisplayArea {...props} albums={albums} folders={folders} />
+            <SearchDisplayArea
+              {...props}
+              albums={albums}
+              folders={folders}
+              sectionList={sectionList}
+            />
           )}
         </Tab.Screen>
         <Tab.Screen
@@ -366,7 +357,7 @@ export default function AppProduct({ navigation }) {
               albumDataGet={albumDataGet}
               folders={folders}
               getData={getData}
-              getUserData={getUserData}
+              getFolderData={getFolderData}
               handleStorage={handleStorage}
               requestOptions={requestOptions}
               runFetch={runFetch}
