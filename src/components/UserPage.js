@@ -57,7 +57,7 @@ export default function UserPage({ user, albums }) {
       <View
         style={{ flex: 1, flexDirection: "row", marginTop: 20, marginLeft: 10 }}
       >
-        <View style={{ width: "50%" }}>
+        <View style={{ width: "45%" }}>
           <Text>
             Albums with potentially incorrect release year data:{" "}
             {albums.filter((a) => a.isReissue === true).length}

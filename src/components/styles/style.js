@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet, Platform } from "react-native";
 
 const mainWindowHeight = Dimensions.get("window").height * 1;
 const windowWidth = Dimensions.get("window").width;
@@ -64,9 +64,29 @@ export default StyleSheet.create({
     maxWidth: "58%",
     flexDirection: "column",
     justifyContent: "space-between",
+    ...Platform.select({
+      ios: { maxWidth: "50%" },
+      android: { maxWidth: "58%" },
+      default: { maxWidth: "58%" },
+    }),
   },
   albumInfoBasicText: {
     paddingTop: 3,
+    ...Platform.select({
+      ios: { fontSize: 12 },
+      android: { fontSize: 14 },
+      default: { fontSize: 14 },
+    }),
+  },
+  albumInfoArtist: {
+    fontSize: 26,
+    color: "white",
+    fontStyle: "bold",
+    ...Platform.select({
+      ios: { fontSize: 20 },
+      android: { fontSize: 26 },
+      default: { fontSize: 26 },
+    }),
   },
   albumPagePressables: {
     padding: 10,
@@ -82,9 +102,13 @@ export default StyleSheet.create({
   albumPageButtons: {
     padding: 20,
     justifyContent: "flex-end",
-    position: "absolute",
-    bottom: "12%",
     width: windowWidth,
+    position: "absolute",
+    ...Platform.select({
+      ios: { bottom: 140 },
+      android: { bottom: "12%" },
+      default: { bottom: "12%" },
+    }),
   },
   albumPageButton: {
     flex: 1,

@@ -26,7 +26,7 @@ function AlbumPage({ route, navigation }) {
       />
       <View style={styles.albumDataContainer}>
         <View style={styles.albumInfo}>
-          <Text style={{ fontSize: 26, color: "white", fontStyle: "bold" }}>
+          <Text numberOfLines={2} style={styles.albumInfoArtist}>
             {album.artist}
           </Text>
           <View style={{ maxHeight: 65 }}>

@@ -304,6 +304,11 @@ export default function AppProduct({ navigation }) {
             height: Dimensions.get("window").height * 0.08,
             overflow: "visible",
             paddingBottom: 5,
+            ...Platform.select({
+              ios: { paddingBottom: 15 },
+              android: { paddingBottom: 5 },
+              default: { paddingBottom: 5 },
+            }),
             borderTopWidth: 0,
             borderTopColor: "transparent",
           },
