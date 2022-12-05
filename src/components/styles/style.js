@@ -127,7 +127,7 @@ export default StyleSheet.create({
     aspectRatio: 1,
     resizeMode: "contain",
     borderColor: "black",
-    borderWidth: 3,
+    borderWidth: 2,
     borderRadius: 5,
   },
   frontPageTextBox: {
