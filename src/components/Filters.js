@@ -55,11 +55,11 @@ export default function Filters({
     : null;
 
   let decadeOptions = [
-    { id: 1, value: "pre-50s", decadeTerm: "decade1" },
-    { id: 2, value: "50s-60s", decadeTerm: "decade2" },
-    { id: 3, value: "70s-80s", decadeTerm: "decade3" },
-    { id: 4, value: "90s-00s", decadeTerm: "decade4" },
-    { id: 5, value: "10s-20s", decadeTerm: "decade5" },
+    { id: 1, value: "pre-50s", decadeTerm: "pre-1950s" },
+    { id: 2, value: "50s-60s", decadeTerm: "1950s & 1960s" },
+    { id: 3, value: "70s-80s", decadeTerm: "1970s & 1980s" },
+    { id: 4, value: "90s-00s", decadeTerm: "1990s & 2000s" },
+    { id: 5, value: "10s-20s", decadeTerm: "2010s & 2020s" },
   ];
 
   let decadesDisplay = decadeOptions.map((f) => (

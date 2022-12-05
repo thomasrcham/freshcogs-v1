@@ -122,6 +122,23 @@ export default function Settings({
     }
   };
 
+  const createGenreList = (albums) => {
+    let genres = albums
+      .map((a) => a.genres)
+      .flat()
+      .sort();
+
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
+    }
+
+    let unique = genres.filter(onlyUnique);
+    let duplicates = genres
+      .filter((e, i, a) => a.indexOf(e) !== i)
+      .filter(onlyUnique);
+    setGenres(duplicates);
+  };
+
   return (
     <View>
       <Text>{display}</Text>
@@ -144,6 +161,7 @@ export default function Settings({
         }
       />
       <Button title="year replace" onPress={() => yearReplaceTimer()} />
+      <Button title="genre list" onPress={() => createGenreList(albums)} />
     </View>
   );
 }

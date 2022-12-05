@@ -20,6 +20,7 @@ export default function AppProduct({ navigation }) {
   const [user, setUser] = useState(null);
   const [folders, setFolders] = useState(null);
   const [sectionList, setSectionList] = useState(null);
+  const [genreList, setGenreList] = useState(null);
 
   //VARIABLE ESTABLISHMENT
 
@@ -128,6 +129,7 @@ export default function AppProduct({ navigation }) {
         handleStorage(parsedReleases, folders);
         randomArray(parsedReleases);
         getFolderData(parsedReleases);
+        createGenreList(parsedReleases);
         console.log(`seeding from fetch, items: ${parsedReleases.length}`);
       });
   }
@@ -170,9 +172,6 @@ export default function AppProduct({ navigation }) {
       genres: genres,
       folder: 0,
       isReissue: isReissue,
-      // !!desc.find((item) =>
-      //   item ? item.slice(0, 2).toLowerCase() === "re" : null
-      // ),
       year: release.basic_information.year,
     };
     // dispatch(addAlbum(singleParsedRelease));
@@ -232,6 +231,22 @@ export default function AppProduct({ navigation }) {
     }
     setDisplayAlbums(newArray);
   }
+
+  const createGenreList = (albums) => {
+    let genres = albums
+      .map((a) => a.genres)
+      .flat()
+      .sort();
+
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
+    }
+
+    let duplicates = genres
+      .filter((e, i, a) => a.indexOf(e) !== i)
+      .filter(onlyUnique);
+    setGenreList(duplicates);
+  };
 
   const Tab = createBottomTabNavigator();
 

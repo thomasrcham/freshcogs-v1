@@ -19,9 +19,9 @@ const Item = ({ item, onPress }) => (
 );
 
 export default function List({ listRef, localAlbums, navigation }) {
-  localAlbums
-    ? console.log(`list component: ${localAlbums.length}`)
-    : console.log(`list component: no albums`);
+  // localAlbums
+  //   ? console.log(`list component: ${localAlbums.length}`)
+  //   : console.log(`list component: no albums`);
   const renderItem = ({ item }) => {
     return (
       <Item

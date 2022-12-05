@@ -128,15 +128,15 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
 
   const handleDecadeFilter = (filterAlbums) => {
     switch (decadeFilter) {
-      case "decade1":
+      case "pre-1950s":
         return filterAlbums.filter((a) => a.year < 1950);
-      case "decade2":
+      case "1950s & 1960s":
         return filterAlbums.filter((a) => a.year >= 1950 && a.year < 1970);
-      case "decade3":
+      case "1970s & 1980s":
         return filterAlbums.filter((a) => a.year >= 1970 && a.year < 1990);
-      case "decade4":
+      case "1990s & 2000s":
         return filterAlbums.filter((a) => a.year >= 1990 && a.year < 2010);
-      case "decade5":
+      case "2010s & 2020s":
         return filterAlbums.filter((a) => a.year >= 2010 && a.year < 2030);
       default:
         return filterAlbums;
@@ -237,20 +237,12 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
           />
         </View>
         <Text>
-          {searchPhrase ? "Searching ✪" : null}
-          {folderFilter ? `Folder Shown: ${folderFilter} ✪ ` : null}
-          {sortSelector ? `Sorting by ${sortSelector}` : null}
+          {searchPhrase ? "Searching ✪ " : null}
+          {folderFilter ? `Folder: ${folderFilter} ✪ ` : null}
+          {sortSelector ? `Sort: ${sortSelector} ✪ ` : null}
+          {decadeFilter ? `${decadeFilter}` : null}
         </Text>
-        <View style={styles.resultsList}>
-          {/* <Text>
-            {localAlbums && albums
-              ? localAlbums.length < albums.length
-                ? `Searching by: ${searchPhrase}`
-                : null
-              : null}
-          </Text> */}
-          {listDisplay}
-        </View>
+        <View style={styles.resultsList}>{listDisplay}</View>
       </View>
       <View style={styles.backButton}>
         <View>

@@ -1,8 +1,6 @@
 import {
-  Button,
   View,
   Image,
-  StyleSheet,
   Pressable,
   Text,
   Dimensions,
@@ -99,7 +97,7 @@ function Collection({ albums, navigation }) {
             renderItem={renderCollectionItem}
             keyExtractor={(item) => item.id}
             extraData={albums}
-            numColumns="4"
+            numColumns="3"
           />
         ) : (
           <Text>no albums</Text>

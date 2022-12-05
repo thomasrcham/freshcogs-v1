@@ -1,15 +1,4 @@
-import {
-  Button,
-  Dimensions,
-  Image,
-  Linking,
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import style from "./styles/style.js";
+import { Button, Image, Linking, Pressable, Text, View } from "react-native";
 import styles from "./styles/style.js";
 
 function AlbumPage({ route, navigation }) {
