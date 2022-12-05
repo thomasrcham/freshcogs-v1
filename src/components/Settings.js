@@ -29,7 +29,7 @@ export default function Settings({
         console.log("finished");
         clearInterval(myInterval);
         handleStorage(albums, folders);
-        generateSectionList(albums);
+        // generateSectionList(albums);
       } else {
         console.log(
           `remaining albums that need year replaced: ${

@@ -12,6 +12,7 @@ import styles from "./styles/style.js";
 
 export default function Filters({
   navigation,
+  handleDecade,
   handleFilter,
   handleSort,
   folders,
@@ -26,6 +27,7 @@ export default function Filters({
     { id: 3, value: "Year Asc", sortTerm: "yearA" },
     { id: 4, value: "Year Desc", sortTerm: "yearD" },
   ];
+
   let sortDisplay = sortOptions.map((f) => (
     <Pressable
       style={styles.filterPressable}
@@ -51,6 +53,26 @@ export default function Filters({
         </Pressable>
       ))
     : null;
+
+  let decadeOptions = [
+    { id: 1, value: "pre-50s", decadeTerm: "decade1" },
+    { id: 2, value: "50s-60s", decadeTerm: "decade2" },
+    { id: 3, value: "70s-80s", decadeTerm: "decade3" },
+    { id: 4, value: "90s-00s", decadeTerm: "decade4" },
+    { id: 5, value: "10s-20s", decadeTerm: "decade5" },
+  ];
+
+  let decadesDisplay = decadeOptions.map((f) => (
+    <Pressable
+      style={styles.filterPressable}
+      key={f.id}
+      onPress={() => {
+        handleDecade(f.decadeTerm);
+      }}
+    >
+      <Text>{f.value}</Text>
+    </Pressable>
+  ));
 
   let filterDisplay;
 
@@ -91,6 +113,24 @@ export default function Filters({
         </View>
       );
       break;
+    case 3:
+      filterDisplay = (
+        <View style={styles.filterButtonBox}>
+          {decadesDisplay}
+          <Pressable
+            style={styles.filterPressable}
+            onPress={() => {
+              {
+                handleDecade(null);
+                setClicked(false);
+              }
+            }}
+          >
+            <Text>✕</Text>
+          </Pressable>
+        </View>
+      );
+      break;
   }
 
   return (
@@ -113,6 +153,15 @@ export default function Filters({
           }}
         >
           <Text>Folder</Text>
+        </Pressable>
+        <Pressable
+          style={styles.filterPressable}
+          onPress={() => {
+            setClicked(true);
+            setViewClick(3);
+          }}
+        >
+          <Text>Decades</Text>
         </Pressable>
       </View>
       {clicked ? filterDisplay : null}

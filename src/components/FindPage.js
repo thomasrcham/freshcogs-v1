@@ -21,6 +21,7 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
   const [folderFilter, setFolderFilter] = useState(null);
   const [sortSelector, setSortSelector] = useState("none");
   const [viewClick, setViewClick] = useState(0);
+  const [decadeFilter, setDecadeFilter] = useState(null);
   const listRef = useRef(null);
 
   // albums ? console.log("findpage: " + albums.length) : console.log("no albums");
@@ -34,7 +35,7 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
 
   useEffect(() => {
     displayList();
-  }, [searchPhrase, folderFilter, sortSelector]);
+  }, [searchPhrase, folderFilter, sortSelector, decadeFilter]);
 
   // function handleSearch(input) {
   //   setSearchTerm(input)
@@ -119,8 +120,28 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
     }
   }
 
+  function handleDecade(decadeTerm) {
+    setDecadeFilter(decadeTerm);
+  }
+
   let listDisplay;
 
+  const handleDecadeFilter = (filterAlbums) => {
+    switch (decadeFilter) {
+      case "decade1":
+        return filterAlbums.filter((a) => a.year < 1950);
+      case "decade2":
+        return filterAlbums.filter((a) => a.year >= 1950 && a.year < 1970);
+      case "decade3":
+        return filterAlbums.filter((a) => a.year >= 1970 && a.year < 1990);
+      case "decade4":
+        return filterAlbums.filter((a) => a.year >= 1990 && a.year < 2010);
+      case "decade5":
+        return filterAlbums.filter((a) => a.year >= 2010 && a.year < 2030);
+      default:
+        return filterAlbums;
+    }
+  };
   function displayList() {
     let searchedAlbums = searchPhrase
       ? (searchedAlbums = albums.filter(
@@ -134,7 +155,11 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
     let filterAlbums = folderFilter
       ? searchedAlbums.filter((a) => a.folder === folderFilter)
       : searchedAlbums;
-    setLocalAlbums(filterAlbums);
+    let decadeAlbums = decadeFilter
+      ? handleDecadeFilter(filterAlbums, decadeFilter)
+      : filterAlbums;
+
+    setLocalAlbums(decadeAlbums);
   }
 
   switch (sortSelector) {
@@ -149,6 +174,17 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
       );
       break;
     case "date":
+      listDisplay = (
+        <List
+          localAlbums={localAlbums}
+          navigation={navigation}
+          listRef={listRef}
+          sectionList={sectionList}
+        />
+      );
+      break;
+    case "Year, Desc":
+    case "Year, Asc":
       listDisplay = (
         <List
           localAlbums={localAlbums}
@@ -187,6 +223,7 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
             clicked={clicked}
             folders={folders}
             setClicked={setClicked}
+            handleDecade={handleDecade}
             handleFilter={handleFilter}
             folderFilter={folderFilter}
             setFolderFilter={setFolderFilter}

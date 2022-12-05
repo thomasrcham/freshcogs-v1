@@ -154,6 +154,11 @@ export default function AppProduct({ navigation }) {
       .filter((genre) => genre != "Folk, World, & Country")
       .filter((genre) => genre != "Stage & Screen");
 
+    let isReissue =
+      !!desc.find((item) =>
+        item ? item.slice(0, 2).toLowerCase() === "re" : null
+      ) || release.basic_information.year === 0;
+
     let singleParsedRelease = {
       id: release.basic_information.id,
       master_id: release.basic_information.master_id,
@@ -164,9 +169,10 @@ export default function AppProduct({ navigation }) {
       ISODate: ISODate,
       genres: genres,
       folder: 0,
-      isReissue: !!desc.find((item) =>
-        item ? item.slice(0, 2).toLowerCase() === "re" : null
-      ),
+      isReissue: isReissue,
+      // !!desc.find((item) =>
+      //   item ? item.slice(0, 2).toLowerCase() === "re" : null
+      // ),
       year: release.basic_information.year,
     };
     // dispatch(addAlbum(singleParsedRelease));
