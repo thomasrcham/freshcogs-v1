@@ -56,6 +56,7 @@ export default function AppProduct({ navigation }) {
   const getData = () => {
     albumDataGet();
     folderDataGet();
+    userDataGet();
     handleStorage(albums, folders);
   };
 
@@ -80,6 +81,18 @@ export default function AppProduct({ navigation }) {
       setFolders(data);
     } catch (e) {
       console.log(`Folder storage retrieval failure: ${e}`);
+    }
+  };
+
+  const userDataGet = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("@userProfile");
+      let data = jsonValue != null ? JSON.parse(jsonValue) : null;
+      console.log(`loading user from local`);
+      setUser(data);
+    } catch (e) {
+      console.log(`User storage retrieval failure: ${e}`);
+      getUserData();
     }
   };
 
@@ -113,6 +126,21 @@ export default function AppProduct({ navigation }) {
     );
   };
 
+  const handleUser = (value) => {
+    storeUser(value);
+    setUser(value);
+  };
+
+  const storeUser = async (value) => {
+    try {
+      console.log("storing user");
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("@userProfile", jsonValue);
+    } catch (e) {
+      console.log(`User Storage failure: ${e}`);
+    }
+  };
+
   //DATA FETCH
 
   useEffect(() => {
@@ -136,6 +164,13 @@ export default function AppProduct({ navigation }) {
         console.log(`seeding from fetch, items: ${parsedReleases.length}`);
       });
   }
+
+  const getUserData = () => {
+    fetch(`https://api.discogs.com/users/theyear1000`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => handleUser(result))
+      .catch((error) => console.log("error", error));
+  };
 
   //FETCHED DATA MANIP AND STATE SET
   function parseInfo(release) {
@@ -257,11 +292,6 @@ export default function AppProduct({ navigation }) {
     <NavigationContainer independent={true}>
       <Tab.Navigator
         screenOptions={({ route }) => ({
-          // headerShown: false,
-          // headerStyle: {
-          //   backgroundColor: "#FFBF69",
-          //   height: "1%",
-          // },
           tabBarInactiveTintColor: "white",
           tabBarActiveTintColor: "#FFBF69",
           tabBarStyle: {
@@ -360,6 +390,11 @@ export default function AppProduct({ navigation }) {
         <Tab.Screen
           name="User"
           options={{
+            header: () => (
+              <View style={styles.header}>
+                <Text style={styles.headerText}></Text>
+              </View>
+            ),
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
@@ -372,8 +407,10 @@ export default function AppProduct({ navigation }) {
               );
             },
           }}
-          component={UserPage}
-        />
+        >
+          {(props) => <UserPage user={user} />}
+        </Tab.Screen>
+
         <Tab.Screen
           name="Settings"
           options={{
@@ -398,6 +435,8 @@ export default function AppProduct({ navigation }) {
               folders={folders}
               getData={getData}
               getFolderData={getFolderData}
+              getUserData={getUserData}
+              user={user}
               handleStorage={handleStorage}
               requestOptions={requestOptions}
               runFetch={runFetch}

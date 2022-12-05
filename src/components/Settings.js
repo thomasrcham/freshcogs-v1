@@ -2,12 +2,15 @@ import { Button, Text, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import albumSlice from "../redux/albumSlice";
+import { format } from "date-fns";
 
 export default function Settings({
   albums,
   albumDataGet,
   folders,
   getData,
+  getUserData,
+  user,
   handleStorage,
   requestOptions,
   runFetch,
@@ -161,7 +164,16 @@ export default function Settings({
         }
       />
       <Button title="year replace" onPress={() => yearReplaceTimer()} />
-      <Button title="genre list" onPress={() => createGenreList(albums)} />
+      {/* <Button title="genre list" onPress={() => createGenreList(albums)} /> */}
+      <Button
+        title="log user info"
+        onPress={() =>
+          console.log(
+            // user.registered
+            format(new Date(user.registered), "MM/dd/yyyy")
+          )
+        }
+      />
     </View>
   );
 }

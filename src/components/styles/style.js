@@ -28,6 +28,8 @@ export default StyleSheet.create({
   headerText: {
     color: "white",
     fontWeight: "bold",
+    fontSize: 22,
+    paddingLeft: 20,
   },
   //album page
   wholeAlbumPage: {
@@ -233,6 +235,49 @@ export default StyleSheet.create({
     marginRight: 50,
     maxHeight: 40,
     color: "white",
+  },
+  //user page
+  userPageContainer: {
+    flexDirection: "row",
+    alignContent: "space-between",
+    marginTop: 30,
+  },
+  userImageContainer: {
+    padding: 10,
+    width: "50%",
+  },
+  userTextContainer: {
+    margin: 10,
+    width: "50%",
+    flex: 1,
+    flexGrow: 1,
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    padding: 10,
+    backgroundColor: "grey",
+    // marginTop: 20,
+    borderRadius: 5,
+    // minHeight: "25%",
+  },
+  userImage: {
+    width: "100%",
+    aspectRatio: 1,
+    borderWidth: 3,
+    borderColor: "#523129",
+    borderRadius: 6,
+  },
+  userText: {
+    color: "white",
+    padding: 2,
+    fontWeight: "bold",
+  },
+  discogsLinkText: {
+    color: "white",
+    fontWeight: "bold",
+    marginLeft: 30,
+    marginTop: 2,
+    alignSelf: "flex-start",
+    fontSize: 14,
   },
 });
 
