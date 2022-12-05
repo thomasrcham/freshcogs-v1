@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Dimensions, Image, View, Text } from "react-native";
+import { Dimensions, View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -11,9 +11,11 @@ import UserPage from "./UserPage";
 import styles from "./styles/style.js";
 import "../../keys.js";
 import SearchDisplayArea from "./SearchDisplayArea.js";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import {
+  MaterialCommunityIcons,
+  MaterialIcons,
+  FontAwesome5,
+} from "@expo/vector-icons";
 
 export default function AppProduct({ navigation }) {
   // const { titles } = useSelector((state) => state.albumTitleReducer);
@@ -451,38 +453,3 @@ export default function AppProduct({ navigation }) {
     </NavigationContainer>
   );
 }
-
-// const topBarHeight = Dimensions.get("window").height * 0.06;
-// const mainWindowHeight = Dimensions.get("window").height * 0.8;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 2,
-//     flexDirection: "row",
-//     flexWrap: "wrap",
-//     backgroundColor: "pink",
-//     alignItems: "center",
-//     justifyContent: "space-between",
-//     width: "100%",
-//     bottom: 0,
-//     height: mainWindowHeight,
-//   },
-//   topBar: {
-//     height: topBarHeight,
-//     backgroundColor: "black",
-//   },
-//   buttonBox: {
-//     flex: 1,
-//     alignItems: "center",
-//     justifyContent: "center",
-//     bottom: 0,
-//     padding: "1%",
-//   },
-//   button: {
-//     flex: 1,
-//     maxHeight: "90%",
-//     maxWidth: undefined,
-//     aspectRatio: 1,
-//     resizeMode: "contain",
-//   },
-// });

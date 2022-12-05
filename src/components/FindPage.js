@@ -260,35 +260,3 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
     </View>
   );
 }
-// const mainWindowHeight = Dimensions.get("window").height * 1.01;
-// const searchBarWindowHeight = Dimensions.get("window").height * 0.08;
-// const filterBarWindowHeight = Dimensions.get("window").height * 0.1;
-// const windowWidth = Dimensions.get("window").width;
-
-// const styles = StyleSheet.create({
-//   mainPageContainer: { height: mainWindowHeight, width: windowWidth },
-//   resultsPageContainer: {
-//     // flex: 1,
-//     // flexDirection: "column",
-//     // flexWrap: "wrap",
-//     backgroundColor: "pink",
-//     // alignItems: "center",
-//     // alignContent: "space-between",
-//     width: "100%",
-//     bottom: 0,
-//   },
-//   searchBar: {
-//     height: searchBarWindowHeight,
-//     width: "100%",
-//     backgroundColor: "red",
-//   },
-//   filterBar: {
-//     // flex: 1,
-//     height: filterBarWindowHeight,
-//     width: "100%",
-//     // backgroundColor: "blue",
-//   },
-//   resultsList: {
-//     // height: 50,
-//   },
-// });

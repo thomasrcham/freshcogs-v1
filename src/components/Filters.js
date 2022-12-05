@@ -168,25 +168,3 @@ export default function Filters({
     </>
   );
 }
-
-// const styles = StyleSheet.create({
-//   filterButtonBox: {
-//     flex: 1,
-//     flexDirection: "row",
-//     flexWrap: "wrap",
-//     alignItems: "flex-end",
-//     justifyContent: "space-evenly",
-//     width: "100%",
-//     marginTop: 8,
-//     // marginLeft: 10,
-//   },
-//   buttons: {},
-//   filterPressable: {
-//     borderWidth: 1,
-//     borderStyle: "solid",
-//     borderColor: "#54381e",
-//     padding: 4,
-//     backgroundColor: "#DADADD",
-//     borderRadius: 3,
-//   },
-// });

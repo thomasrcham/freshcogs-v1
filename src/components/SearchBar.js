@@ -6,7 +6,8 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { Feather, Entypo } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import styles from "./styles/style.js";
 
 export default function SearchBar({
   navigation,
@@ -18,7 +19,7 @@ export default function SearchBar({
   setClicked,
 }) {
   return (
-    <View style={styles.container}>
+    <View style={styles.searchBarcontainer}>
       <View
         style={
           clicked ? styles.searchBar__clicked : styles.searchBar__unclicked
@@ -31,7 +32,7 @@ export default function SearchBar({
           style={{ marginLeft: 1 }}
         />
         <TextInput
-          style={styles.input}
+          style={styles.searchBarInput}
           placeholder="Search by Artist or Title"
           value={searchPhrase}
           onChangeText={setSearchPhrase}
@@ -41,7 +42,7 @@ export default function SearchBar({
         />
       </View>
       {clicked && (
-        <View style={styles.buttons}>
+        <View style={styles.searchBarButtons}>
           <Button
             color="#33cc33"
             title="✓"
@@ -54,7 +55,7 @@ export default function SearchBar({
         </View>
       )}
       {clicked || searchPhrase ? (
-        <View style={styles.buttons}>
+        <View style={styles.searchBarButtons}>
           <Button
             title="✕"
             onPress={() => {
@@ -68,45 +69,3 @@ export default function SearchBar({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    padding: 10,
-    width: "100%",
-  },
-  searchBar__unclicked: {
-    padding: 10,
-    flexDirection: "row",
-    width: "100%",
-    backgroundColor: "#d9dbda",
-    borderRadius: 15,
-    alignItems: "center",
-  },
-  searchBar__clicked: {
-    padding: 10,
-    flexDirection: "row",
-    width: "80%",
-    backgroundColor: "#d9dbda",
-    borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "space-evenly",
-  },
-  input: {
-    fontSize: 20,
-    marginLeft: 10,
-    width: "90%",
-  },
-  buttons: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    width: "100%",
-  },
-});

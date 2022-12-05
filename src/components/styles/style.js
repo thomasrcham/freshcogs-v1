@@ -184,7 +184,35 @@ export default StyleSheet.create({
     padding: 4,
     backgroundColor: "#DADADD",
     borderRadius: 3,
-  }, //results page
+  }, //search bar
+  searchBarcontainer: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    padding: 10,
+    width: "100%",
+  },
+  searchBar__unclicked: {
+    padding: 10,
+    flexDirection: "row",
+    width: "100%",
+    backgroundColor: "#d9dbda",
+    borderRadius: 15,
+    alignItems: "center",
+  },
+  searchBar__clicked: {
+    padding: 10,
+    flexDirection: "row",
+    width: "80%",
+    backgroundColor: "#d9dbda",
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
+
+  //results page
   resultsPageContainer: {
     backgroundColor: "#D8DBE2",
     width: "100%",

@@ -34,11 +34,3 @@ export default function SearchDisplayArea({ albums, folders, sectionList }) {
     </View>
   );
 }
-
-// const mainWindowHeight = Dimensions.get("window").height * 1.01;
-// const footerWindowHeight = Dimensions.get("window").height * 0.08;
-// const windowWidth = Dimensions.get("window").width;
-
-// const styles = StyleSheet.create({
-//   mainPageContainer: { height: mainWindowHeight, width: windowWidth },
-// });
