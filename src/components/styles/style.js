@@ -148,15 +148,10 @@ export default StyleSheet.create({
   collectionPageContainer: {
     backgroundColor: "black",
     padding: 0,
-    // paddingBottom: 200,
     marginBottom: 80,
   },
   collectionImageGrid: {
     width: "33%",
-    // padding: 10,
-    // borderWidth: 1,
-    // borderColor: "black",
-    // height: 225,
     overflow: "hidden",
   },
   collectionImage: {
@@ -164,7 +159,6 @@ export default StyleSheet.create({
     resizeMode: "contain",
     borderColor: "black",
     borderWidth: 2,
-    // borderRadius: 4,
   }, //filter page
   filterButtonBox: {
     flex: 1,
@@ -174,7 +168,6 @@ export default StyleSheet.create({
     justifyContent: "space-evenly",
     width: "100%",
     marginTop: 8,
-    // marginLeft: 10,
   },
   buttons: {},
   filterPressable: {
@@ -211,8 +204,19 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-evenly",
   },
-
-  //results page
+  searchBarInput: {
+    fontSize: 20,
+    marginLeft: 10,
+    width: "90%",
+  },
+  searchBarButtons: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    width: "100%",
+  }, //results page
   resultsPageContainer: {
     backgroundColor: "#D8DBE2",
     width: "100%",
@@ -228,9 +232,7 @@ export default StyleSheet.create({
     width: "100%",
     backgroundColor: "#040F0F",
   },
-  resultsList: {
-    // height: 50,
-  }, //list page
+  resultsList: {}, //list page
   listContainer: {
     height: "100%",
   },
@@ -273,6 +275,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignContent: "space-between",
     marginTop: 30,
+    backgroundColor: "#D8DBE2",
   },
   userImageContainer: {
     padding: 10,

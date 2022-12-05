@@ -1,8 +1,8 @@
-import { View, Image, Linking, Pressable, Text } from "react-native";
+import { Button, View, Image, Linking, Pressable, Text } from "react-native";
 import { format } from "date-fns";
 import styles from "./styles/style.js";
 
-export default function UserPage({ user }) {
+export default function UserPage({ user, albums }) {
   const handleProfileClick = () => {
     let URL = `${user.uri}`;
     Linking.canOpenURL(URL).then((supported) => {
@@ -52,6 +52,19 @@ export default function UserPage({ user }) {
               Discogs Profile
             </Text>
           </Pressable>
+        </View>
+      </View>
+      <View
+        style={{ flex: 1, flexDirection: "row", marginTop: 20, marginLeft: 10 }}
+      >
+        <View style={{ width: "50%" }}>
+          <Text>
+            Albums with potentially incorrect release year data:{" "}
+            {albums.filter((a) => a.isReissue === true).length}
+          </Text>
+        </View>
+        <View style={{ width: "50%", alignItems: "center" }}>
+          <Button title="update now" style={{ width: "30%" }} />
         </View>
       </View>
     </View>

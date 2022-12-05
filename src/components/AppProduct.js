@@ -90,7 +90,7 @@ export default function AppProduct({ navigation }) {
     try {
       const jsonValue = await AsyncStorage.getItem("@userProfile");
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
-      console.log(`loading user from local`);
+      user.username ? console.log(`loading user from local`) : getUserData();
       setUser(data);
     } catch (e) {
       console.log(`User storage retrieval failure: ${e}`);
@@ -412,7 +412,7 @@ export default function AppProduct({ navigation }) {
             },
           }}
         >
-          {(props) => <UserPage user={user} />}
+          {(props) => <UserPage user={user} albums={albums} />}
         </Tab.Screen>
 
         <Tab.Screen
