@@ -255,9 +255,7 @@ export default StyleSheet.create({
     justifyContent: "space-evenly",
     padding: 10,
     backgroundColor: "grey",
-    // marginTop: 20,
     borderRadius: 5,
-    // minHeight: "25%",
   },
   userImage: {
     width: "100%",

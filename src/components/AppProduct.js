@@ -310,7 +310,7 @@ export default function AppProduct({ navigation }) {
           options={{
             header: () => (
               <View style={styles.header}>
-                <Text style={styles.headerText}>Albums for today:</Text>
+                <Text style={styles.headerText}>Check these out:</Text>
               </View>
             ),
             tabBarIcon: ({ size, focused, color }) => {
@@ -392,7 +392,7 @@ export default function AppProduct({ navigation }) {
           options={{
             header: () => (
               <View style={styles.header}>
-                <Text style={styles.headerText}></Text>
+                <Text style={styles.headerText}>User Profile</Text>
               </View>
             ),
             tabBarIcon: ({ size, focused, color }) => {

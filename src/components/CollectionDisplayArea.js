@@ -1,5 +1,4 @@
-import { View, StyleSheet } from "react-native";
-import { Dimensions } from "react-native";
+import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AlbumPage from "./AlbumPage";
