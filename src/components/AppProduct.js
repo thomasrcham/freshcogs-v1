@@ -11,6 +11,9 @@ import UserPage from "./UserPage";
 import styles from "./styles/style.js";
 import "../../keys.js";
 import SearchDisplayArea from "./SearchDisplayArea.js";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
 export default function AppProduct({ navigation }) {
   // const { titles } = useSelector((state) => state.albumTitleReducer);
@@ -256,10 +259,13 @@ export default function AppProduct({ navigation }) {
         screenOptions={({ route }) => ({
           // headerShown: false,
           headerStyle: {},
+
+          tabBarInactiveTintColor: "white",
+          tabBarActiveTintColor: "black",
           tabBarStyle: {
             display: "flex",
             flexDirection: "row",
-            backgroundColor: `#f2dae7`,
+            backgroundColor: `#5C80BC`,
             width: "100%",
             height: Dimensions.get("window").height * 0.08,
             overflow: "visible",
@@ -276,10 +282,15 @@ export default function AppProduct({ navigation }) {
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
-                  <Image
+                  <MaterialCommunityIcons
+                    name="record-player"
+                    size={40}
+                    color="white"
+                  />
+                  {/* <Image
                     style={styles.tabButton}
                     source={require("../icons/vinyl.png")}
-                  />
+                  /> */}
                 </View>
               );
             },
@@ -305,10 +316,11 @@ export default function AppProduct({ navigation }) {
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
-                  <Image
+                  <MaterialIcons name="library-music" size={40} color="white" />
+                  {/* <Image
                     style={styles.tabButton}
                     source={require("../icons/vinyl.png")}
-                  />
+                  /> */}
                 </View>
               );
             },
@@ -322,10 +334,15 @@ export default function AppProduct({ navigation }) {
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
-                  <Image
+                  <MaterialCommunityIcons
+                    name="text-search"
+                    size={40}
+                    color="white"
+                  />
+                  {/* <Image
                     style={styles.tabButton}
                     source={require("../icons/vinyl.png")}
-                  />
+                  /> */}
                 </View>
               );
             },
@@ -346,10 +363,11 @@ export default function AppProduct({ navigation }) {
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
-                  <Image
+                  <FontAwesome5 name="user-astronaut" size={32} color="white" />
+                  {/* <Image
                     style={styles.tabButton}
                     source={require("../icons/vinyl.png")}
-                  />
+                  /> */}
                 </View>
               );
             },
@@ -362,10 +380,15 @@ export default function AppProduct({ navigation }) {
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
-                  <Image
+                  <MaterialIcons
+                    name="settings-applications"
+                    size={40}
+                    color="white"
+                  />
+                  {/* <Image
                     style={styles.tabButton}
                     source={require("../icons/vinyl.png")}
-                  />
+                  /> */}
                 </View>
               );
             },
