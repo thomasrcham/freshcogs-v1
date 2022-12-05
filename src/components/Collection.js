@@ -39,10 +39,6 @@ const CollectionItem = ({ item, onPress }) => (
         key={item.title}
       />
     </Pressable>
-    {/* <View style={styles.textBox}>
-      <Text>{item.artist}</Text>
-      <Text>{item.title}</Text>
-    </View> */}
   </View>
 );
 
@@ -56,6 +52,7 @@ function Collection({ albums, navigation }) {
         onPress={() =>
           navigation.navigate("AlbumPage", {
             album: item,
+            albums: albums,
           })
         }
       />
@@ -69,6 +66,7 @@ function Collection({ albums, navigation }) {
         onPress={() =>
           navigation.navigate("AlbumPage", {
             album: item,
+            albums: albums,
           })
         }
       />

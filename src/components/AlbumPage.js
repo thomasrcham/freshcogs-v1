@@ -1,8 +1,9 @@
-import { Button, Image, Linking, Pressable, Text, View } from "react-native";
+import { Image, Linking, Pressable, Text, View } from "react-native";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import styles from "./styles/style.js";
 
 function AlbumPage({ route, navigation }) {
-  const { album } = route.params;
+  const { album, albums } = route.params;
 
   const handleClick = () => {
     let URL = `https://www.discogs.com/master/${album.master_id}`;
@@ -28,9 +29,14 @@ function AlbumPage({ route, navigation }) {
           <Text style={{ fontSize: 26, color: "white", fontStyle: "bold" }}>
             {album.artist}
           </Text>
-          <Text style={{ fontSize: 16, color: "white", fontStyle: "bold" }}>
-            {album.title}
-          </Text>
+          <View style={{ maxHeight: 65 }}>
+            <Text
+              numberOfLines={3}
+              style={{ fontSize: 16, color: "white", fontStyle: "bold" }}
+            >
+              {album.title}
+            </Text>
+          </View>
           <Text style={styles.albumInfoBasicText}>Folder: {album.folder}</Text>
           <Text style={styles.albumInfoBasicText}>
             Originally released in {album.year}
@@ -85,14 +91,81 @@ function AlbumPage({ route, navigation }) {
           <View style={{ flex: 0.3 }}></View>
         </View>
       </View>
-      <View style={styles.backButton}>
-        <View>
-          <Button
-            title="back"
+      <View style={styles.albumPageButtons}>
+        <View
+          style={{
+            flex: 1,
+            flexGrow: 1,
+            flexDirection: "row",
+          }}
+        >
+          <Pressable
+            style={styles.albumPageButton}
             onPress={() => {
               navigation.goBack();
             }}
-          />
+          >
+            <MaterialCommunityIcons
+              name="skip-backward"
+              size={40}
+              color={"white"}
+            />
+            <Text
+              style={{
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 12,
+                transform: [{ translateY: -5 }],
+              }}
+            >
+              back
+            </Text>
+          </Pressable>
+          <Pressable
+            style={styles.albumPageButton}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <MaterialCommunityIcons name="play" size={40} color={"white"} />
+            <Text
+              style={{
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 12,
+                transform: [{ translateY: -5 }],
+              }}
+            >
+              back
+            </Text>
+          </Pressable>
+          <Pressable
+            style={styles.albumPageButton}
+            onPress={() => {
+              let randomAlbum =
+                albums[Math.floor(Math.random() * albums.length)];
+              navigation.navigate("AlbumPage", {
+                album: randomAlbum,
+                albums: albums,
+              });
+            }}
+          >
+            <MaterialCommunityIcons
+              name="skip-forward"
+              size={40}
+              color={"white"}
+            />
+            <Text
+              style={{
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 12,
+                transform: [{ translateY: -5 }],
+              }}
+            >
+              random
+            </Text>
+          </Pressable>
         </View>
       </View>
     </View>

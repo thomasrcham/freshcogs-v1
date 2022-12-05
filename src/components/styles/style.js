@@ -37,7 +37,7 @@ export default StyleSheet.create({
     // flexDirection: "column",
     paddingTop: 50,
     padding: 20,
-    backgroundColor: "black",
+    backgroundColor: `black`,
   },
   image: {
     width: "100%",
@@ -79,14 +79,18 @@ export default StyleSheet.create({
     minHeight: "12%",
     alignItems: "center",
   },
-  backButton: {
-    padding: 10,
-    alignSelf: "flex-end",
-    alignItems: "flex-end",
+  albumPageButtons: {
+    padding: 20,
     justifyContent: "flex-end",
     position: "absolute",
     bottom: "12%",
     width: windowWidth,
+  },
+  albumPageButton: {
+    flex: 1,
+    flexGrow: 1,
+    flexDirection: "column",
+    alignItems: "center",
   },
   //tab navigator
   tabButtonBox: {
@@ -122,7 +126,7 @@ export default StyleSheet.create({
   frontPageImage: {
     aspectRatio: 1,
     resizeMode: "contain",
-    borderColor: "#3F7CAC",
+    borderColor: "black",
     borderWidth: 3,
     borderRadius: 5,
   },
