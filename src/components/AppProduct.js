@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Dimensions, Image, View } from "react-native";
+import { Dimensions, Image, View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -258,45 +258,42 @@ export default function AppProduct({ navigation }) {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           // headerShown: false,
-          headerStyle: {},
-
+          // headerStyle: {
+          //   backgroundColor: "#FFBF69",
+          //   height: "1%",
+          // },
           tabBarInactiveTintColor: "white",
-          tabBarActiveTintColor: "black",
+          tabBarActiveTintColor: "#FFBF69",
           tabBarStyle: {
             display: "flex",
             flexDirection: "row",
-            backgroundColor: `#5C80BC`,
+            backgroundColor: `#040F0F`,
             width: "100%",
             height: Dimensions.get("window").height * 0.08,
             overflow: "visible",
+            paddingBottom: 5,
           },
         })}
       >
         <Tab.Screen
           name="FrontPage"
           options={{
-            headerStyle: {
-              backgroundColor: "pink",
-            },
-            headerTitle: "Albums for Today:",
+            header: () => (
+              <View style={styles.header}>
+                <Text style={styles.headerText}>Albums for today:</Text>
+              </View>
+            ),
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
                   <MaterialCommunityIcons
                     name="record-player"
                     size={40}
-                    color="white"
+                    color={focused ? "#FDCA40" : "white"}
                   />
-                  {/* <Image
-                    style={styles.tabButton}
-                    source={require("../icons/vinyl.png")}
-                  /> */}
                 </View>
               );
             },
-          }}
-          header={{
-            title: "title",
           }}
         >
           {(props) => (
@@ -309,18 +306,20 @@ export default function AppProduct({ navigation }) {
             backgroundColor: "black",
           }}
           options={{
-            headerStyle: {
-              backgroundColor: "black",
-            },
+            header: () => (
+              <View style={styles.header}>
+                <Text style={styles.headerText}>Collection Browser</Text>
+              </View>
+            ),
             headerTintColor: "white",
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
-                  <MaterialIcons name="library-music" size={40} color="white" />
-                  {/* <Image
-                    style={styles.tabButton}
-                    source={require("../icons/vinyl.png")}
-                  /> */}
+                  <MaterialIcons
+                    name="library-music"
+                    size={40}
+                    color={focused ? "#FDCA40" : "white"}
+                  />
                 </View>
               );
             },
@@ -331,18 +330,19 @@ export default function AppProduct({ navigation }) {
         <Tab.Screen
           name="Search"
           options={{
+            header: () => (
+              <View style={styles.header}>
+                <Text style={styles.headerText}>Search your Collection:</Text>
+              </View>
+            ),
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
                   <MaterialCommunityIcons
                     name="text-search"
                     size={40}
-                    color="white"
+                    color={focused ? "#FDCA40" : "white"}
                   />
-                  {/* <Image
-                    style={styles.tabButton}
-                    source={require("../icons/vinyl.png")}
-                  /> */}
                 </View>
               );
             },
@@ -363,11 +363,11 @@ export default function AppProduct({ navigation }) {
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
-                  <FontAwesome5 name="user-astronaut" size={32} color="white" />
-                  {/* <Image
-                    style={styles.tabButton}
-                    source={require("../icons/vinyl.png")}
-                  /> */}
+                  <FontAwesome5
+                    name="user-astronaut"
+                    size={32}
+                    color={focused ? "#FDCA40" : "white"}
+                  />
                 </View>
               );
             },
@@ -383,12 +383,8 @@ export default function AppProduct({ navigation }) {
                   <MaterialIcons
                     name="settings-applications"
                     size={40}
-                    color="white"
+                    color={focused ? "#FDCA40" : "white"}
                   />
-                  {/* <Image
-                    style={styles.tabButton}
-                    source={require("../icons/vinyl.png")}
-                  /> */}
                 </View>
               );
             },

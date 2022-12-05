@@ -2,6 +2,7 @@ import {
   Button,
   Dimensions,
   Keyboard,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -12,6 +13,7 @@ import SearchBar from "./SearchBar";
 import List from "./List";
 import Filters from "./Filters";
 import styles from "./styles/style.js";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
 export default function FindPage({ albums, folders, navigation, sectionList }) {
   const [searchPhrase, setSearchPhrase] = useState(null);
@@ -246,12 +248,13 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
       </View>
       <View style={styles.backButton}>
         <View>
-          <Button
-            title="⬆️"
+          <Pressable
             onPress={() => {
               listRef.current.scrollToOffset({ offset: 0, animated: true });
             }}
-          />
+          >
+            <FontAwesome5 name="arrow-circle-up" size={32} color={"#3F7CAC"} />
+          </Pressable>
         </View>
       </View>
     </View>

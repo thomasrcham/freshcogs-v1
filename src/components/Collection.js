@@ -20,8 +20,12 @@ const Item = ({ item, onPress }) => (
       />
     </TouchableOpacity>
     <View style={styles.frontPageTextBox}>
-      <Text style={styles.frontPageText}>{item.artist}</Text>
-      <Text style={styles.frontPageText}>{item.title}</Text>
+      <Text numberOfLines={1} style={styles.frontPageText}>
+        {item.artist}
+      </Text>
+      <Text numberOfLines={1} style={styles.frontPageText}>
+        {item.title}
+      </Text>
     </View>
   </View>
 );
@@ -90,7 +94,7 @@ function Collection({ albums, navigation }) {
         ) : null
       ) : null}
       <View style={styles.albumDisplayContainer}>
-        {albums && route.name === "Collection" ? (
+        {albums && route.name === "Collection" && albums.length != 6 ? (
           <FlatList
             style={styles.collectionPageContainer}
             data={albums}
@@ -99,9 +103,7 @@ function Collection({ albums, navigation }) {
             extraData={albums}
             numColumns="3"
           />
-        ) : (
-          <Text>no albums</Text>
-        )}
+        ) : null}
       </View>
     </View>
   );

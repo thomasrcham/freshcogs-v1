@@ -1,18 +1,18 @@
 import { Dimensions, StyleSheet } from "react-native";
 
-const mainWindowHeight = Dimensions.get("window").height * 0.95;
+const mainWindowHeight = Dimensions.get("window").height * 1;
 const windowWidth = Dimensions.get("window").width;
 const buttonWidth = Dimensions.get("window").width * 0.3;
 const searchBarWindowHeight = Dimensions.get("window").height * 0.08;
 const filterBarWindowHeight = Dimensions.get("window").height * 0.05;
-const topBarHeight = Dimensions.get("window").height * 0.06;
+const topBarHeight = Dimensions.get("window").height * 0.11;
 
 export default StyleSheet.create({
   container: {
     flex: 2,
     flexDirection: "row",
     flexWrap: "wrap",
-    backgroundColor: "pink",
+    backgroundColor: "#D8DBE2",
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
@@ -20,6 +20,15 @@ export default StyleSheet.create({
     height: mainWindowHeight,
   },
   mainPageContainer: { height: mainWindowHeight, width: windowWidth },
+  header: {
+    backgroundColor: "#040F0F",
+    height: topBarHeight,
+    justifyContent: "flex-end",
+  },
+  headerText: {
+    color: "white",
+    fontWeight: "bold",
+  },
   //album page
   wholeAlbumPage: {
     flex: 1,
@@ -99,32 +108,35 @@ export default StyleSheet.create({
     // marginBottom: 100,
   },
   frontPageContainer: {
-    backgroundColor: "pink",
-    padding: 10,
-    // paddingBottom: 200,
-    // marginBottom: 80,
+    backgroundColor: "#D8DBE2",
+    padding: 20,
+    paddingTop: 10,
   },
   frontPageImageGrid: {
     width: "50%",
-    padding: 10,
-    // borderWidth: 1,
-    borderColor: "black",
-    height: 225,
+    padding: 4,
     overflow: "hidden",
   },
   frontPageImage: {
     aspectRatio: 1,
     resizeMode: "contain",
-    borderColor: "#878684",
-    borderWidth: 2,
-    borderRadius: 4,
+    borderColor: "#3F7CAC",
+    borderWidth: 3,
+    borderRadius: 5,
   },
   frontPageTextBox: {
-    flex: 1,
+    marginTop: 3,
+    flex: 3,
     justifyContent: "flex-start",
+    backgroundColor: "#A07178",
+    borderRadius: 5,
+    borderColor: "#523129",
+    borderWidth: 1,
+    padding: 2,
   },
   frontPageText: {
-    numberOfLines: 1,
+    paddingLeft: 2,
+    color: "white",
     ellipsizeMode: "tail",
   },
   collectionPageContainer: {
@@ -162,24 +174,25 @@ export default StyleSheet.create({
   filterPressable: {
     borderWidth: 1,
     borderStyle: "solid",
-    borderColor: "#54381e",
+    borderColor: "#3F7CAC",
     padding: 4,
     backgroundColor: "#DADADD",
     borderRadius: 3,
   }, //results page
   resultsPageContainer: {
-    backgroundColor: "pink",
+    backgroundColor: "#D8DBE2",
     width: "100%",
     bottom: 0,
   },
   searchBar: {
     height: searchBarWindowHeight,
     width: "100%",
-    backgroundColor: "red",
+    backgroundColor: "#040F0F",
   },
   filterBar: {
     height: Dimensions.get("window").height * 0.1,
     width: "100%",
+    backgroundColor: "#040F0F",
   },
   resultsList: {
     // height: 50,
@@ -190,23 +203,26 @@ export default StyleSheet.create({
   listItem: {
     flex: 1,
     flexDirection: "row",
-    padding: 5,
+    padding: 3,
     alignItems: "center",
-    borderTopWidth: 1,
-    borderTopColor: "#878684",
+    margin: 1,
+    marginLeft: 2,
+    marginRight: 2,
+    backgroundColor: "#A07178",
+    borderRadius: 5,
+    borderColor: "#523129",
+    borderWidth: 1,
   },
   listImageContainer: {
     resizeMode: "contain",
-    height: "80%",
     width: "13%",
-    paddingBottom: 6,
   },
   listImage: {
     flex: 1,
     width: undefined,
     height: undefined,
     aspectRatio: 1,
-    borderColor: "#878684",
+    borderColor: "#523129",
     borderWidth: 2,
     borderRadius: 4,
   },
@@ -216,6 +232,7 @@ export default StyleSheet.create({
     overflow: "hidden",
     marginRight: 50,
     maxHeight: 40,
+    color: "white",
   },
 });
 
