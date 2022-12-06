@@ -9,6 +9,7 @@ export default function UserPage({
   folders,
   requestOptions,
   handleStorage,
+  listenEvents,
 }) {
   const [updating, setUpdating] = useState("Update Now");
 
@@ -98,15 +99,25 @@ export default function UserPage({
         </View>
       </View>
       <View
-        style={{ flex: 1, flexDirection: "row", marginTop: 20, marginLeft: 10 }}
+        style={{
+          flexDirection: "row",
+          marginTop: 20,
+          marginLeft: 10,
+          height: "5%",
+        }}
       >
-        <View style={{ width: "45%" }}>
+        <View style={{ width: "55%" }}>
           <Text>
             Albums with potentially incorrect release year data:{" "}
             {albums ? albums.filter((a) => a.isReissue === true).length : 0}
           </Text>
         </View>
-        <View style={{ width: "50%", alignItems: "center" }}>
+        <View
+          style={{
+            width: "45%",
+            alignItems: "center",
+          }}
+        >
           {updating === "Complete" ? (
             <Button title="Complete!" style={{ width: "30%" }} />
           ) : (
@@ -116,6 +127,23 @@ export default function UserPage({
               onPress={yearReplaceTimer}
             />
           )}
+        </View>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          marginTop: 20,
+          marginLeft: 10,
+        }}
+      >
+        <View style={{ width: "55%" }}>
+          <Text>
+            Total Listen Events Recorded:{" "}
+            {listenEvents ? listenEvents.length : 0}
+          </Text>
+        </View>
+        <View style={{ width: "45%", alignItems: "center" }}>
+          <Button title="View Events" style={{ width: "30%" }} />
         </View>
       </View>
     </View>

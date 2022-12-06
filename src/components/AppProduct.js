@@ -446,6 +446,7 @@ export default function AppProduct({ navigation }) {
               folders={folders}
               requestOptions={requestOptions}
               handleStorage={handleStorage}
+              listenEvents={listenEvents}
             />
           )}
         </Tab.Screen>
