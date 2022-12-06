@@ -18,7 +18,7 @@ const Item = ({ item, onPress }) => (
   </Pressable>
 );
 
-export default function List({ listRef, localAlbums, navigation }) {
+export default function List({ listRef, localAlbums, navigation, albums }) {
   const renderItem = ({ item }) => {
     return (
       <Item
@@ -26,6 +26,7 @@ export default function List({ listRef, localAlbums, navigation }) {
         onPress={() =>
           navigation.navigate("AlbumPage", {
             album: item,
+            albums: albums,
           })
         }
       />

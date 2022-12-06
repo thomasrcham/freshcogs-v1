@@ -168,6 +168,7 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
     case "artist":
       listDisplay = (
         <List
+          albums={albums}
           localAlbums={localAlbums}
           navigation={navigation}
           listRef={listRef}
@@ -178,6 +179,7 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
     case "date":
       listDisplay = (
         <List
+          albums={albums}
           localAlbums={localAlbums}
           navigation={navigation}
           listRef={listRef}
@@ -189,6 +191,7 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
     case "Year, Asc":
       listDisplay = (
         <List
+          albums={albums}
           localAlbums={localAlbums}
           navigation={navigation}
           listRef={listRef}
@@ -199,6 +202,7 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
     default:
       listDisplay = (
         <List
+          albums={albums}
           localAlbums={localAlbums}
           navigation={navigation}
           listRef={listRef}

@@ -21,7 +21,7 @@ export default StyleSheet.create({
   },
   mainPageContainer: { height: mainWindowHeight, width: windowWidth },
   header: {
-    backgroundColor: "#040F0F",
+    backgroundColor: "#124242",
     height: topBarHeight,
     justifyContent: "flex-end",
   },
@@ -59,16 +59,28 @@ export default StyleSheet.create({
     borderRadius: 5,
     minHeight: "25%",
   },
+  albumDataDisplay: {
+    flex: 1,
+    flexDirection: "row",
+    width: "100%",
+  },
+  albumOuterInfoBox: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingBottom: 20,
+    paddingTop: 5,
+  },
+  albumLeftInfoBox: {
+    width: "60%",
+  },
+  albumRightInfoBox: {
+    paddingLeft: 10,
+  },
   albumInfo: {
     paddingLeft: 10,
-    maxWidth: "58%",
     flexDirection: "column",
     justifyContent: "space-between",
-    ...Platform.select({
-      ios: { maxWidth: "50%" },
-      android: { maxWidth: "58%" },
-      default: { maxWidth: "58%" },
-    }),
   },
   albumInfoBasicText: {
     paddingTop: 3,
@@ -99,8 +111,10 @@ export default StyleSheet.create({
     minHeight: "12%",
     alignItems: "center",
   },
-  albumPageButtons: {
+  albumPageButtonsGrid: {
     padding: 20,
+    flex: 1,
+    alignContent: "space-around",
     justifyContent: "flex-end",
     width: windowWidth,
     position: "absolute",

@@ -1,8 +1,17 @@
 import { Button, View, Image, Linking, Pressable, Text } from "react-native";
+import { useState } from "react";
 import { format } from "date-fns";
 import styles from "./styles/style.js";
 
-export default function UserPage({ user, albums }) {
+export default function UserPage({
+  user,
+  albums,
+  folders,
+  requestOptions,
+  handleStorage,
+}) {
+  const [updating, setUpdating] = useState("Update Now");
+
   const handleProfileClick = () => {
     let URL = `${user.uri}`;
     Linking.canOpenURL(URL).then((supported) => {
@@ -13,6 +22,40 @@ export default function UserPage({ user, albums }) {
       }
     });
   };
+
+  function yearReplaceTimer() {
+    setUpdating("In Progress");
+    let myInterval = setInterval(() => {
+      let needsReplacement = albums
+        ? albums.filter((a) => a.isReissue === true).slice(0, 5)
+        : console.log("none to set as needs replacement");
+
+      if (needsReplacement.length === 0) {
+        console.log("finished");
+        clearInterval(myInterval);
+        handleStorage(albums, folders);
+        setUpdating("Complete");
+      } else {
+        console.log(
+          `remaining albums that need year replaced: ${
+            albums.filter((a) => a.isReissue === true).length
+          }`
+        );
+        needsReplacement.map((album) => individualYearReplace(album));
+      }
+    }, 10000);
+  }
+
+  function individualYearReplace(album) {
+    console.log(`${album.title}, ${album.year}, ${album.master_id}`);
+    fetch(`https://api.discogs.com/masters/${album.master_id}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        album.isReissue = false;
+        album.year = result.year;
+      });
+  }
+
   return (
     <View style={styles.mainPageContainer}>
       <View style={styles.userPageContainer}>
@@ -60,11 +103,19 @@ export default function UserPage({ user, albums }) {
         <View style={{ width: "45%" }}>
           <Text>
             Albums with potentially incorrect release year data:{" "}
-            {albums.filter((a) => a.isReissue === true).length}
+            {albums ? albums.filter((a) => a.isReissue === true).length : 0}
           </Text>
         </View>
         <View style={{ width: "50%", alignItems: "center" }}>
-          <Button title="update now" style={{ width: "30%" }} />
+          {updating === "Complete" ? (
+            <Button title="Complete!" style={{ width: "30%" }} />
+          ) : (
+            <Button
+              title={updating}
+              style={{ width: "30%" }}
+              onPress={yearReplaceTimer}
+            />
+          )}
         </View>
       </View>
     </View>

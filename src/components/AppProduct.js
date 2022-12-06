@@ -26,6 +26,7 @@ export default function AppProduct({ navigation }) {
   const [folders, setFolders] = useState(null);
   const [sectionList, setSectionList] = useState(null);
   const [genreList, setGenreList] = useState(null);
+  const [listenEvents, setListenEvents] = useState([]);
 
   //VARIABLE ESTABLISHMENT
 
@@ -51,14 +52,11 @@ export default function AppProduct({ navigation }) {
 
   // Local storage and retrieval
 
-  // useEffect(() => {
-  //   albums && folders ? multiStoreData(albums, folders) : null;
-  // }, [albums, folders]);
-
   const getData = () => {
     albumDataGet();
     folderDataGet();
     userDataGet();
+    listenEventsDataGet();
     handleStorage(albums, folders);
   };
 
@@ -95,6 +93,19 @@ export default function AppProduct({ navigation }) {
     } catch (e) {
       console.log(`User storage retrieval failure: ${e}`);
       getUserData();
+    }
+  };
+
+  const listenEventsDataGet = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("@listenEvents");
+      let data = jsonValue != null ? JSON.parse(jsonValue) : null;
+      listenEvents.length < 1
+        ? console.log(`loading listen events from local`)
+        : `Listen Events storage retrieval failure: storage is empty`;
+      setListenEvents(data);
+    } catch (e) {
+      console.log(`Listen Events storage retrieval failure: ${e}`);
     }
   };
 
@@ -143,7 +154,17 @@ export default function AppProduct({ navigation }) {
     }
   };
 
-  //DATA FETCH
+  const storeListenEvents = async (value) => {
+    try {
+      console.log(`storing listening events: ${value.length}`);
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("@listenEvents", jsonValue);
+    } catch (e) {
+      console.log(`Listen Events Storage failure: ${e}`);
+    }
+  };
+
+  // data fetch
 
   useEffect(() => {
     getData();
@@ -174,7 +195,7 @@ export default function AppProduct({ navigation }) {
       .catch((error) => console.log("error", error));
   };
 
-  //FETCHED DATA MANIP AND STATE SET
+  // data manipulation
   function parseInfo(release) {
     let artist = release.basic_information.artists[0].name;
 
@@ -299,7 +320,7 @@ export default function AppProduct({ navigation }) {
           tabBarStyle: {
             display: "flex",
             flexDirection: "row",
-            backgroundColor: `#040F0F`,
+            backgroundColor: `#124242`,
             width: "100%",
             height: Dimensions.get("window").height * 0.08,
             overflow: "visible",
@@ -417,7 +438,15 @@ export default function AppProduct({ navigation }) {
             },
           }}
         >
-          {(props) => <UserPage user={user} albums={albums} />}
+          {(props) => (
+            <UserPage
+              user={user}
+              albums={albums}
+              folders={folders}
+              requestOptions={requestOptions}
+              handleStorage={handleStorage}
+            />
+          )}
         </Tab.Screen>
 
         <Tab.Screen
@@ -451,6 +480,9 @@ export default function AppProduct({ navigation }) {
               runFetch={runFetch}
               setAlbums={setAlbums}
               setFolders={setFolders}
+              listenEvents={listenEvents}
+              setListenEvents={setListenEvents}
+              storeListenEvents={storeListenEvents}
             />
           )}
         </Tab.Screen>
