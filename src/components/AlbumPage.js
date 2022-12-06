@@ -66,7 +66,8 @@ function AlbumPage({ route, navigation }) {
   const createListenEvent = () => {
     console.log(totalListenEvents.length);
     let dateTime = new Date().toISOString();
-    let newEvent = { album: album, dateTime: dateTime };
+    let newAlbum = albums[Math.floor(Math.random() * albums.length)];
+    let newEvent = { album: newAlbum, dateTime: dateTime };
     let newArray = localListenEvents
       ? [...localListenEvents, newEvent]
       : [newEvent];

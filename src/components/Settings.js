@@ -21,6 +21,7 @@ export default function Settings({
   storeListenEvents,
 }) {
   const [fixedYearArray, setFixedYearArray] = useState([]);
+
   let display = albums
     ? albums.filter((a) => a.isReissue === true).length
     : "None in state";
@@ -145,20 +146,18 @@ export default function Settings({
   //   setGenres(duplicates);
   // };
 
-  const createListenEvent = (album) => {
-    let dateTime = new Date().toISOString();
-    // console.log(listenEvents);
-    let newEvent = { album: album, dateTime: dateTime };
-    console.log(newEvent);
-    let newArray = listenEvents ? [...listenEvents, newEvent] : [newEvent];
-    // console.log(newEvent);
-    setListenEvents(newArray);
-    storeListenEvents(newArray);
-  };
+  // const createListenEvent = (album) => {
+  //   let dateTime = new Date().toISOString();
+  //   let newEvent = listenEvents
+  //     ? [...listenEvents, { album: album, dateTime: dateTime }]
+  //     : [{ album: album, dateTime: dateTime }];
+  //   setListenEvents(newEvent);
+  //   storeListenEvents(newEvent);
+  // };
 
-  const resetListenEvent = () => {
-    storeListenEvents([]);
-  };
+  // const resetListenEvent = () => {
+  //   storeListenEvents([]);
+  // };
 
   return (
     <View>
@@ -174,19 +173,19 @@ export default function Settings({
         onPress={() => handleStorage(null, null)}
       />
       <Button title="refresh fetch data" onPress={() => runFetch()} />
-      <Button
+      {/* <Button
         title="create listen event"
         onPress={
           () =>
             createListenEvent(albums[Math.floor(Math.random() * albums.length)])
           // console.log(albums[Math.floor(Math.random() * albums.length)])
         }
-      />
+      /> */}
       <Button
         title="check listen events"
         onPress={() => console.log(listenEvents)}
       />
-      <Button title="reset listen events" onPress={() => resetListenEvent()} />
+      {/* <Button title="reset listen events" onPress={() => resetListenEvent()} /> */}
 
       {/* <Button title="set folder values" onPress={() => getFolderData()} />
       <Button

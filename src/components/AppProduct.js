@@ -88,7 +88,7 @@ export default function AppProduct({ navigation }) {
     try {
       const jsonValue = await AsyncStorage.getItem("@userProfile");
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
-      user.username ? console.log(`loading user from local`) : getUserData();
+      data.username ? console.log(`loading user from local`) : getUserData();
       setUser(data);
     } catch (e) {
       console.log(`User storage retrieval failure: ${e}`);
@@ -101,7 +101,7 @@ export default function AppProduct({ navigation }) {
       const jsonValue = await AsyncStorage.getItem("@listenEvents");
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
       listenEvents.length < 1
-        ? console.log(`loading listen events from local`)
+        ? console.log(`loading ${data.length} listen events from local`)
         : `Listen Events storage retrieval failure: storage is empty`;
       setListenEvents(data);
     } catch (e) {
