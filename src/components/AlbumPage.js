@@ -4,11 +4,11 @@ import styles from "./styles/style.js";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { format } from "date-fns";
-import style from "./styles/style.js";
 
 function AlbumPage({ route, navigation }) {
   const { album, albums } = route.params;
   const [localListenEvents, setLocalListenEvents] = useState([]);
+  const [totalListenEvents, setTotalListenEvents] = useState([]);
 
   // useEffect(() => {
   //   listenEventsDataGet();
@@ -16,6 +16,7 @@ function AlbumPage({ route, navigation }) {
 
   useEffect(() => {
     listenEventsDataGet();
+    totalListenEventDataGet();
   }, [album]);
 
   const handleClick = () => {
@@ -40,6 +41,40 @@ function AlbumPage({ route, navigation }) {
     } catch (e) {
       console.log(`Listen Events storage retrieval failure: ${e}`);
     }
+  };
+
+  const totalListenEventDataGet = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("@listenEvents");
+      let data = jsonValue != null ? JSON.parse(jsonValue) : null;
+      setTotalListenEvents(data);
+    } catch (e) {
+      console.log(`Listen Events storage retrieval failure: ${e}`);
+    }
+  };
+
+  const storeListenEvents = async (value) => {
+    try {
+      console.log(`storing listening events: ${value.length}`);
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("@listenEvents", jsonValue);
+    } catch (e) {
+      console.log(`Listen Events Storage failure: ${e}`);
+    }
+  };
+
+  const createListenEvent = () => {
+    console.log(totalListenEvents.length);
+    let dateTime = new Date().toISOString();
+    let newEvent = { album: album, dateTime: dateTime };
+    let newArray = localListenEvents
+      ? [...localListenEvents, newEvent]
+      : [newEvent];
+    let newTotalArray = [...totalListenEvents, newEvent];
+    console.log(newArray);
+    setLocalListenEvents(newArray);
+    setTotalListenEvents(newTotalArray);
+    storeListenEvents(newTotalArray);
   };
 
   return (
@@ -103,27 +138,6 @@ function AlbumPage({ route, navigation }) {
             </View>
           </View>
         </View>
-        {/* <View>
-          <View style={{ flex: 0.3 }}></View>
-          <View style={{ flex: 1 }}>
-            <Pressable onPress={handleClick} style={styles.albumPagePressables}>
-              <View>
-                <Image
-                  style={{ aspectRatio: 1, height: 25, marginRight: 5 }}
-                  source={require("../icons/vinyl.png")}
-                />
-              </View>
-              <Text style={{ alignSelf: "center", fontSize: 14 }}>
-                OPEN DISCOGS
-              </Text>
-            </Pressable>
-          </View>
-          <View style={{ flex: 1.4 }}></View>
-
-          <View style={{ flex: 0.3 }}></View>
-          <View style={{ flex: 1, justifyContent: "center" }}></View>
-          <View style={{ flex: 0.3 }}></View>
-        </View> */}
       </View>
       <View style={styles.albumPageButtonsGrid}>
         <View
@@ -172,7 +186,10 @@ function AlbumPage({ route, navigation }) {
               previous
             </Text>
           </Pressable>
-          <Pressable style={styles.albumPageButton}>
+          <Pressable
+            style={styles.albumPageButton}
+            onPress={() => createListenEvent()}
+          >
             <MaterialCommunityIcons name="play" size={40} color={"white"} />
             <Text
               style={{

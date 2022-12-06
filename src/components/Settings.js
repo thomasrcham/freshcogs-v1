@@ -147,11 +147,17 @@ export default function Settings({
 
   const createListenEvent = (album) => {
     let dateTime = new Date().toISOString();
-    let newEvent = listenEvents
-      ? [...listenEvents, { album: album, dateTime: dateTime }]
-      : [{ album: album, dateTime: dateTime }];
-    setListenEvents(newEvent);
-    storeListenEvents(newEvent);
+    // console.log(listenEvents);
+    let newEvent = { album: album, dateTime: dateTime };
+    console.log(newEvent);
+    let newArray = listenEvents ? [...listenEvents, newEvent] : [newEvent];
+    // console.log(newEvent);
+    setListenEvents(newArray);
+    storeListenEvents(newArray);
+  };
+
+  const resetListenEvent = () => {
+    storeListenEvents([]);
   };
 
   return (
@@ -180,6 +186,7 @@ export default function Settings({
         title="check listen events"
         onPress={() => console.log(listenEvents)}
       />
+      <Button title="reset listen events" onPress={() => resetListenEvent()} />
 
       {/* <Button title="set folder values" onPress={() => getFolderData()} />
       <Button

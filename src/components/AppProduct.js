@@ -159,6 +159,7 @@ export default function AppProduct({ navigation }) {
       console.log(`storing listening events: ${value.length}`);
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem("@listenEvents", jsonValue);
+      setListenEvents(jsonValue);
     } catch (e) {
       console.log(`Listen Events Storage failure: ${e}`);
     }
