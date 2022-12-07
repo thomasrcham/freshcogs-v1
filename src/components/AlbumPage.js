@@ -186,7 +186,6 @@ function AlbumPage({ route, navigation }) {
               back
             </Text>
           </Pressable>
-
           <Pressable
             style={styles.albumPageButton}
             onPress={() => createListenEvent()}

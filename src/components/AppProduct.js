@@ -2,20 +2,20 @@ import { useState, useEffect } from "react";
 import { Dimensions, View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-// import { Provider, useDispatch, useSelector } from "react-redux";
-// import { addAlbum } from "../redux/albumSlice";
-import CollectionDisplayArea from "./CollectionDisplayArea.js";
-import Settings from "./Settings.js";
-import UserPage from "./UserPage";
-import styles from "./styles/style.js";
-import "../../keys.js";
-import SearchDisplayArea from "./SearchDisplayArea.js";
 import {
   MaterialCommunityIcons,
   MaterialIcons,
   FontAwesome5,
 } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import CollectionDisplayArea from "./CollectionDisplayArea.js";
+import UserPageContainer from "./UserPageContainer";
+import SearchDisplayArea from "./SearchDisplayArea.js";
+
+import Settings from "./Settings.js";
+import styles from "./styles/style.js";
+import "../../keys.js";
 
 export default function AppProduct({ navigation }) {
   // const { titles } = useSelector((state) => state.albumTitleReducer);
@@ -441,7 +441,7 @@ export default function AppProduct({ navigation }) {
           }}
         >
           {(props) => (
-            <UserPage
+            <UserPageContainer
               user={user}
               albums={albums}
               folders={folders}

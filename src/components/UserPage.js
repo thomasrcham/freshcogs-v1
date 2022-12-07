@@ -1,5 +1,6 @@
 import { Button, View, Image, Linking, Pressable, Text } from "react-native";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { format } from "date-fns";
 import styles from "./styles/style.js";
 
@@ -11,6 +12,7 @@ export default function UserPage({
   handleStorage,
   listenEvents,
 }) {
+  const navigation = useNavigation();
   const [updating, setUpdating] = useState("Update Now");
 
   const handleProfileClick = () => {
@@ -143,7 +145,11 @@ export default function UserPage({
           </Text>
         </View>
         <View style={{ width: "45%", alignItems: "center" }}>
-          <Button title="View Events" style={{ width: "30%" }} />
+          <Button
+            title="View Events"
+            style={{ width: "30%" }}
+            onPress={() => navigation.navigate("ListenEvents")}
+          />
         </View>
       </View>
     </View>

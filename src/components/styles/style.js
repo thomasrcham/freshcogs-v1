@@ -351,6 +351,23 @@ export default StyleSheet.create({
     alignSelf: "flex-start",
     fontSize: 14,
   },
+  tableContainer: {
+    flex: 1,
+    flexDirection: "column",
+    width: "98%",
+    alignSelf: "center",
+    marginTop: 10,
+    overflow: "scroll",
+  },
+  tableRow: {
+    flexDirection: "row",
+    borderWidth: 1,
+    // height: 10,
+  },
+  tableCell: {
+    width: "28%",
+    paddingLeft: 2,
+  },
 });
 
 //
