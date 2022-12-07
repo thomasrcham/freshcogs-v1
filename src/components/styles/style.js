@@ -270,6 +270,7 @@ export default StyleSheet.create({
     height: Dimensions.get("window").height * 0.1,
     width: "100%",
     backgroundColor: "#040F0F",
+    elevation: 50,
   },
   resultsList: {}, //list page
   listContainer: {

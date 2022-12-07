@@ -2,12 +2,15 @@ import {
   Button,
   Keyboard,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
 import { useState } from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 import styles from "./styles/style.js";
 
 export default function Filters({
@@ -15,11 +18,14 @@ export default function Filters({
   handleDecade,
   handleFilter,
   handleSort,
+  handleGenre,
   folders,
   viewClick,
   setViewClick,
 }) {
   const [clicked, setClicked] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
 
   let sortOptions = [
     { id: 1, value: "Artist", sortTerm: "artist" },
@@ -53,6 +59,36 @@ export default function Filters({
         </Pressable>
       ))
     : null;
+
+  let genreList = [
+    { id: 0, value: "All" },
+    { id: 1, value: "Classical" },
+    { id: 2, value: "Country" },
+    { id: 3, value: "Electronic" },
+    { id: 4, value: "Folk" },
+    { id: 5, value: "Funk / Soul" },
+    { id: 6, value: "Hip Hop" },
+    { id: 7, value: "Jazz" },
+    { id: 8, value: "Non-Music" },
+    { id: 9, value: "Pop" },
+    { id: 10, value: "Rock" },
+    { id: 11, value: "Soundtrack" },
+  ];
+
+  let genreClicker = genreList.map((g) => (
+    <Pressable onPress={() => handleGenre(g.value)}>
+      <Text
+        style={{
+          color: "white",
+          fontWeight: "bold",
+          backgroundColor: "grey",
+          fontSize: 16,
+        }}
+      >
+        {g.value} -{" "}
+      </Text>
+    </Pressable>
+  ));
 
   let decadeOptions = [
     { id: 1, value: "pre-50s", decadeTerm: "pre-1950s" },
@@ -131,6 +167,25 @@ export default function Filters({
         </View>
       );
       break;
+    case 4:
+      filterDisplay = (
+        <View style={{ flexDirection: "row", backgroundColor: "grey" }}>
+          <MaterialCommunityIcons
+            name="arrow-left-circle"
+            size={20}
+            color="white"
+          />
+          <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
+            {genreClicker}
+          </ScrollView>
+          <MaterialCommunityIcons
+            name="arrow-right-circle"
+            size={20}
+            color="white"
+          />
+        </View>
+      );
+      break;
   }
 
   return (
@@ -163,8 +218,17 @@ export default function Filters({
         >
           <Text>Decades</Text>
         </Pressable>
+        <Pressable
+          style={styles.filterPressable}
+          onPress={() => {
+            setClicked(true);
+            setViewClick(4);
+          }}
+        >
+          <Text>Genre</Text>
+        </Pressable>
       </View>
-      {clicked ? filterDisplay : null}
+      <View style={{ elevation: 50 }}>{clicked ? filterDisplay : null}</View>
     </>
   );
 }

@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import albumSlice from "../redux/albumSlice";
 import { format } from "date-fns";
+import DropDownPicker from "react-native-dropdown-picker";
 
 export default function Settings({
   albums,
@@ -20,6 +21,12 @@ export default function Settings({
   listenEvents,
   storeListenEvents,
 }) {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: "Apple", value: "apple" },
+    { label: "Banana", value: "banana" },
+  ]);
   const [fixedYearArray, setFixedYearArray] = useState([]);
 
   let display = albums
@@ -129,22 +136,40 @@ export default function Settings({
   //   }
   // };
 
-  // const createGenreList = (albums) => {
-  //   let genres = albums
-  //     .map((a) => a.genres)
-  //     .flat()
-  //     .sort();
+  const createGenreList = (albums) => {
+    let genres = albums
+      .map((a) => a.genres[0])
+      .flat()
+      .sort();
+    // console.log(genres);
 
-  //   function onlyUnique(value, index, self) {
-  //     return self.indexOf(value) === index;
-  //   }
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
+    }
 
-  //   let unique = genres.filter(onlyUnique);
-  //   let duplicates = genres
-  //     .filter((e, i, a) => a.indexOf(e) !== i)
-  //     .filter(onlyUnique);
-  //   setGenres(duplicates);
-  // };
+    // let unique = genres.filter(onlyUnique);
+    let duplicates = genres
+      .filter((e, i, a) => a.indexOf(e) !== i)
+      .filter(onlyUnique);
+    console.log(duplicates);
+  };
+
+  let genreList = [
+    "Classical",
+    "Country",
+    "Electronic",
+    "Folk",
+    "Funk / Soul",
+    "Hip Hop",
+    "Jazz",
+    "Non-Music",
+    "Pop",
+    "Rock",
+    "Soundtrack",
+  ];
+
+  let item = [];
+  let dropdownGenres = genreList.map((g) => (item = { label: g, value: g }));
 
   // const createListenEvent = (album) => {
   //   let dateTime = new Date().toISOString();
@@ -158,6 +183,8 @@ export default function Settings({
   // const resetListenEvent = () => {
   //   storeListenEvents([]);
   // };
+
+  const countries = ["Egypt", "Canada", "Australia", "Ireland"];
 
   return (
     <View>
@@ -185,6 +212,10 @@ export default function Settings({
         title="check listen events"
         onPress={() => console.log(listenEvents)}
       />
+      <Button
+        title="check listen events"
+        onPress={() => console.log(dropdownGenres)}
+      />
       {/* <Button title="reset listen events" onPress={() => resetListenEvent()} /> */}
 
       {/* <Button title="set folder values" onPress={() => getFolderData()} />
@@ -205,6 +236,17 @@ export default function Settings({
           )
         }
       /> */}
+
+      <DropDownPicker
+        open={open}
+        value={value}
+        items={dropdownGenres}
+        setOpen={setOpen}
+        setValue={setValue}
+        onChangeValue={(value) => {
+          console.log(value);
+        }}
+      />
     </View>
   );
 }

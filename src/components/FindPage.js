@@ -14,6 +14,7 @@ import List from "./List";
 import Filters from "./Filters";
 import styles from "./styles/style.js";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { clickProps } from "react-native-web/dist/cjs/modules/forwardedProps";
 
 export default function FindPage({ albums, folders, navigation, sectionList }) {
   const [searchPhrase, setSearchPhrase] = useState(null);
@@ -24,6 +25,7 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
   const [sortSelector, setSortSelector] = useState("none");
   const [viewClick, setViewClick] = useState(0);
   const [decadeFilter, setDecadeFilter] = useState(null);
+  const [genreFilter, setGenreFilter] = useState("All");
   const listRef = useRef(null);
 
   // albums ? console.log("findpage: " + albums.length) : console.log("no albums");
@@ -37,7 +39,7 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
 
   useEffect(() => {
     displayList();
-  }, [searchPhrase, folderFilter, sortSelector, decadeFilter]);
+  }, [searchPhrase, folderFilter, sortSelector, decadeFilter, genreFilter]);
 
   // function handleSearch(input) {
   //   setSearchTerm(input)
@@ -126,6 +128,11 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
     setDecadeFilter(decadeTerm);
   }
 
+  function handleGenre(genreTerm) {
+    setGenreFilter(genreTerm);
+    // setGenreFilter(genreTerm);
+  }
+
   let listDisplay;
 
   const handleDecadeFilter = (filterAlbums) => {
@@ -160,8 +167,11 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
     let decadeAlbums = decadeFilter
       ? handleDecadeFilter(filterAlbums, decadeFilter)
       : filterAlbums;
-
-    setLocalAlbums(decadeAlbums);
+    let genreAlbums =
+      genreFilter === "All"
+        ? decadeAlbums
+        : decadeAlbums.filter((a) => a.genres[0] === genreFilter);
+    setLocalAlbums(genreAlbums);
   }
 
   switch (sortSelector) {
@@ -240,6 +250,7 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
             viewClick={viewClick}
             setViewClick={setViewClick}
             sectionList={sectionList}
+            handleGenre={handleGenre}
           />
         </View>
         <Text>
