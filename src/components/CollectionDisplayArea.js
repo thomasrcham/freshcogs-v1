@@ -12,6 +12,7 @@ export default function CollectionDisplayArea({ albums }) {
       <View style={styles.mainPageContainer}>
         <NavigationContainer independent={true}>
           <Stack.Navigator
+            backBehavior="none"
             screenOptions={{
               headerShown: false,
             }}

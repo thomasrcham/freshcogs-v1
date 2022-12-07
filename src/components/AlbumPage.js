@@ -1,18 +1,14 @@
 import { Image, Linking, Pressable, Text, View } from "react-native";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import styles from "./styles/style.js";
 import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { format } from "date-fns";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
+import styles from "./styles/style.js";
 
 function AlbumPage({ route, navigation }) {
   const { album, albums } = route.params;
   const [localListenEvents, setLocalListenEvents] = useState([]);
   const [totalListenEvents, setTotalListenEvents] = useState([]);
-
-  // useEffect(() => {
-  //   listenEventsDataGet();
-  // }, []);
 
   useEffect(() => {
     listenEventsDataGet();
@@ -66,13 +62,12 @@ function AlbumPage({ route, navigation }) {
   const createListenEvent = () => {
     console.log(totalListenEvents.length);
     let dateTime = new Date().toISOString();
-    let newAlbum = albums[Math.floor(Math.random() * albums.length)];
-    let newEvent = { album: newAlbum, dateTime: dateTime };
+    // let newAlbum = albums[Math.floor(Math.random() * albums.length)];
+    let newEvent = { album: album, dateTime: dateTime };
     let newArray = localListenEvents
       ? [...localListenEvents, newEvent]
       : [newEvent];
     let newTotalArray = [...totalListenEvents, newEvent];
-    console.log(newArray);
     setLocalListenEvents(newArray);
     setTotalListenEvents(newTotalArray);
     storeListenEvents(newTotalArray);
@@ -89,7 +84,11 @@ function AlbumPage({ route, navigation }) {
       <View style={styles.albumDataContainer}>
         <View style={styles.albumDataDisplay}>
           <View style={styles.albumInfo}>
-            <Text numberOfLines={2} style={styles.albumInfoArtist}>
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              style={styles.albumInfoArtist}
+            >
               {album.artist}
             </Text>
             <View style={{ maxHeight: 65 }}>
@@ -148,6 +147,23 @@ function AlbumPage({ route, navigation }) {
             flexDirection: "row",
           }}
         >
+          <Pressable style={styles.albumPageButton}>
+            {/* <MaterialCommunityIcons
+              name="step-backward"
+              size={40}
+              color={"white"}
+            />
+            <Text
+              style={{
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 12,
+                transform: [{ translateY: -5 }],
+              }}
+            >
+              previous
+            </Text> */}
+          </Pressable>
           <Pressable
             style={styles.albumPageButton}
             onPress={() => {
@@ -170,23 +186,7 @@ function AlbumPage({ route, navigation }) {
               back
             </Text>
           </Pressable>
-          <Pressable style={styles.albumPageButton}>
-            <MaterialCommunityIcons
-              name="step-backward"
-              size={40}
-              color={"white"}
-            />
-            <Text
-              style={{
-                color: "white",
-                fontWeight: "bold",
-                fontSize: 12,
-                transform: [{ translateY: -5 }],
-              }}
-            >
-              previous
-            </Text>
-          </Pressable>
+
           <Pressable
             style={styles.albumPageButton}
             onPress={() => createListenEvent()}
@@ -203,23 +203,6 @@ function AlbumPage({ route, navigation }) {
               listen
             </Text>
           </Pressable>
-          <Pressable style={styles.albumPageButton}>
-            <MaterialCommunityIcons
-              name="step-forward"
-              size={40}
-              color={"white"}
-            />
-            <Text
-              style={{
-                color: "white",
-                fontWeight: "bold",
-                fontSize: 12,
-                transform: [{ translateY: -5 }],
-              }}
-            >
-              tags
-            </Text>
-          </Pressable>
           <Pressable
             style={styles.albumPageButton}
             onPress={() => {
@@ -228,7 +211,6 @@ function AlbumPage({ route, navigation }) {
               navigation.navigate("AlbumPage", {
                 album: randomAlbum,
                 albums: albums,
-                previous: album,
               });
             }}
           >
@@ -247,6 +229,19 @@ function AlbumPage({ route, navigation }) {
             >
               random
             </Text>
+          </Pressable>
+          <Pressable style={styles.albumPageButton}>
+            {/* <FontAwesome5 name="record-vinyl" size={30} color={"white"} />
+            <Text
+              style={{
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 12,
+                transform: [{ translateY: -5 }],
+              }}
+            >
+              tags
+            </Text> */}
           </Pressable>
         </View>
       </View>
