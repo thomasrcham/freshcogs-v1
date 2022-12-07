@@ -64,6 +64,30 @@ export default StyleSheet.create({
     flexDirection: "row",
     width: "100%",
   },
+
+  albumInfo: {
+    paddingLeft: 10,
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  albumInfoArtist: {
+    fontSize: 26,
+    color: "white",
+    fontStyle: "bold",
+    ...Platform.select({
+      ios: { fontSize: 20 },
+      android: { fontSize: 26 },
+      default: { fontSize: 26 },
+    }),
+  },
+  albumInfoBasicText: {
+    paddingTop: 3,
+    ...Platform.select({
+      ios: { fontSize: 12 },
+      android: { fontSize: 14 },
+      default: { fontSize: 14 },
+    }),
+  },
   albumOuterInfoBox: {
     flex: 1,
     flexDirection: "row",
@@ -76,29 +100,6 @@ export default StyleSheet.create({
   },
   albumRightInfoBox: {
     paddingLeft: 10,
-  },
-  albumInfo: {
-    paddingLeft: 10,
-    flexDirection: "column",
-    justifyContent: "space-between",
-  },
-  albumInfoBasicText: {
-    paddingTop: 3,
-    ...Platform.select({
-      ios: { fontSize: 12 },
-      android: { fontSize: 14 },
-      default: { fontSize: 14 },
-    }),
-  },
-  albumInfoArtist: {
-    fontSize: 26,
-    color: "white",
-    fontStyle: "bold",
-    ...Platform.select({
-      ios: { fontSize: 20 },
-      android: { fontSize: 26 },
-      default: { fontSize: 26 },
-    }),
   },
   albumPagePressables: {
     padding: 10,
