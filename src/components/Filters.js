@@ -61,18 +61,18 @@ export default function Filters({
     : null;
 
   let genreList = [
-    { id: 0, value: "All" },
-    { id: 1, value: "Classical" },
-    { id: 2, value: "Country" },
-    { id: 3, value: "Electronic" },
-    { id: 4, value: "Folk" },
-    { id: 5, value: "Funk / Soul" },
-    { id: 6, value: "Hip Hop" },
-    { id: 7, value: "Jazz" },
-    { id: 8, value: "Non-Music" },
-    { id: 9, value: "Pop" },
-    { id: 10, value: "Rock" },
-    { id: 11, value: "Soundtrack" },
+    { id: 0, value: "All", display: "All - " },
+    { id: 1, value: "Classical", display: "Classical - " },
+    { id: 2, value: "Country", display: "Country - " },
+    { id: 3, value: "Electronic", display: "Electronic - " },
+    { id: 4, value: "Folk", display: "Folk - " },
+    { id: 5, value: "Funk / Soul", display: "Funk / Soul - " },
+    { id: 6, value: "Hip Hop", display: "Hip Hop - " },
+    { id: 7, value: "Jazz", display: "Jazz - " },
+    { id: 8, value: "Non-Music", display: "Non-Music - " },
+    { id: 9, value: "Pop", display: "Pop - " },
+    { id: 10, value: "Rock", display: "Rock - " },
+    { id: 11, value: "Soundtrack", display: "Soundtrack" },
   ];
 
   let genreClicker = genreList.map((g) => (
@@ -85,7 +85,7 @@ export default function Filters({
           fontSize: 16,
         }}
       >
-        {g.value} -{" "}
+        {g.display}
       </Text>
     </Pressable>
   ));
@@ -169,20 +169,47 @@ export default function Filters({
       break;
     case 4:
       filterDisplay = (
-        <View style={{ flexDirection: "row", backgroundColor: "grey" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            backgroundColor: "grey",
+            alignItems: "center",
+          }}
+        >
           <MaterialCommunityIcons
             name="arrow-left-circle"
-            size={20}
+            size={25}
             color="white"
+            style={{ borderRightWidth: 2, borderRightColor: "white" }}
           />
-          <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            horizontal={true}
+            style={{ marginLeft: 2, marginRight: 2 }}
+          >
             {genreClicker}
           </ScrollView>
           <MaterialCommunityIcons
             name="arrow-right-circle"
-            size={20}
+            size={25}
             color="white"
+            style={{
+              paddingLeft: 2,
+              borderLeftWidth: 2,
+              borderLeftColor: "white",
+            }}
           />
+          <Pressable
+            style={styles.filterPressable}
+            onPress={() => {
+              {
+                handleGenre("All");
+                setClicked(false);
+              }
+            }}
+          >
+            <Text>✕</Text>
+          </Pressable>
         </View>
       );
       break;
@@ -228,7 +255,7 @@ export default function Filters({
           <Text>Genre</Text>
         </Pressable>
       </View>
-      <View style={{ elevation: 50 }}>{clicked ? filterDisplay : null}</View>
+      {clicked ? filterDisplay : null}
     </>
   );
 }
