@@ -12,7 +12,6 @@ import styles from "./styles/style.js";
 export default function SearchBar({
   navigation,
   handleClear,
-  // handleSearch,
   searchPhrase,
   setSearchPhrase,
   clicked,

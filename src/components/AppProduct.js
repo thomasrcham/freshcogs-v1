@@ -18,15 +18,15 @@ import styles from "./styles/style.js";
 import "../../keys.js";
 
 export default function AppProduct({ navigation }) {
-  // const { titles } = useSelector((state) => state.albumTitleReducer);
-  // const dispatch = useDispatch();
   const [albums, setAlbums] = useState(null);
-  const [displayAlbums, setDisplayAlbums] = useState(null);
+  const [frontPageAlbums, setFrontPageAlbums] = useState(null);
   const [user, setUser] = useState(null);
   const [folders, setFolders] = useState(null);
-  const [sectionList, setSectionList] = useState(null);
-  const [genreList, setGenreList] = useState(null);
   const [listenEvents, setListenEvents] = useState([]);
+  // rearranged albums array for SectionList implementation
+  const [sectionList, setSectionList] = useState(null);
+  // generated list of all repeated genre labels from discogs
+  const [genreList, setGenreList] = useState(null);
 
   //VARIABLE ESTABLISHMENT
 
@@ -50,8 +50,9 @@ export default function AppProduct({ navigation }) {
     redirect: "follow",
   };
 
-  // Local storage and retrieval
+  // LOCAL STORAGE AND RETRIEVAL
 
+  //handles the overall retrieval from storage for all main states
   const getData = () => {
     albumDataGet();
     folderDataGet();
@@ -109,6 +110,7 @@ export default function AppProduct({ navigation }) {
     }
   };
 
+  //ensures that state and storage match for albums and folders
   const handleStorage = async (albumsValue, foldersValue) => {
     setAlbums(albumsValue);
     setFolders(foldersValue);
@@ -123,6 +125,7 @@ export default function AppProduct({ navigation }) {
       : null;
   };
 
+  //stores albums and folders
   const multiStoreData = async (albumsValue, foldersValue) => {
     console.log("multiStore Called");
     const albumsPair = ["@albums", JSON.stringify(albumsValue)];
@@ -139,6 +142,7 @@ export default function AppProduct({ navigation }) {
     );
   };
 
+  //ensures that state and storage match for user
   const handleUser = (value) => {
     storeUser(value);
     setUser(value);
@@ -196,7 +200,26 @@ export default function AppProduct({ navigation }) {
       .catch((error) => console.log("error", error));
   };
 
-  // data manipulation
+  const getFolderData = (parsedReleases) => {
+    fetch(
+      `https://api.discogs.com/users/theyear1000/collection/folders`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        let returnData = result.folders;
+        let names = returnData.map((f) => ({
+          folderID: f.id,
+          folderName: f.name,
+        }));
+        let folders = names.filter((f) => f.folderID != 0);
+        setFolders(folders);
+        folderAssignment(parsedReleases, folders);
+      })
+      .catch((error) => console.log("error", error));
+  };
+
+  // fetched data manipulation
   function parseInfo(release) {
     let artist = release.basic_information.artists[0].name;
 
@@ -240,25 +263,6 @@ export default function AppProduct({ navigation }) {
     return singleParsedRelease;
   }
 
-  const getFolderData = (parsedReleases) => {
-    fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders`,
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        let returnData = result.folders;
-        let names = returnData.map((f) => ({
-          folderID: f.id,
-          folderName: f.name,
-        }));
-        let folders = names.filter((f) => f.folderID != 0);
-        setFolders(folders);
-        folderAssignment(parsedReleases, folders);
-      })
-      .catch((error) => console.log("error", error));
-  };
-
   const folderAssignment = (parsedReleases, folders) => {
     folders.map((f) => {
       //pulls releases for each folder
@@ -291,7 +295,7 @@ export default function AppProduct({ navigation }) {
         newArray.push(newItem);
       }
     }
-    setDisplayAlbums(newArray);
+    setFrontPageAlbums(newArray);
   }
 
   const createGenreList = (albums) => {
@@ -359,7 +363,7 @@ export default function AppProduct({ navigation }) {
           }}
         >
           {(props) => (
-            <CollectionDisplayArea {...props} albums={displayAlbums} />
+            <CollectionDisplayArea {...props} albums={frontPageAlbums} />
           )}
         </Tab.Screen>
         <Tab.Screen

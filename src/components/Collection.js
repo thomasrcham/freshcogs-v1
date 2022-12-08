@@ -10,7 +10,7 @@ import {
 import { useRoute } from "@react-navigation/native";
 import styles from "./styles/style.js";
 
-const Item = ({ item, onPress }) => (
+const FrontPageItem = ({ item, onPress }) => (
   <View style={styles.frontPageImageGrid} key={item.id}>
     <TouchableOpacity onPress={onPress}>
       <Image
@@ -45,9 +45,9 @@ const CollectionItem = ({ item, onPress }) => (
 function Collection({ albums, navigation }) {
   const route = useRoute();
 
-  const renderItem = ({ item }) => {
+  const renderFrontPageItem = ({ item }) => {
     return (
-      <Item
+      <FrontPageItem
         item={item}
         onPress={() =>
           navigation.navigate("AlbumPage", {
@@ -73,6 +73,8 @@ function Collection({ albums, navigation }) {
     );
   };
 
+  //is fed either the full albums array or the randomized front page array (of 6 albums), decides which component to render based on length of array
+
   return (
     <View
       style={{ position: "relative", height: Dimensions.get("window").height }}
@@ -83,7 +85,7 @@ function Collection({ albums, navigation }) {
             <FlatList
               style={styles.frontPageContainer}
               data={albums}
-              renderItem={renderItem}
+              renderItem={renderFrontPageItem}
               keyExtractor={(item) => item.id}
               extraData={albums}
               numColumns="2"

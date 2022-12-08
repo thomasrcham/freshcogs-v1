@@ -16,20 +16,18 @@ import styles from "./styles/style.js";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
 export default function FindPage({ albums, folders, navigation, sectionList }) {
-  const [searchPhrase, setSearchPhrase] = useState(null);
-  const [localAlbums, setLocalAlbums] = useState(null);
-  const [sortedAlbums, setSortedAlbums] = useState(null);
   const [clicked, setClicked] = useState(false);
+  const [viewClick, setViewClick] = useState(0);
+
+  const [searchPhrase, setSearchPhrase] = useState(null);
+
   const [folderFilter, setFolderFilter] = useState(null);
   const [sortSelector, setSortSelector] = useState("none");
-  const [viewClick, setViewClick] = useState(0);
   const [decadeFilter, setDecadeFilter] = useState(null);
-  const listRef = useRef(null);
 
-  // albums ? console.log("findpage: " + albums.length) : console.log("no albums");
-  // localAlbums
-  //   ? console.log("findpage: " + localAlbums.length)
-  //   : console.log("no local albums");
+  const [localAlbums, setLocalAlbums] = useState(null);
+
+  const listRef = useRef(null);
 
   useEffect(() => {
     setLocalAlbums(albums);
@@ -39,17 +37,12 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
     displayList();
   }, [searchPhrase, folderFilter, sortSelector, decadeFilter]);
 
-  // function handleSearch(input) {
-  //   setSearchTerm(input)
-  // }
-
   function handleClear() {
     setLocalAlbums(albums);
     setSearchPhrase(null);
   }
 
   function handleFilter(input) {
-    console.log("handlefilter");
     setFolderFilter(input);
   }
 
@@ -220,7 +213,6 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
             setSearchPhrase={setSearchPhrase}
             clicked={clicked}
             setClicked={setClicked}
-            // handleSearch={handleSearch}
             handleClear={handleClear}
           />
         </View>

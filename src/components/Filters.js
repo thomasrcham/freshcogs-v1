@@ -19,14 +19,26 @@ export default function Filters({
   viewClick,
   setViewClick,
 }) {
+  //handles display of second line of filters
   const [clicked, setClicked] = useState(false);
 
+  //category establishment
   let sortOptions = [
     { id: 1, value: "Artist", sortTerm: "artist" },
     { id: 2, value: "Date Added", sortTerm: "date" },
     { id: 3, value: "Year Asc", sortTerm: "yearA" },
     { id: 4, value: "Year Desc", sortTerm: "yearD" },
   ];
+
+  let decadeOptions = [
+    { id: 1, value: "pre-50s", decadeTerm: "pre-1950s" },
+    { id: 2, value: "50s-60s", decadeTerm: "1950s & 1960s" },
+    { id: 3, value: "70s-80s", decadeTerm: "1970s & 1980s" },
+    { id: 4, value: "90s-00s", decadeTerm: "1990s & 2000s" },
+    { id: 5, value: "10s-20s", decadeTerm: "2010s & 2020s" },
+  ];
+
+  //creates second line buttons by mapping over existing arrays (sort, folder, and decade options)
 
   let sortDisplay = sortOptions.map((f) => (
     <Pressable
@@ -54,14 +66,6 @@ export default function Filters({
       ))
     : null;
 
-  let decadeOptions = [
-    { id: 1, value: "pre-50s", decadeTerm: "pre-1950s" },
-    { id: 2, value: "50s-60s", decadeTerm: "1950s & 1960s" },
-    { id: 3, value: "70s-80s", decadeTerm: "1970s & 1980s" },
-    { id: 4, value: "90s-00s", decadeTerm: "1990s & 2000s" },
-    { id: 5, value: "10s-20s", decadeTerm: "2010s & 2020s" },
-  ];
-
   let decadesDisplay = decadeOptions.map((f) => (
     <Pressable
       style={styles.filterPressable}
@@ -76,6 +80,7 @@ export default function Filters({
 
   let filterDisplay;
 
+  //handles display of the second line based on viewClick state set in parent
   switch (viewClick) {
     case 1:
       filterDisplay = (
@@ -103,7 +108,7 @@ export default function Filters({
             style={styles.filterPressable}
             onPress={() => {
               {
-                handleSort(null);
+                // handleSort(null);
                 setClicked(false);
               }
             }}
@@ -133,6 +138,7 @@ export default function Filters({
       break;
   }
 
+  //creates options on first line and handles setting states to contol filtering of data
   return (
     <>
       <View style={styles.filterButtonBox}>
