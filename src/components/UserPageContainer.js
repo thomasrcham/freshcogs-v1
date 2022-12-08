@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import UserPage from "./UserPage";
 import ListenEvents from "./ListenEvents";
+import CameraPage from "./CameraPage.js";
 import styles from "./styles/style.js";
 
 const Stack = createNativeStackNavigator();
@@ -39,6 +40,9 @@ export default function UserPageContainer({
             </Stack.Screen>
             <Stack.Screen name="ListenEvents">
               {(props) => <ListenEvents listenEvents={listenEvents} />}
+            </Stack.Screen>
+            <Stack.Screen name="CameraPage">
+              {(props) => <CameraPage />}
             </Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>

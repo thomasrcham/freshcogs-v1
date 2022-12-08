@@ -152,6 +152,28 @@ export default function UserPage({
           />
         </View>
       </View>
+      <View
+        style={{
+          flexDirection: "row",
+          marginTop: 20,
+          marginLeft: 10,
+          height: "5%",
+        }}
+      >
+        <View style={{ width: "55%" }}>
+          <Text>
+            Total Listen Events Recorded:{" "}
+            {listenEvents ? listenEvents.length : 0}
+          </Text>
+        </View>
+        <View style={{ width: "45%", alignItems: "center" }}>
+          <Button
+            title="Camera"
+            style={{ width: "30%" }}
+            onPress={() => navigation.navigate("CameraPage")}
+          />
+        </View>
+      </View>
     </View>
   );
 }
