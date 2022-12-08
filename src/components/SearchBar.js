@@ -1,11 +1,4 @@
-import {
-  Button,
-  Keyboard,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { Button, Keyboard, TextInput, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import styles from "./styles/style.js";
 

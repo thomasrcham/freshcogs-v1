@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { StyleSheet, View, Text, FlatList } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import styles from "./styles/style.js";
 
 const Item = ({ item, onPress }) => (
@@ -17,9 +17,6 @@ const Item = ({ item, onPress }) => (
 );
 
 export default function ListenEvents({ listenEvents }) {
-  console.log(listenEvents[0].dateTime);
-
-  let tableHead = ["Date", "Artist", "Album"];
   let albumEvent = [];
   let tableData = listenEvents.map(
     (e) =>
@@ -41,20 +38,6 @@ export default function ListenEvents({ listenEvents }) {
   }
 
   let sortedTableData = tableData.sort(compareDate);
-
-  //   let tableRow = sortedTableData.map((row) => (
-  //     <View style={styles.tableRow} key={row.id}>
-  //       <View style={styles.tableCell}>
-  //         <Text>{format(new Date(row.dateTime), "MM/dd/yyyy")}</Text>
-  //       </View>
-  //       <View style={styles.tableCell}>
-  //         <Text>{row.artist}</Text>
-  //       </View>
-  //       <View style={styles.tableCell}>
-  //         <Text>{row.title}</Text>
-  //       </View>
-  //     </View>
-  //   ));
 
   const renderItem = ({ item }) => {
     return <Item item={item} />;

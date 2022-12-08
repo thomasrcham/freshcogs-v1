@@ -2,7 +2,7 @@ import { Image, Linking, Pressable, Text, View } from "react-native";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import styles from "./styles/style.js";
 
 function AlbumPage({ route, navigation }) {
@@ -60,7 +60,6 @@ function AlbumPage({ route, navigation }) {
   };
 
   const createListenEvent = () => {
-    console.log(totalListenEvents.length);
     let dateTime = new Date().toISOString();
     // let newAlbum = albums[Math.floor(Math.random() * albums.length)];
     let newEvent = { album: album, dateTime: dateTime };

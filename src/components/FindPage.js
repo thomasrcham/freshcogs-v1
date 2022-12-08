@@ -1,13 +1,4 @@
-import {
-  Button,
-  Dimensions,
-  Keyboard,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import SearchBar from "./SearchBar";
 import List from "./List";
@@ -47,7 +38,6 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
   }
 
   function handleSort(sortTerm) {
-    console.log(`${albums.length}, ${sortTerm}`);
     switch (sortTerm) {
       case "artist":
         function compareArtist(a, b) {

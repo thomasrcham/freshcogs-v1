@@ -1,12 +1,4 @@
-import {
-  Button,
-  Keyboard,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { useState } from "react";
 import styles from "./styles/style.js";
 
