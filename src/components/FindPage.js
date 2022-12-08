@@ -234,7 +234,6 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
             folderFilter={folderFilter}
             setFolderFilter={setFolderFilter}
             handleSort={handleSort}
-            // handleSearch={handleSearch}
             searchPhrase={searchPhrase}
             setSearchPhrase={setSearchPhrase}
             viewClick={viewClick}
