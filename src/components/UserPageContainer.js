@@ -3,7 +3,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import UserPage from "./UserPage";
 import ListenEvents from "./ListenEvents";
+import CameraPage from "./CameraPage";
 import styles from "./styles/style.js";
+import TFTestComponent from "./TFTestComponent";
 
 const Stack = createNativeStackNavigator();
 export default function UserPageContainer({
@@ -39,6 +41,9 @@ export default function UserPageContainer({
             </Stack.Screen>
             <Stack.Screen name="ListenEvents">
               {(props) => <ListenEvents listenEvents={listenEvents} />}
+            </Stack.Screen>
+            <Stack.Screen name="TFTestComponent">
+              {(props) => <TFTestComponent />}
             </Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
