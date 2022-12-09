@@ -184,14 +184,14 @@ export default function Settings({
       />
       {/* <Button title="reset listen events" onPress={() => resetListenEvent()} /> */}
 
-      {/* <Button title="set folder values" onPress={() => getFolderData()} />
+      {/* <Button title="set folder values" onPress={() => getFolderData()} /> */}
       <Button
         title="console.log random album"
         onPress={() =>
           console.log(albums[Math.floor(Math.random() * albums.length)])
         }
       />
-      <Button title="year replace" onPress={() => yearReplaceTimer()} />
+      {/*  <Button title="year replace" onPress={() => yearReplaceTimer()} />
       <Button title="genre list" onPress={() => createGenreList(albums)} />
       <Button
         title="log user info"
