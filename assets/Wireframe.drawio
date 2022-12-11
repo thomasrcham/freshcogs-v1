@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2022-12-01T02:13:49.589Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36" etag="B1kDKqghwt5A83FUwn38" version="20.6.0" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2022-12-11T22:26:49.942Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36" etag="RcUmvC0k6XT_YEBOCxI9" version="20.6.0" type="github" pages="3">
   <diagram id="vQnaIrqS837w08uxhmac" name="Page-1">
-    <mxGraphModel dx="1045" dy="618" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="960" dy="672" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -104,6 +104,113 @@
         </mxCell>
         <mxCell id="hUoqpvpmxQEJ7Kl4Z2DI-14" value="Discogs Link" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="Zr19szwjd2xNhLG1XoBX-1">
           <mxGeometry x="440" y="360" width="85" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="l5u0jKfa5x7GXwyQAAWz" name="Page-3">
+    <mxGraphModel dx="960" dy="672" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-1" value="&lt;u&gt;Fetches&lt;/u&gt;:&lt;br&gt;Albums&lt;br&gt;User&lt;br&gt;List of Folders" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="90" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-2" value="&lt;u&gt;Storage&lt;/u&gt;:&lt;br&gt;Albums&lt;br&gt;User&lt;br&gt;List of Folders&lt;br&gt;Listen Events&lt;br&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="170" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-4" value="&lt;u&gt;Processes&lt;/u&gt;:&lt;br&gt;Parse Info(albums)&lt;br&gt;Random array (albums)&lt;br&gt;Assign Folders (albums &amp;amp; folders)&lt;br&gt;Update years (albums)&lt;br&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="20" width="220" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-22" value="albums" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ixvhf62bcY_kcOCCJ1cf-6" target="ixvhf62bcY_kcOCCJ1cf-21">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="140" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-27" value="folders" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ixvhf62bcY_kcOCCJ1cf-6" target="ixvhf62bcY_kcOCCJ1cf-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-31" value="user" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ixvhf62bcY_kcOCCJ1cf-6" target="ixvhf62bcY_kcOCCJ1cf-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-6" value="Initial Fetch 1 (component mounts)&lt;br&gt;fetches albums, user, and list of folders" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="220" y="230" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-7" value="UseEffect (trigger)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="20" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-12" value="if local storage" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ixvhf62bcY_kcOCCJ1cf-9" target="ixvhf62bcY_kcOCCJ1cf-11">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="120" />
+              <mxPoint x="383" y="120" />
+              <mxPoint x="383" y="70" />
+              <mxPoint x="485" y="70" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-16" value="if no local storage" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ixvhf62bcY_kcOCCJ1cf-9" target="ixvhf62bcY_kcOCCJ1cf-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="180" />
+              <mxPoint x="280" y="180" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-9" value="Check local storage (component mounts)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="90" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-11" value="loads from storage" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="425" y="90" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ixvhf62bcY_kcOCCJ1cf-21" target="ixvhf62bcY_kcOCCJ1cf-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-21" value="parse info" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="80" y="300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ixvhf62bcY_kcOCCJ1cf-23" target="ixvhf62bcY_kcOCCJ1cf-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-23" value="sets user in state" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="360" y="300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-29" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ixvhf62bcY_kcOCCJ1cf-26" target="ixvhf62bcY_kcOCCJ1cf-28">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="150" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="ixvhf62bcY_kcOCCJ1cf-26" target="ixvhf62bcY_kcOCCJ1cf-37">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-26" value="sets list of folders in state" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="220" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-40" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ixvhf62bcY_kcOCCJ1cf-28" target="ixvhf62bcY_kcOCCJ1cf-39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-28" value="fetches list of ids for each folder" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="80" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-32" value="sets albums in state" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="80" y="560" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-34" value="stores user data in local storage" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="500" y="300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-37" value="stores list of folders in local storage" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="360" y="380" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ixvhf62bcY_kcOCCJ1cf-39" target="ixvhf62bcY_kcOCCJ1cf-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ixvhf62bcY_kcOCCJ1cf-39" value="sets folder value on each album" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="80" y="480" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
