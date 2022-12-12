@@ -46,6 +46,7 @@ export default function UserPage({
         setAlbums(albums);
         storeAlbums(albums);
         setUpdating("Complete");
+        setAlbumsToUpdate(0);
       } else {
         console.log(
           `remaining albums that need year replaced: ${

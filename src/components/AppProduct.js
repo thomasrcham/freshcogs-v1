@@ -133,20 +133,21 @@ export default function AppProduct({ navigation }) {
     )
       .then((res) => res.json())
       .then((data) => {
-        let latestAlbum = albums
-          ? albums
-              .map((a) => a.date_added)
-              .sort()
-              .reverse()[0]
-          : null;
+        console.log(data.releases.length);
+        // let latestAlbum = albums
+        //   ? albums
+        //       .map((a) => a.date_added)
+        //       .sort()
+        //       .reverse()[0]
+        //   : null;
 
-        let newest = data.releases
-          .map((r) => r.date_added)
-          .sort()
-          .reverse()[0];
+        // let newest = data.releases
+        //   .map((r) => r.date_added)
+        //   .sort()
+        //   .reverse()[0];
 
-        console.log(newest);
-        console.log(latestAlbum);
+        // console.log(newest);
+        // console.log(latestAlbum);
       });
     // let parsedReleases = returnData.map((release) => parseInfoSet(release));
   };
