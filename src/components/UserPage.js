@@ -18,6 +18,9 @@ export default function UserPage({
 }) {
   const navigation = useNavigation();
   const [updating, setUpdating] = useState("Update Now");
+  const [albumsToUpdate, setAlbumsToUpdate] = useState(
+    albums ? albums.filter((a) => a.isReissue === true).length : 0
+  );
 
   const handleProfileClick = () => {
     let URL = `${user.uri}`;
@@ -49,6 +52,8 @@ export default function UserPage({
             albums.filter((a) => a.isReissue === true).length
           }`
         );
+        setAlbumsToUpdate(albums.filter((a) => a.isReissue === true).length);
+        setUpdating("In Progress");
         needsReplacement.map((album) => individualYearReplace(album));
       }
     }, 10000);
@@ -126,7 +131,7 @@ export default function UserPage({
         <View style={{ width: "55%" }}>
           <Text>
             Albums with potentially incorrect release year data:{" "}
-            {albums ? albums.filter((a) => a.isReissue === true).length : 0}
+            {albumsToUpdate}
           </Text>
         </View>
         <View
@@ -135,11 +140,11 @@ export default function UserPage({
             alignItems: "center",
           }}
         >
-          {updating === "Complete" ? (
-            <Button title="Complete!" style={{ width: "30%" }} />
+          {updating != "Update Now" ? (
+            <Button title={updating} style={{ width: "30%" }} disabled={true} />
           ) : (
             <Button
-              title={updating}
+              title="Update Now"
               style={{ width: "30%" }}
               onPress={yearReplaceTimer}
             />
