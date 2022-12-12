@@ -23,10 +23,6 @@ export default function AppProduct({ navigation }) {
   const [user, setUser] = useState(null);
   const [folders, setFolders] = useState(null);
   const [listenEvents, setListenEvents] = useState([]);
-  // rearranged albums array for SectionList implementation
-  // const [sectionList, setSectionList] = useState(null);
-  // generated list of all repeated genre labels from discogs
-  // const [genreList, setGenreList] = useState(null);
 
   //VARIABLE ESTABLISHMENT
 
@@ -234,7 +230,6 @@ export default function AppProduct({ navigation }) {
       isReissue: isReissue,
       year: release.basic_information.year,
     };
-    // dispatch(addAlbum(singleParsedRelease));
     return singleParsedRelease;
   }
 
@@ -332,11 +327,11 @@ export default function AppProduct({ navigation }) {
             height: Dimensions.get("window").height * 0.08,
             overflow: "visible",
             paddingBottom: 5,
-            // ...Platform.select({
-            //   ios: { paddingBottom: 15 },
-            //   android: { paddingBottom: 5 },
-            //   default: { paddingBottom: 5 },
-            // }),
+            ...Platform.select({
+              ios: { paddingBottom: 15 },
+              android: { paddingBottom: 5 },
+              default: { paddingBottom: 5 },
+            }),
             borderTopWidth: 0,
             borderTopColor: "transparent",
           },
