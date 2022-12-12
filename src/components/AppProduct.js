@@ -198,8 +198,12 @@ export default function AppProduct({ navigation }) {
 
   function randomArray(releases) {
     let newArray = [];
+    let filteredAlbums = releases.filter(
+      (a) => !a.genres.includes("Classical") && !a.genres.includes("Christmas")
+    );
     for (let i = 0; i < 6; i = newArray.length) {
-      let newItem = releases[Math.floor(Math.random() * releases.length)];
+      let newItem =
+        filteredAlbums[Math.floor(Math.random() * filteredAlbums.length)];
       if (newArray.map((a) => a.id).includes(newItem.id)) {
         null;
       } else {
@@ -342,13 +346,7 @@ export default function AppProduct({ navigation }) {
             },
           }}
         >
-          {(props) => (
-            <SearchDisplayArea
-              {...props}
-              albums={albums}
-              sectionList={sectionList}
-            />
-          )}
+          {(props) => <SearchDisplayArea {...props} albums={albums} />}
         </Tab.Screen>
         <Tab.Screen
           name="User"
@@ -375,8 +373,8 @@ export default function AppProduct({ navigation }) {
             <UserPageContainer
               user={user}
               albums={albums}
+              storeAlbums={storeAlbums}
               requestOptions={requestOptions}
-              handleStorage={handleStorage}
               listenEvents={listenEvents}
             />
           )}

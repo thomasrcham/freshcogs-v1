@@ -9,13 +9,13 @@ import {
 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CollectionDisplayArea from "./CollectionDisplayArea.js";
-import UserPageContainer from "./UserPageContainer";
-import SearchDisplayArea from "./SearchDisplayArea.js";
+import CollectionDisplayArea from "../CollectionDisplayArea.js";
+import UserPageContainer from "../UserPageContainer";
+import SearchDisplayArea from "../SearchDisplayArea.js";
 
-import Settings from "./Settings.js";
-import styles from "./styles/style.js";
-import "../../keys.js";
+import Settings from "../Settings.js";
+import styles from "../styles/style.js";
+import "../../../keys.js";
 
 export default function AppProduct({ navigation }) {
   const [albums, setAlbums] = useState(null);
@@ -58,7 +58,6 @@ export default function AppProduct({ navigation }) {
     folderDataGet();
     userDataGet();
     listenEventsDataGet();
-    handleStorage(albums, folders);
   };
 
   const albumDataGet = async () => {

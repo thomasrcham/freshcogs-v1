@@ -6,7 +6,7 @@ import FindPage from "./FindPage";
 import styles from "./styles/style.js";
 
 const Stack = createNativeStackNavigator();
-export default function SearchDisplayArea({ albums, sectionList }) {
+export default function SearchDisplayArea({ albums }) {
   return (
     <View>
       <View style={styles.mainPageContainer}>
@@ -18,13 +18,7 @@ export default function SearchDisplayArea({ albums, sectionList }) {
             initialRouteName="Search"
           >
             <Stack.Screen name="Search">
-              {(props) => (
-                <FindPage
-                  {...props}
-                  albums={albums}
-                  sectionList={sectionList}
-                />
-              )}
+              {(props) => <FindPage {...props} albums={albums} />}
             </Stack.Screen>
             <Stack.Screen name="AlbumPage" component={AlbumPage} />
           </Stack.Navigator>

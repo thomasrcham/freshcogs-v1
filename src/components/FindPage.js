@@ -6,7 +6,7 @@ import Filters from "./Filters";
 import styles from "./styles/style.js";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
-export default function FindPage({ albums, navigation, sectionList }) {
+export default function FindPage({ albums, navigation }) {
   const [clicked, setClicked] = useState(false);
   const [viewClick, setViewClick] = useState(0);
 
@@ -147,7 +147,6 @@ export default function FindPage({ albums, navigation, sectionList }) {
           localAlbums={localAlbums}
           navigation={navigation}
           listRef={listRef}
-          sectionList={sectionList}
         />
       );
       break;
@@ -158,7 +157,6 @@ export default function FindPage({ albums, navigation, sectionList }) {
           localAlbums={localAlbums}
           navigation={navigation}
           listRef={listRef}
-          sectionList={sectionList}
         />
       );
       break;
@@ -170,7 +168,6 @@ export default function FindPage({ albums, navigation, sectionList }) {
           localAlbums={localAlbums}
           navigation={navigation}
           listRef={listRef}
-          sectionList={sectionList}
         />
       );
       break;
@@ -181,7 +178,6 @@ export default function FindPage({ albums, navigation, sectionList }) {
           localAlbums={localAlbums}
           navigation={navigation}
           listRef={listRef}
-          sectionList={sectionList}
         />
       );
   }
@@ -203,13 +199,11 @@ export default function FindPage({ albums, navigation, sectionList }) {
             clicked={clicked}
             setClicked={setClicked}
             handleDecade={handleDecade}
-            handleFilter={handleFilter}
             handleSort={handleSort}
             searchPhrase={searchPhrase}
             setSearchPhrase={setSearchPhrase}
             viewClick={viewClick}
             setViewClick={setViewClick}
-            sectionList={sectionList}
           />
         </View>
         <Text>

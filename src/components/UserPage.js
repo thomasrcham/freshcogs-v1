@@ -7,8 +7,8 @@ import styles from "./styles/style.js";
 export default function UserPage({
   user,
   albums,
+  storeAlbums,
   requestOptions,
-  handleStorage,
   listenEvents,
 }) {
   const navigation = useNavigation();

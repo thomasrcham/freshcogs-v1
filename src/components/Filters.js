@@ -5,7 +5,6 @@ import styles from "./styles/style.js";
 export default function Filters({
   navigation,
   handleDecade,
-  handleFilter,
   handleSort,
   viewClick,
   setViewClick,

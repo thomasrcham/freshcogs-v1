@@ -8,9 +8,9 @@ import styles from "./styles/style.js";
 const Stack = createNativeStackNavigator();
 export default function UserPageContainer({
   albums,
+  storeAlbums,
   listenEvents,
   requestOptions,
-  handleStorage,
   user,
 }) {
   return (
@@ -29,8 +29,8 @@ export default function UserPageContainer({
                 <UserPage
                   user={user}
                   albums={albums}
+                  storeAlbums={storeAlbums}
                   requestOptions={requestOptions}
-                  handleStorage={handleStorage}
                   listenEvents={listenEvents}
                 />
               )}
