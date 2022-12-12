@@ -7,7 +7,6 @@ import styles from "./styles/style.js";
 export default function UserPage({
   user,
   albums,
-  folders,
   requestOptions,
   handleStorage,
   listenEvents,
@@ -36,7 +35,7 @@ export default function UserPage({
       if (needsReplacement.length === 0) {
         console.log("finished");
         clearInterval(myInterval);
-        handleStorage(albums, folders);
+        storeAlbums(albums);
         setUpdating("Complete");
       } else {
         console.log(

@@ -4,17 +4,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Settings({
   albums,
-  folders,
   user,
   listenEvents,
   getData,
   setAlbums,
-  // setFolders,
   setListenEvents,
   setUser,
   handleAlbumFetch,
   storeAlbums,
-  // storeFolders,
   storeUser,
   storeListenEvents,
   updateLibraryFetch,
@@ -22,12 +19,11 @@ export default function Settings({
   const clearStorage = () => {
     removeItemValue();
     setAlbums(null);
-    // setFolders(null);
     setUser(null);
   };
 
   const removeItemValue = async () => {
-    let keys = ["@albums", "@folders", "@userProfile"];
+    let keys = ["@albums", "@userProfile"];
     await AsyncStorage.multiRemove(keys);
   };
 
@@ -46,10 +42,6 @@ export default function Settings({
         onPress={() =>
           console.log(albums[Math.floor(Math.random() * albums.length)])
         }
-      />
-      <Button
-        title="console.log random album"
-        onPress={() => console.log(albums.filter((a) => a.folder === 0))}
       />
     </View>
   );

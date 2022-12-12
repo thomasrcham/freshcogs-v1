@@ -9,7 +9,6 @@ const Stack = createNativeStackNavigator();
 export default function UserPageContainer({
   albums,
   listenEvents,
-  folders,
   requestOptions,
   handleStorage,
   user,
@@ -30,7 +29,6 @@ export default function UserPageContainer({
                 <UserPage
                   user={user}
                   albums={albums}
-                  folders={folders}
                   requestOptions={requestOptions}
                   handleStorage={handleStorage}
                   listenEvents={listenEvents}

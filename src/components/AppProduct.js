@@ -21,7 +21,6 @@ export default function AppProduct({ navigation }) {
   const [albums, setAlbums] = useState(null);
   const [frontPageAlbums, setFrontPageAlbums] = useState(null);
   const [user, setUser] = useState(null);
-  const [folders, setFolders] = useState(null);
   const [listenEvents, setListenEvents] = useState([]);
 
   //VARIABLE ESTABLISHMENT
@@ -55,7 +54,6 @@ export default function AppProduct({ navigation }) {
   //handles the overall retrieval from storage for all main states
   const getData = () => {
     albumDataGet();
-    // folderDataGet();
     userDataGet();
     listenEventsDataGet();
   };
@@ -72,17 +70,6 @@ export default function AppProduct({ navigation }) {
       handleAlbumFetch();
     }
   };
-
-  // const folderDataGet = async () => {
-  //   try {
-  //     const jsonValue = await AsyncStorage.getItem("@folders");
-  //     let data = jsonValue != null ? JSON.parse(jsonValue) : null;
-  //     console.log(`loading folders from local, items: ${data.length}`);
-  //     setFolders(data);
-  //   } catch (e) {
-  //     console.log(`Folder storage retrieval failure: ${e}`);
-  //   }
-  // };
 
   const userDataGet = async () => {
     try {
@@ -122,7 +109,6 @@ export default function AppProduct({ navigation }) {
         return returnData.map((release) => parseInfo(release));
       })
       .then((r) => {
-        // getFolderData(r);
         randomArray(r);
         setAlbums(r);
         storeAlbums(r);
@@ -138,26 +124,6 @@ export default function AppProduct({ navigation }) {
       })
       .catch((error) => console.log("user data error", error));
   };
-
-  // const getFolderData = (parsedReleases) => {
-  //   fetch(
-  //     `https://api.discogs.com/users/theyear1000/collection/folders`,
-  //     requestOptions
-  //   )
-  //     .then((response) => response.json())
-  //     .then((result) => {
-  //       let returnData = result.folders;
-  //       let names = returnData.map((f) => ({
-  //         folderID: f.id,
-  //         folderName: f.name,
-  //       }));
-  //       let folders = names.filter((f) => f.folderID != 0);
-  //       setFolders(folders);
-  //       storeFolders(folders);
-  //       // folderAssignment(folders, parsedReleases);
-  //     })
-  //     .catch((error) => console.log("folder data error", error));
-  // };
 
   const updateLibraryFetch = () => {
     fetch(
@@ -183,8 +149,6 @@ export default function AppProduct({ navigation }) {
         console.log(latestAlbum);
       });
     // let parsedReleases = returnData.map((release) => parseInfoSet(release));
-    // getFolderData(parsedReleases);
-    // console.log(parsedReleases);
   };
 
   // fetched data manipulation
@@ -226,43 +190,15 @@ export default function AppProduct({ navigation }) {
       uri: release.basic_information.cover_image,
       date_added: ISODate,
       genres: genres,
-      // folder: 0,
       isReissue: isReissue,
       year: release.basic_information.year,
     };
     return singleParsedRelease;
   };
 
-  // const folderAssignment = async (folders, parsedReleases) => {
-  //   await folders
-  //     .map((f) => {
-  //       //pulls releases for each folder
-  //       fetch(
-  //         `https://api.discogs.com/users/theyear1000/collection/folders/${f.folderID}/releases?per_page=500`,
-  //         requestOptions
-  //       )
-  //         .then((response) => response.json())
-  //         .then((result) => {
-  //           let returnData = result.releases;
-  //           let ids = returnData.map((a) => a.id);
-  //           parsedReleases.map((album) => {
-  //             if (ids.includes(album.id)) {
-  //               album.folder = f.folderName;
-  //             }
-  //           });
-  //         })
-
-  //         .catch((error) => console.log("folder assignment error", error));
-  //     })
-  //     .then(console.log(albums[0]));
-  // };
-
   function randomArray(releases) {
     let newArray = [];
     for (let i = 0; i < 6; i = newArray.length) {
-      let filteredReleases = releases.filter(
-        (r) => r.folder != "Classical" && r.folder != "Christmas"
-      );
       let newItem = releases[Math.floor(Math.random() * releases.length)];
       if (newArray.map((a) => a.id).includes(newItem.id)) {
         null;
@@ -284,16 +220,6 @@ export default function AppProduct({ navigation }) {
       console.log(`albums storage failure: ${e}`);
     }
   };
-
-  // const storeFolders = async (value) => {
-  //   try {
-  //     console.log(`folders to be stored: ${value.length}`);
-  //     const jsonValue = JSON.stringify(value);
-  //     await AsyncStorage.setItem("@folders", jsonValue);
-  //   } catch (e) {
-  //     console.log(`folders storage failure: ${e}`);
-  //   }
-  // };
 
   const storeUser = async (value) => {
     try {
@@ -420,7 +346,6 @@ export default function AppProduct({ navigation }) {
             <SearchDisplayArea
               {...props}
               albums={albums}
-              folders={folders}
               sectionList={sectionList}
             />
           )}
@@ -450,7 +375,6 @@ export default function AppProduct({ navigation }) {
             <UserPageContainer
               user={user}
               albums={albums}
-              folders={folders}
               requestOptions={requestOptions}
               handleStorage={handleStorage}
               listenEvents={listenEvents}
@@ -478,18 +402,15 @@ export default function AppProduct({ navigation }) {
             <Settings
               {...props}
               albums={albums}
-              folders={folders}
               user={user}
               listenEvents={listenEvents}
               getData={getData}
               setAlbums={setAlbums}
-              // setFolders={setFolders}
               setListenEvents={setListenEvents}
               setUser={setUser}
               handleAlbumFetch={handleAlbumFetch}
               getUserData={getUserData}
               storeAlbums={storeAlbums}
-              // storeFolders={storeFolders}
               storeUser={storeUser}
               storeListenEvents={storeListenEvents}
               updateLibraryFetch={updateLibraryFetch}

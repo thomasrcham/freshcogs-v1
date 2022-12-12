@@ -7,7 +7,6 @@ export default function Filters({
   handleDecade,
   handleFilter,
   handleSort,
-  folders,
   viewClick,
   setViewClick,
 }) {
@@ -30,7 +29,7 @@ export default function Filters({
     { id: 5, value: "10s-20s", decadeTerm: "2010s & 2020s" },
   ];
 
-  //creates second line buttons by mapping over existing arrays (sort, folder, and decade options)
+  //creates second line buttons by mapping over existing arrays (sort and decade options)
 
   let sortDisplay = sortOptions.map((f) => (
     <Pressable
@@ -43,20 +42,6 @@ export default function Filters({
       <Text>{f.value}</Text>
     </Pressable>
   ));
-
-  let folderDisplay = folders
-    ? folders.map((f) => (
-        <Pressable
-          style={styles.filterPressable}
-          key={f.folderID}
-          onPress={() => {
-            handleFilter(f.folderName);
-          }}
-        >
-          <Text>{f.folderName}</Text>
-        </Pressable>
-      ))
-    : null;
 
   let decadesDisplay = decadeOptions.map((f) => (
     <Pressable
@@ -74,24 +59,6 @@ export default function Filters({
 
   //handles display of the second line based on viewClick state set in parent
   switch (viewClick) {
-    case 1:
-      filterDisplay = (
-        <View style={styles.filterButtonBox}>
-          {folderDisplay}
-          <Pressable
-            style={styles.filterPressable}
-            onPress={() => {
-              {
-                handleFilter(null);
-                setClicked(false);
-              }
-            }}
-          >
-            <Text>✕</Text>
-          </Pressable>
-        </View>
-      );
-      break;
     case 2:
       filterDisplay = (
         <View style={styles.filterButtonBox}>
@@ -142,15 +109,6 @@ export default function Filters({
           }}
         >
           <Text>Sort</Text>
-        </Pressable>
-        <Pressable
-          style={styles.filterPressable}
-          onPress={() => {
-            setClicked(true);
-            setViewClick(1);
-          }}
-        >
-          <Text>Folder</Text>
         </Pressable>
         <Pressable
           style={styles.filterPressable}
