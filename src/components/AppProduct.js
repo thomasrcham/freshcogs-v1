@@ -138,12 +138,11 @@ export default function AppProduct({ navigation }) {
               .sort()
               .reverse()[0]
           : null;
-        let newest = new Date(
-          data.releases
-            .map((r) => r.date_added)
-            .sort()
-            .reverse()[0]
-        ).toISOString();
+
+        let newest = data.releases
+          .map((r) => r.date_added)
+          .sort()
+          .reverse()[0];
 
         console.log(newest);
         console.log(latestAlbum);
