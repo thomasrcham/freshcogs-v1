@@ -9,20 +9,24 @@ import {
 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CollectionDisplayArea from "./CollectionDisplayArea.js";
-import UserPageContainer from "./UserPageContainer";
-import SearchDisplayArea from "./SearchDisplayArea.js";
-import TagsPageContainer from "./TagsPageContainer.js";
+import CollectionDisplayArea from "../CollectionDisplayArea.js";
+import UserPageContainer from "../UserPageContainer";
+import SearchDisplayArea from "../SearchDisplayArea.js";
 
-import Settings from "./Settings.js";
-import styles from "./styles/style.js";
-import "../../keys.js";
+import Settings from "../Settings.js";
+import styles from "../styles/style.js";
+import "../../../keys.js";
 
 export default function AppProduct({ navigation }) {
   const [albums, setAlbums] = useState(null);
   const [frontPageAlbums, setFrontPageAlbums] = useState(null);
   const [user, setUser] = useState(null);
+  const [folders, setFolders] = useState(null);
   const [listenEvents, setListenEvents] = useState([]);
+  // rearranged albums array for SectionList implementation
+  // const [sectionList, setSectionList] = useState(null);
+  // generated list of all repeated genre labels from discogs
+  // const [genreList, setGenreList] = useState(null);
 
   //VARIABLE ESTABLISHMENT
 
@@ -46,15 +50,12 @@ export default function AppProduct({ navigation }) {
     redirect: "follow",
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
-
   // LOCAL STORAGE AND RETRIEVAL
 
   //handles the overall retrieval from storage for all main states
   const getData = () => {
     albumDataGet();
+    folderDataGet();
     userDataGet();
     listenEventsDataGet();
   };
@@ -68,7 +69,18 @@ export default function AppProduct({ navigation }) {
       setAlbums(data);
     } catch (e) {
       console.log(`Album retrieval failure: ${e}`);
-      handleAlbumFetch();
+      runFetch();
+    }
+  };
+
+  const folderDataGet = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("@folders");
+      let data = jsonValue != null ? JSON.parse(jsonValue) : null;
+      console.log(`loading folders from local, items: ${data.length}`);
+      setFolders(data);
+    } catch (e) {
+      console.log(`Folder storage retrieval failure: ${e}`);
     }
   };
 
@@ -97,63 +109,117 @@ export default function AppProduct({ navigation }) {
     }
   };
 
-  //FETCHES
-
-  const handleAlbumFetch = async () => {
-    await fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500`,
-      requestOptions
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        let returnData = data.releases;
-        return returnData.map((release) => parseInfo(release));
-      })
-      .then((r) => {
-        randomArray(r);
-        setAlbums(r);
-        storeAlbums(r);
-      });
+  //ensures that state and storage match for albums and folders
+  const handleStorage = async (albumsValue, foldersValue) => {
+    setAlbums(albumsValue);
+    setFolders(foldersValue);
+    albumsValue
+      ? console.log("albums to be stored: " + albumsValue.length)
+      : console.log("no albums to store");
+    foldersValue
+      ? console.log("folders to be stored: " + foldersValue.length)
+      : console.log("no folders to store");
+    albumsValue && foldersValue
+      ? multiStoreData(albumsValue, foldersValue)
+      : null;
   };
 
-  const getUserData = () => {
-    fetch(`https://api.discogs.com/users/theyear1000`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        storeUser(result);
-        setUser(result);
-      })
-      .catch((error) => console.log("user data error", error));
+  //stores albums and folders
+  const multiStoreData = async (albumsValue, foldersValue) => {
+    console.log("multiStore Called");
+    const albumsPair = ["@albums", JSON.stringify(albumsValue)];
+    const foldersPair = ["@folders", JSON.stringify(foldersValue)];
+    try {
+      await AsyncStorage.multiSet([albumsPair, foldersPair]);
+    } catch (e) {
+      console.log(`Storage failure: ${e}`);
+    }
+    console.log(
+      albumsValue && foldersValue
+        ? `Multi-storage success: Albums: ${albumsValue.length}, Folders: ${foldersValue.length}`
+        : `Multi-storage failure`
+    );
   };
 
-  const updateLibraryFetch = () => {
+  //ensures that state and storage match for user
+  // const handleUser = (value) => {
+  //   storeUser(value);
+  //   setUser(value);
+  // };
+
+  const storeUser = async (value) => {
+    try {
+      console.log("storing user");
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("@userProfile", jsonValue);
+    } catch (e) {
+      console.log(`User Storage failure: ${e}`);
+    }
+  };
+
+  const storeListenEvents = async (value) => {
+    try {
+      console.log(`storing listening events: ${value.length}`);
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("@listenEvents", jsonValue);
+      setListenEvents(jsonValue);
+    } catch (e) {
+      console.log(`Listen Events Storage failure: ${e}`);
+    }
+  };
+
+  // data fetch
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  function runFetch() {
+    console.log("fetching");
     fetch(
       `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500`,
       requestOptions
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.releases.length);
-        // let latestAlbum = albums
-        //   ? albums
-        //       .map((a) => a.date_added)
-        //       .sort()
-        //       .reverse()[0]
-        //   : null;
-
-        // let newest = data.releases
-        //   .map((r) => r.date_added)
-        //   .sort()
-        //   .reverse()[0];
-
-        // console.log(newest);
-        // console.log(latestAlbum);
+        let returnData = data.releases;
+        let parsedReleases = returnData.map((release) => parseInfo(release));
+        handleStorage(parsedReleases, folders);
+        randomArray(parsedReleases);
+        getFolderData(parsedReleases);
+        // createGenreList(parsedReleases);
+        console.log(`seeding from fetch, items: ${parsedReleases.length}`);
       });
-    // let parsedReleases = returnData.map((release) => parseInfoSet(release));
+  }
+
+  const getUserData = () => {
+    fetch(`https://api.discogs.com/users/theyear1000`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => handleUser(result))
+      .catch((error) => console.log("error", error));
+  };
+
+  const getFolderData = (parsedReleases) => {
+    fetch(
+      `https://api.discogs.com/users/theyear1000/collection/folders`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        let returnData = result.folders;
+        let names = returnData.map((f) => ({
+          folderID: f.id,
+          folderName: f.name,
+        }));
+        let folders = names.filter((f) => f.folderID != 0);
+        setFolders(folders);
+        folderAssignment(parsedReleases, folders);
+      })
+      .catch((error) => console.log("error", error));
   };
 
   // fetched data manipulation
-  const parseInfo = (release) => {
+  function parseInfo(release) {
     let artist = release.basic_information.artists[0].name;
 
     artist.charAt(artist.length - 3) === "("
@@ -179,13 +245,9 @@ export default function AppProduct({ navigation }) {
         item ? item.slice(0, 2).toLowerCase() === "re" : null
       ) || release.basic_information.year === 0;
 
-    let master_id = release.basic_information.master_id
-      ? release.basic_information.master_id
+    let master_id = release.master_id
+      ? release.master_id
       : release.basic_information.id;
-
-    let genresPlus = release.basic_information.title.includes("Christmas")
-      ? [...genres, "Christmas"]
-      : genres;
 
     let singleParsedRelease = {
       id: release.basic_information.id,
@@ -194,21 +256,41 @@ export default function AppProduct({ navigation }) {
       title: release.basic_information.title,
       uri: release.basic_information.cover_image,
       date_added: ISODate,
-      genres: genresPlus,
+      genres: genres,
+      folder: 0,
       isReissue: isReissue,
       year: release.basic_information.year,
     };
+    // dispatch(addAlbum(singleParsedRelease));
     return singleParsedRelease;
+  }
+
+  const folderAssignment = (parsedReleases, folders) => {
+    folders.map((f) => {
+      //pulls releases for each folder
+      fetch(
+        `https://api.discogs.com/users/theyear1000/collection/folders/${f.folderID}/releases?per_page=500`,
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          let returnData = result.releases;
+          let ids = returnData.map((a) => a.id);
+          parsedReleases.map((album) => {
+            if (ids.includes(album.id)) {
+              album.folder = f.folderName;
+            }
+          });
+          handleStorage(parsedReleases, folders);
+        })
+        .catch((error) => console.log("error", error));
+    });
   };
 
   function randomArray(releases) {
     let newArray = [];
-    let filteredAlbums = releases.filter(
-      (a) => !a.genres.includes("Classical") && !a.genres.includes("Christmas")
-    );
     for (let i = 0; i < 6; i = newArray.length) {
-      let newItem =
-        filteredAlbums[Math.floor(Math.random() * filteredAlbums.length)];
+      let newItem = releases[Math.floor(Math.random() * releases.length)];
       if (newArray.map((a) => a.id).includes(newItem.id)) {
         null;
       } else {
@@ -218,37 +300,20 @@ export default function AppProduct({ navigation }) {
     setFrontPageAlbums(newArray);
   }
 
-  //storage
+  const createGenreList = (albums) => {
+    let genres = albums
+      .map((a) => a.genres)
+      .flat()
+      .sort();
 
-  const storeAlbums = async (value) => {
-    try {
-      console.log(`albums to be stored: ${value.length}`);
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("@albums", jsonValue);
-    } catch (e) {
-      console.log(`albums storage failure: ${e}`);
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
     }
-  };
 
-  const storeUser = async (value) => {
-    try {
-      console.log(value ? "storing user" : "clearing user storage");
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("@userProfile", jsonValue);
-    } catch (e) {
-      console.log(`User Storage failure: ${e}`);
-    }
-  };
-
-  const storeListenEvents = async (value) => {
-    try {
-      console.log(`storing listening events: ${value.length}`);
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("@listenEvents", jsonValue);
-      setListenEvents(jsonValue);
-    } catch (e) {
-      console.log(`Listen Events Storage failure: ${e}`);
-    }
+    let duplicates = genres
+      .filter((e, i, a) => a.indexOf(e) !== i)
+      .filter(onlyUnique);
+    setGenreList(duplicates);
   };
 
   const Tab = createBottomTabNavigator();
@@ -320,7 +385,7 @@ export default function AppProduct({ navigation }) {
                 <View style={styles.tabButtonBox}>
                   <MaterialIcons
                     name="library-music"
-                    size={36}
+                    size={40}
                     color={focused ? "#FDCA40" : "white"}
                   />
                 </View>
@@ -351,32 +416,15 @@ export default function AppProduct({ navigation }) {
             },
           }}
         >
-          {(props) => <SearchDisplayArea {...props} albums={albums} />}
+          {(props) => (
+            <SearchDisplayArea
+              {...props}
+              albums={albums}
+              folders={folders}
+              sectionList={sectionList}
+            />
+          )}
         </Tab.Screen>
-        <Tab.Screen
-          name="Tags"
-          options={{
-            header: () => (
-              <View style={styles.header}>
-                <Text style={styles.headerText}>Tags</Text>
-              </View>
-            ),
-            tabBarIcon: ({ size, focused, color }) => {
-              return (
-                <View style={styles.tabButtonBox}>
-                  <FontAwesome5
-                    name="tags"
-                    size={28}
-                    color={focused ? "#FDCA40" : "white"}
-                  />
-                </View>
-              );
-            },
-          }}
-        >
-          {(props) => <TagsPageContainer />}
-        </Tab.Screen>
-
         <Tab.Screen
           name="User"
           options={{
@@ -402,18 +450,15 @@ export default function AppProduct({ navigation }) {
             <UserPageContainer
               user={user}
               albums={albums}
-              storeAlbums={storeAlbums}
+              folders={folders}
               requestOptions={requestOptions}
+              handleStorage={handleStorage}
               listenEvents={listenEvents}
-              getData={getData}
-              setAlbums={setAlbums}
-              setUser={setUser}
-              updateLibraryFetch={updateLibraryFetch}
             />
           )}
         </Tab.Screen>
 
-        {/* <Tab.Screen
+        <Tab.Screen
           name="Settings"
           options={{
             tabBarIcon: ({ size, focused, color }) => {
@@ -433,21 +478,23 @@ export default function AppProduct({ navigation }) {
             <Settings
               {...props}
               albums={albums}
-              user={user}
-              listenEvents={listenEvents}
+              albumDataGet={albumDataGet}
+              folders={folders}
               getData={getData}
-              setAlbums={setAlbums}
-              setListenEvents={setListenEvents}
-              setUser={setUser}
-              handleAlbumFetch={handleAlbumFetch}
+              getFolderData={getFolderData}
               getUserData={getUserData}
-              storeAlbums={storeAlbums}
-              storeUser={storeUser}
+              user={user}
+              handleStorage={handleStorage}
+              requestOptions={requestOptions}
+              runFetch={runFetch}
+              setAlbums={setAlbums}
+              setFolders={setFolders}
+              listenEvents={listenEvents}
+              setListenEvents={setListenEvents}
               storeListenEvents={storeListenEvents}
-              updateLibraryFetch={updateLibraryFetch}
             />
           )}
-        </Tab.Screen> */}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );

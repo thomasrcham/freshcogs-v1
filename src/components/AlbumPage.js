@@ -101,9 +101,6 @@ function AlbumPage({ route, navigation }) {
             <View style={styles.albumOuterInfoBox}>
               <View style={styles.albumLeftInfoBox}>
                 <Text style={styles.albumInfoBasicText}>
-                  Folder: {album.folder}
-                </Text>
-                <Text style={styles.albumInfoBasicText}>
                   Originally released in {album.year}
                 </Text>
                 <Text style={styles.albumInfoBasicText}>

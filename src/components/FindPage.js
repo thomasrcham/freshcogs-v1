@@ -6,13 +6,12 @@ import Filters from "./Filters";
 import styles from "./styles/style.js";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
-export default function FindPage({ albums, folders, navigation, sectionList }) {
+export default function FindPage({ albums, navigation }) {
   const [clicked, setClicked] = useState(false);
   const [viewClick, setViewClick] = useState(0);
 
   const [searchPhrase, setSearchPhrase] = useState(null);
 
-  const [folderFilter, setFolderFilter] = useState(null);
   const [sortSelector, setSortSelector] = useState("none");
   const [decadeFilter, setDecadeFilter] = useState(null);
 
@@ -26,15 +25,11 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
 
   useEffect(() => {
     displayList();
-  }, [searchPhrase, folderFilter, sortSelector, decadeFilter]);
+  }, [searchPhrase, sortSelector, decadeFilter]);
 
   function handleClear() {
     setLocalAlbums(albums);
     setSearchPhrase(null);
-  }
-
-  function handleFilter(input) {
-    setFolderFilter(input);
   }
 
   function handleSort(sortTerm) {
@@ -137,12 +132,9 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
             String(a.artist.toLowerCase()).includes(searchPhrase.toLowerCase())
         ))
       : albums;
-    let filterAlbums = folderFilter
-      ? searchedAlbums.filter((a) => a.folder === folderFilter)
-      : searchedAlbums;
     let decadeAlbums = decadeFilter
-      ? handleDecadeFilter(filterAlbums, decadeFilter)
-      : filterAlbums;
+      ? handleDecadeFilter(searchedAlbums, decadeFilter)
+      : searchedAlbums;
 
     setLocalAlbums(decadeAlbums);
   }
@@ -155,7 +147,6 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
           localAlbums={localAlbums}
           navigation={navigation}
           listRef={listRef}
-          sectionList={sectionList}
         />
       );
       break;
@@ -166,7 +157,6 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
           localAlbums={localAlbums}
           navigation={navigation}
           listRef={listRef}
-          sectionList={sectionList}
         />
       );
       break;
@@ -178,7 +168,6 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
           localAlbums={localAlbums}
           navigation={navigation}
           listRef={listRef}
-          sectionList={sectionList}
         />
       );
       break;
@@ -189,7 +178,6 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
           localAlbums={localAlbums}
           navigation={navigation}
           listRef={listRef}
-          sectionList={sectionList}
         />
       );
   }
@@ -209,23 +197,17 @@ export default function FindPage({ albums, folders, navigation, sectionList }) {
         <View style={styles.filterBar}>
           <Filters
             clicked={clicked}
-            folders={folders}
             setClicked={setClicked}
             handleDecade={handleDecade}
-            handleFilter={handleFilter}
-            folderFilter={folderFilter}
-            setFolderFilter={setFolderFilter}
             handleSort={handleSort}
             searchPhrase={searchPhrase}
             setSearchPhrase={setSearchPhrase}
             viewClick={viewClick}
             setViewClick={setViewClick}
-            sectionList={sectionList}
           />
         </View>
         <Text>
           {searchPhrase ? "Searching ✪ " : null}
-          {folderFilter ? `Folder: ${folderFilter} ✪ ` : null}
           {sortSelector ? `Sort: ${sortSelector} ✪ ` : null}
           {decadeFilter ? `${decadeFilter}` : null}
         </Text>

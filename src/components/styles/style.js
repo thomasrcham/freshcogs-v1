@@ -343,6 +343,12 @@ export default StyleSheet.create({
     padding: 2,
     fontWeight: "bold",
   },
+  userPageButtons: {
+    paddingTop: 30,
+    width: "60%",
+    alignSelf: "center",
+  },
+
   discogsLinkText: {
     color: "white",
     fontWeight: "bold",
