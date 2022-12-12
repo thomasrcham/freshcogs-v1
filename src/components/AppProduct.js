@@ -55,7 +55,7 @@ export default function AppProduct({ navigation }) {
   //handles the overall retrieval from storage for all main states
   const getData = () => {
     albumDataGet();
-    folderDataGet();
+    // folderDataGet();
     userDataGet();
     listenEventsDataGet();
   };
@@ -73,16 +73,16 @@ export default function AppProduct({ navigation }) {
     }
   };
 
-  const folderDataGet = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem("@folders");
-      let data = jsonValue != null ? JSON.parse(jsonValue) : null;
-      console.log(`loading folders from local, items: ${data.length}`);
-      setFolders(data);
-    } catch (e) {
-      console.log(`Folder storage retrieval failure: ${e}`);
-    }
-  };
+  // const folderDataGet = async () => {
+  //   try {
+  //     const jsonValue = await AsyncStorage.getItem("@folders");
+  //     let data = jsonValue != null ? JSON.parse(jsonValue) : null;
+  //     console.log(`loading folders from local, items: ${data.length}`);
+  //     setFolders(data);
+  //   } catch (e) {
+  //     console.log(`Folder storage retrieval failure: ${e}`);
+  //   }
+  // };
 
   const userDataGet = async () => {
     try {
@@ -111,8 +111,8 @@ export default function AppProduct({ navigation }) {
 
   //FETCHES
 
-  const handleAlbumFetch = () => {
-    fetch(
+  const handleAlbumFetch = async () => {
+    await fetch(
       `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500`,
       requestOptions
     )
@@ -122,7 +122,7 @@ export default function AppProduct({ navigation }) {
         return returnData.map((release) => parseInfo(release));
       })
       .then((r) => {
-        getFolderData(r);
+        // getFolderData(r);
         randomArray(r);
         setAlbums(r);
         storeAlbums(r);
@@ -139,25 +139,25 @@ export default function AppProduct({ navigation }) {
       .catch((error) => console.log("user data error", error));
   };
 
-  const getFolderData = (parsedReleases) => {
-    fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders`,
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        let returnData = result.folders;
-        let names = returnData.map((f) => ({
-          folderID: f.id,
-          folderName: f.name,
-        }));
-        let folders = names.filter((f) => f.folderID != 0);
-        setFolders(folders);
-        storeFolders(folders);
-        parsedReleases ? folderAssignment(folders, parsedReleases) : null;
-      })
-      .catch((error) => console.log("folder data error", error));
-  };
+  // const getFolderData = (parsedReleases) => {
+  //   fetch(
+  //     `https://api.discogs.com/users/theyear1000/collection/folders`,
+  //     requestOptions
+  //   )
+  //     .then((response) => response.json())
+  //     .then((result) => {
+  //       let returnData = result.folders;
+  //       let names = returnData.map((f) => ({
+  //         folderID: f.id,
+  //         folderName: f.name,
+  //       }));
+  //       let folders = names.filter((f) => f.folderID != 0);
+  //       setFolders(folders);
+  //       storeFolders(folders);
+  //       // folderAssignment(folders, parsedReleases);
+  //     })
+  //     .catch((error) => console.log("folder data error", error));
+  // };
 
   const updateLibraryFetch = () => {
     fetch(
@@ -188,7 +188,7 @@ export default function AppProduct({ navigation }) {
   };
 
   // fetched data manipulation
-  function parseInfo(release) {
+  const parseInfo = (release) => {
     let artist = release.basic_information.artists[0].name;
 
     artist.charAt(artist.length - 3) === "("
@@ -226,37 +226,43 @@ export default function AppProduct({ navigation }) {
       uri: release.basic_information.cover_image,
       date_added: ISODate,
       genres: genres,
-      folder: 0,
+      // folder: 0,
       isReissue: isReissue,
       year: release.basic_information.year,
     };
     return singleParsedRelease;
-  }
-
-  const folderAssignment = (folders, parsedReleases) => {
-    folders.map((f) => {
-      //pulls releases for each folder
-      fetch(
-        `https://api.discogs.com/users/theyear1000/collection/folders/${f.folderID}/releases?per_page=500`,
-        requestOptions
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          let returnData = result.releases;
-          let ids = returnData.map((a) => a.id);
-          parsedReleases.map((album) => {
-            if (ids.includes(album.id)) {
-              album.folder = f.folderName;
-            }
-          });
-        })
-        .catch((error) => console.log("folder assignment error", error));
-    });
   };
+
+  // const folderAssignment = async (folders, parsedReleases) => {
+  //   await folders
+  //     .map((f) => {
+  //       //pulls releases for each folder
+  //       fetch(
+  //         `https://api.discogs.com/users/theyear1000/collection/folders/${f.folderID}/releases?per_page=500`,
+  //         requestOptions
+  //       )
+  //         .then((response) => response.json())
+  //         .then((result) => {
+  //           let returnData = result.releases;
+  //           let ids = returnData.map((a) => a.id);
+  //           parsedReleases.map((album) => {
+  //             if (ids.includes(album.id)) {
+  //               album.folder = f.folderName;
+  //             }
+  //           });
+  //         })
+
+  //         .catch((error) => console.log("folder assignment error", error));
+  //     })
+  //     .then(console.log(albums[0]));
+  // };
 
   function randomArray(releases) {
     let newArray = [];
     for (let i = 0; i < 6; i = newArray.length) {
+      let filteredReleases = releases.filter(
+        (r) => r.folder != "Classical" && r.folder != "Christmas"
+      );
       let newItem = releases[Math.floor(Math.random() * releases.length)];
       if (newArray.map((a) => a.id).includes(newItem.id)) {
         null;
@@ -279,15 +285,15 @@ export default function AppProduct({ navigation }) {
     }
   };
 
-  const storeFolders = async (value) => {
-    try {
-      console.log(`folders to be stored: ${value.length}`);
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("@folders", jsonValue);
-    } catch (e) {
-      console.log(`folders storage failure: ${e}`);
-    }
-  };
+  // const storeFolders = async (value) => {
+  //   try {
+  //     console.log(`folders to be stored: ${value.length}`);
+  //     const jsonValue = JSON.stringify(value);
+  //     await AsyncStorage.setItem("@folders", jsonValue);
+  //   } catch (e) {
+  //     console.log(`folders storage failure: ${e}`);
+  //   }
+  // };
 
   const storeUser = async (value) => {
     try {
@@ -475,14 +481,15 @@ export default function AppProduct({ navigation }) {
               folders={folders}
               user={user}
               listenEvents={listenEvents}
+              getData={getData}
               setAlbums={setAlbums}
-              setFolders={setFolders}
+              // setFolders={setFolders}
               setListenEvents={setListenEvents}
               setUser={setUser}
               handleAlbumFetch={handleAlbumFetch}
               getUserData={getUserData}
               storeAlbums={storeAlbums}
-              storeFolders={storeFolders}
+              // storeFolders={storeFolders}
               storeUser={storeUser}
               storeListenEvents={storeListenEvents}
               updateLibraryFetch={updateLibraryFetch}
