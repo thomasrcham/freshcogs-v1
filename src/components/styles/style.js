@@ -74,19 +74,19 @@ export default StyleSheet.create({
     fontSize: 26,
     color: "white",
     fontStyle: "bold",
-    ...Platform.select({
-      ios: { fontSize: 20 },
-      android: { fontSize: 26 },
-      default: { fontSize: 26 },
-    }),
+    // ...Platform.select({
+    //   ios: { fontSize: 20 },
+    //   android: { fontSize: 26 },
+    //   default: { fontSize: 26 },
+    // }),
   },
   albumInfoBasicText: {
     paddingTop: 3,
-    ...Platform.select({
-      ios: { fontSize: 12 },
-      android: { fontSize: 14 },
-      default: { fontSize: 14 },
-    }),
+    // ...Platform.select({
+    //   ios: { fontSize: 12 },
+    //   android: { fontSize: 14 },
+    //   default: { fontSize: 14 },
+    // }),
   },
   albumOuterInfoBox: {
     flex: 1,
@@ -119,11 +119,11 @@ export default StyleSheet.create({
     justifyContent: "flex-end",
     width: windowWidth,
     position: "absolute",
-    ...Platform.select({
-      ios: { bottom: 140 },
-      android: { bottom: "12%" },
-      default: { bottom: "12%" },
-    }),
+    // ...Platform.select({
+    //   ios: { bottom: 140 },
+    //   android: { bottom: "12%" },
+    //   default: { bottom: "12%" },
+    // }),
   },
   albumPageButton: {
     flex: 1,

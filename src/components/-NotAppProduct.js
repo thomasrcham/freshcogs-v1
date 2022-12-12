@@ -50,10 +50,6 @@ export default function AppProduct({ navigation }) {
     redirect: "follow",
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
-
   // LOCAL STORAGE AND RETRIEVAL
 
   //handles the overall retrieval from storage for all main states
@@ -62,6 +58,7 @@ export default function AppProduct({ navigation }) {
     folderDataGet();
     userDataGet();
     listenEventsDataGet();
+    handleStorage(albums, folders);
   };
 
   const albumDataGet = async () => {
@@ -73,7 +70,7 @@ export default function AppProduct({ navigation }) {
       setAlbums(data);
     } catch (e) {
       console.log(`Album retrieval failure: ${e}`);
-      handleAlbumFetch();
+      runFetch();
     }
   };
 
@@ -113,9 +110,73 @@ export default function AppProduct({ navigation }) {
     }
   };
 
-  //FETCHES
+  //ensures that state and storage match for albums and folders
+  const handleStorage = async (albumsValue, foldersValue) => {
+    setAlbums(albumsValue);
+    setFolders(foldersValue);
+    albumsValue
+      ? console.log("albums to be stored: " + albumsValue.length)
+      : console.log("no albums to store");
+    foldersValue
+      ? console.log("folders to be stored: " + foldersValue.length)
+      : console.log("no folders to store");
+    albumsValue && foldersValue
+      ? multiStoreData(albumsValue, foldersValue)
+      : null;
+  };
 
-  const handleAlbumFetch = () => {
+  //stores albums and folders
+  const multiStoreData = async (albumsValue, foldersValue) => {
+    console.log("multiStore Called");
+    const albumsPair = ["@albums", JSON.stringify(albumsValue)];
+    const foldersPair = ["@folders", JSON.stringify(foldersValue)];
+    try {
+      await AsyncStorage.multiSet([albumsPair, foldersPair]);
+    } catch (e) {
+      console.log(`Storage failure: ${e}`);
+    }
+    console.log(
+      albumsValue && foldersValue
+        ? `Multi-storage success: Albums: ${albumsValue.length}, Folders: ${foldersValue.length}`
+        : `Multi-storage failure`
+    );
+  };
+
+  //ensures that state and storage match for user
+  // const handleUser = (value) => {
+  //   storeUser(value);
+  //   setUser(value);
+  // };
+
+  const storeUser = async (value) => {
+    try {
+      console.log("storing user");
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("@userProfile", jsonValue);
+    } catch (e) {
+      console.log(`User Storage failure: ${e}`);
+    }
+  };
+
+  const storeListenEvents = async (value) => {
+    try {
+      console.log(`storing listening events: ${value.length}`);
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("@listenEvents", jsonValue);
+      setListenEvents(jsonValue);
+    } catch (e) {
+      console.log(`Listen Events Storage failure: ${e}`);
+    }
+  };
+
+  // data fetch
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  function runFetch() {
+    console.log("fetching");
     fetch(
       `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500`,
       requestOptions
@@ -123,24 +184,20 @@ export default function AppProduct({ navigation }) {
       .then((res) => res.json())
       .then((data) => {
         let returnData = data.releases;
-        return returnData.map((release) => parseInfo(release));
-      })
-      .then((r) => {
-        getFolderData(r);
-        randomArray(r);
-        setAlbums(r);
-        storeAlbums(r);
+        let parsedReleases = returnData.map((release) => parseInfo(release));
+        handleStorage(parsedReleases, folders);
+        randomArray(parsedReleases);
+        getFolderData(parsedReleases);
+        // createGenreList(parsedReleases);
+        console.log(`seeding from fetch, items: ${parsedReleases.length}`);
       });
-  };
+  }
 
   const getUserData = () => {
     fetch(`https://api.discogs.com/users/theyear1000`, requestOptions)
       .then((response) => response.json())
-      .then((result) => {
-        storeUser(result);
-        setUser(result);
-      })
-      .catch((error) => console.log("user data error", error));
+      .then((result) => handleUser(result))
+      .catch((error) => console.log("error", error));
   };
 
   const getFolderData = (parsedReleases) => {
@@ -157,38 +214,9 @@ export default function AppProduct({ navigation }) {
         }));
         let folders = names.filter((f) => f.folderID != 0);
         setFolders(folders);
-        storeFolders(folders);
-        parsedReleases ? folderAssignment(folders, parsedReleases) : null;
+        folderAssignment(parsedReleases, folders);
       })
-      .catch((error) => console.log("folder data error", error));
-  };
-
-  const updateLibraryFetch = () => {
-    fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500`,
-      requestOptions
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        let latestAlbum = albums
-          ? albums
-              .map((a) => a.date_added)
-              .sort()
-              .reverse()[0]
-          : null;
-        let newest = new Date(
-          data.releases
-            .map((r) => r.date_added)
-            .sort()
-            .reverse()[0]
-        ).toISOString();
-
-        console.log(newest);
-        console.log(latestAlbum);
-      });
-    // let parsedReleases = returnData.map((release) => parseInfoSet(release));
-    // getFolderData(parsedReleases);
-    // console.log(parsedReleases);
+      .catch((error) => console.log("error", error));
   };
 
   // fetched data manipulation
@@ -238,7 +266,7 @@ export default function AppProduct({ navigation }) {
     return singleParsedRelease;
   }
 
-  const folderAssignment = (folders, parsedReleases) => {
+  const folderAssignment = (parsedReleases, folders) => {
     folders.map((f) => {
       //pulls releases for each folder
       fetch(
@@ -254,8 +282,9 @@ export default function AppProduct({ navigation }) {
               album.folder = f.folderName;
             }
           });
+          handleStorage(parsedReleases, folders);
         })
-        .catch((error) => console.log("folder assignment error", error));
+        .catch((error) => console.log("error", error));
     });
   };
 
@@ -272,47 +301,20 @@ export default function AppProduct({ navigation }) {
     setFrontPageAlbums(newArray);
   }
 
-  //storage
+  const createGenreList = (albums) => {
+    let genres = albums
+      .map((a) => a.genres)
+      .flat()
+      .sort();
 
-  const storeAlbums = async (value) => {
-    try {
-      console.log(`albums to be stored: ${value.length}`);
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("@albums", jsonValue);
-    } catch (e) {
-      console.log(`albums storage failure: ${e}`);
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
     }
-  };
 
-  const storeFolders = async (value) => {
-    try {
-      console.log(`folders to be stored: ${value.length}`);
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("@folders", jsonValue);
-    } catch (e) {
-      console.log(`folders storage failure: ${e}`);
-    }
-  };
-
-  const storeUser = async (value) => {
-    try {
-      console.log(value ? "storing user" : "clearing user storage");
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("@userProfile", jsonValue);
-    } catch (e) {
-      console.log(`User Storage failure: ${e}`);
-    }
-  };
-
-  const storeListenEvents = async (value) => {
-    try {
-      console.log(`storing listening events: ${value.length}`);
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("@listenEvents", jsonValue);
-      setListenEvents(jsonValue);
-    } catch (e) {
-      console.log(`Listen Events Storage failure: ${e}`);
-    }
+    let duplicates = genres
+      .filter((e, i, a) => a.indexOf(e) !== i)
+      .filter(onlyUnique);
+    setGenreList(duplicates);
   };
 
   const Tab = createBottomTabNavigator();
@@ -477,20 +479,20 @@ export default function AppProduct({ navigation }) {
             <Settings
               {...props}
               albums={albums}
+              albumDataGet={albumDataGet}
               folders={folders}
+              getData={getData}
+              getFolderData={getFolderData}
+              getUserData={getUserData}
               user={user}
-              listenEvents={listenEvents}
+              handleStorage={handleStorage}
+              requestOptions={requestOptions}
+              runFetch={runFetch}
               setAlbums={setAlbums}
               setFolders={setFolders}
+              listenEvents={listenEvents}
               setListenEvents={setListenEvents}
-              setUser={setUser}
-              handleAlbumFetch={handleAlbumFetch}
-              getUserData={getUserData}
-              storeAlbums={storeAlbums}
-              storeFolders={storeFolders}
-              storeUser={storeUser}
               storeListenEvents={storeListenEvents}
-              updateLibraryFetch={updateLibraryFetch}
             />
           )}
         </Tab.Screen>

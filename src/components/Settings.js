@@ -1,27 +1,40 @@
 import { Button, Text, View } from "react-native";
 import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Settings({
   albums,
-  albumDataGet,
   folders,
-  getData,
-  getUserData,
   user,
-  handleStorage,
-  requestOptions,
-  runFetch,
+  listenEvents,
   setAlbums,
   setFolders,
   setListenEvents,
-  listenEvents,
+  setUser,
+  handleAlbumFetch,
+  storeAlbums,
+  storeFolders,
+  storeUser,
   storeListenEvents,
+  updateLibraryFetch,
 }) {
-  const [fixedYearArray, setFixedYearArray] = useState([]);
+  // const [fixedYearArray, setFixedYearArray] = useState([]);
 
-  let display = albums
-    ? albums.filter((a) => a.isReissue === true).length
-    : "None in state";
+  const clearStorage = () => {
+    removeItemValue();
+    setAlbums(null);
+    setFolders(null);
+    setUser(null);
+  };
+
+  const removeItemValue = async () => {
+    let keys = ["@albums", "@folders", "@userProfile"];
+    await AsyncStorage.multiRemove(keys);
+  };
+
+  // let display = albums
+  //   ? albums.filter((a) => a.isReissue === true).length
+  //   : "None in state";
 
   // function yearReplaceTimer() {
   //   let myInterval = setInterval(() => {
@@ -55,22 +68,31 @@ export default function Settings({
   //     });
   // }
 
-  // function sectionFetch() {
-  //   console.log("fetching");
+  // let latestAlbum = albums
+  //   ? albums
+  //       .map((a) => a.ISODate)
+  //       .sort()
+  //       .reverse()[0]
+  //   : null;
+
+  // function updateFetch() {
+  //   console.log("test fetching");
   //   fetch(
-  //     `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=50`,
+  //     `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500`,
   //     requestOptions
   //   )
   //     .then((res) => res.json())
   //     .then((data) => {
-  //       let returnData = data.releases;
-  //       let parsedReleases = returnData.map((release) => parseInfo(release));
-  //       sectionListCreate(parsedReleases);
-  //       console.log(`${parsedReleases.length}`);
+  //       let returnData = data.releases.filter(
+  //         (r) => r.date_added > latestAlbum
+  //       );
+  //       let parsedReleases = returnData.map((release) => parseInfoSet(release));
+  //       getFolderData(parsedReleases);
+  //       console.log(parsedReleases);
   //     });
   // }
 
-  // function parseInfo(release) {
+  // function parseInfoSet(release) {
   //   let artist = release.basic_information.artists[0].name;
 
   //   artist.charAt(artist.length - 3) === "("
@@ -91,6 +113,11 @@ export default function Settings({
   //     .filter((genre) => genre != "Folk, World, & Country")
   //     .filter((genre) => genre != "Stage & Screen");
 
+  //   let isReissue =
+  //     !!desc.find((item) =>
+  //       item ? item.slice(0, 2).toLowerCase() === "re" : null
+  //     ) || release.basic_information.year === 0;
+
   //   let singleParsedRelease = {
   //     id: release.basic_information.id,
   //     master_id: release.basic_information.master_id,
@@ -101,9 +128,7 @@ export default function Settings({
   //     ISODate: ISODate,
   //     genres: genres,
   //     folder: 0,
-  //     isReissue: !!desc.find((item) =>
-  //       item ? item.slice(0, 2).toLowerCase() === "re" : null
-  //     ),
+  //     isReissue: isReissue,
   //     year: release.basic_information.year,
   //   };
   //   // dispatch(addAlbum(singleParsedRelease));
@@ -158,33 +183,22 @@ export default function Settings({
 
   return (
     <View>
-      <Text>{display}</Text>
+      {/* <Text>{display}</Text> */}
+      <Button title="reset storage" onPress={() => clearStorage()} />
       <Button
-        title="store state in local"
-        onPress={() => handleStorage(albums, folders)}
+        title="refresh fetch data"
+        onPress={() => {
+          handleAlbumFetch();
+          getUserData();
+        }}
       />
-      <Button title="clear album state" onPress={() => setAlbums(null)} />
-      <Button title="load from storage" onPress={() => getData()} />
-      <Button
-        title="clear local storage"
-        onPress={() => handleStorage(null, null)}
-      />
-      <Button title="refresh fetch data" onPress={() => runFetch()} />
       {/* <Button
-        title="create listen event"
-        onPress={
-          () =>
-            createListenEvent(albums[Math.floor(Math.random() * albums.length)])
-          // console.log(albums[Math.floor(Math.random() * albums.length)])
-        }
-      /> */}
-      <Button
         title="check listen events"
         onPress={() => console.log(listenEvents)}
-      />
+      /> */}
       {/* <Button title="reset listen events" onPress={() => resetListenEvent()} /> */}
 
-      {/* <Button title="set folder values" onPress={() => getFolderData()} /> */}
+      <Button title="update library" onPress={() => updateLibraryFetch()} />
       <Button
         title="console.log random album"
         onPress={() =>
@@ -202,6 +216,7 @@ export default function Settings({
           )
         }
       /> */}
+      {/* <Button title="update library" onPress={() => updateFetch()} /> */}
     </View>
   );
 }
