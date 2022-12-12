@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import CollectionDisplayArea from "./CollectionDisplayArea.js";
 import UserPageContainer from "./UserPageContainer";
 import SearchDisplayArea from "./SearchDisplayArea.js";
+import TagsPageContainer from "./TagsPageContainer.js";
 
 import Settings from "./Settings.js";
 import styles from "./styles/style.js";
@@ -177,9 +178,13 @@ export default function AppProduct({ navigation }) {
         item ? item.slice(0, 2).toLowerCase() === "re" : null
       ) || release.basic_information.year === 0;
 
-    let master_id = release.master_id
-      ? release.master_id
+    let master_id = release.basic_information.master_id
+      ? release.basic_information.master_id
       : release.basic_information.id;
+
+    let genresPlus = release.basic_information.title.includes("Christmas")
+      ? [...genres, "Christmas"]
+      : genres;
 
     let singleParsedRelease = {
       id: release.basic_information.id,
@@ -188,7 +193,7 @@ export default function AppProduct({ navigation }) {
       title: release.basic_information.title,
       uri: release.basic_information.cover_image,
       date_added: ISODate,
-      genres: genres,
+      genres: genresPlus,
       isReissue: isReissue,
       year: release.basic_information.year,
     };
@@ -314,7 +319,7 @@ export default function AppProduct({ navigation }) {
                 <View style={styles.tabButtonBox}>
                   <MaterialIcons
                     name="library-music"
-                    size={40}
+                    size={36}
                     color={focused ? "#FDCA40" : "white"}
                   />
                 </View>
@@ -348,6 +353,30 @@ export default function AppProduct({ navigation }) {
           {(props) => <SearchDisplayArea {...props} albums={albums} />}
         </Tab.Screen>
         <Tab.Screen
+          name="Tags"
+          options={{
+            header: () => (
+              <View style={styles.header}>
+                <Text style={styles.headerText}>Tags</Text>
+              </View>
+            ),
+            tabBarIcon: ({ size, focused, color }) => {
+              return (
+                <View style={styles.tabButtonBox}>
+                  <FontAwesome5
+                    name="tags"
+                    size={28}
+                    color={focused ? "#FDCA40" : "white"}
+                  />
+                </View>
+              );
+            },
+          }}
+        >
+          {(props) => <TagsPageContainer />}
+        </Tab.Screen>
+
+        <Tab.Screen
           name="User"
           options={{
             header: () => (
@@ -375,11 +404,15 @@ export default function AppProduct({ navigation }) {
               storeAlbums={storeAlbums}
               requestOptions={requestOptions}
               listenEvents={listenEvents}
+              getData={getData}
+              setAlbums={setAlbums}
+              setUser={setUser}
+              updateLibraryFetch={updateLibraryFetch}
             />
           )}
         </Tab.Screen>
 
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Settings"
           options={{
             tabBarIcon: ({ size, focused, color }) => {
@@ -413,7 +446,7 @@ export default function AppProduct({ navigation }) {
               updateLibraryFetch={updateLibraryFetch}
             />
           )}
-        </Tab.Screen>
+        </Tab.Screen> */}
       </Tab.Navigator>
     </NavigationContainer>
   );

@@ -8,10 +8,14 @@ import styles from "./styles/style.js";
 const Stack = createNativeStackNavigator();
 export default function UserPageContainer({
   albums,
+  getData,
+  setAlbums,
   storeAlbums,
+  setUser,
   listenEvents,
   requestOptions,
   user,
+  updateLibraryFetch,
 }) {
   return (
     <View>
@@ -32,6 +36,10 @@ export default function UserPageContainer({
                   storeAlbums={storeAlbums}
                   requestOptions={requestOptions}
                   listenEvents={listenEvents}
+                  getData={getData}
+                  setAlbums={setAlbums}
+                  setUser={setUser}
+                  updateLibraryFetch={updateLibraryFetch}
                 />
               )}
             </Stack.Screen>

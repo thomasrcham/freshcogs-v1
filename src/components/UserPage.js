@@ -1,15 +1,20 @@
 import { Button, View, Image, Linking, Pressable, Text } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { format } from "date-fns";
 import styles from "./styles/style.js";
 
 export default function UserPage({
-  user,
   albums,
+  getData,
+  setAlbums,
   storeAlbums,
-  requestOptions,
+  setUser,
   listenEvents,
+  requestOptions,
+  user,
+  updateLibraryFetch,
 }) {
   const navigation = useNavigation();
   const [updating, setUpdating] = useState("Update Now");
@@ -35,6 +40,7 @@ export default function UserPage({
       if (needsReplacement.length === 0) {
         console.log("finished");
         clearInterval(myInterval);
+        setAlbums(albums);
         storeAlbums(albums);
         setUpdating("Complete");
       } else {
@@ -57,6 +63,16 @@ export default function UserPage({
         album.year = result.year;
       });
   }
+
+  const clearStorage = () => {
+    removeItemValue();
+    setAlbums(null);
+  };
+
+  const removeItemValue = async () => {
+    let keys = ["@albums", "@userProfile"];
+    await AsyncStorage.multiRemove(keys);
+  };
 
   return (
     <View style={styles.mainPageContainer}>
@@ -150,6 +166,22 @@ export default function UserPage({
             onPress={() => navigation.navigate("ListenEvents")}
           />
         </View>
+      </View>
+      <View style={styles.userPageButtons}>
+        <Button title="reset storage" onPress={() => clearStorage()} />
+        <Button
+          title="refresh fetch data"
+          onPress={() => {
+            getData();
+          }}
+        />
+        <Button title="update library" onPress={() => updateLibraryFetch()} />
+        <Button
+          title="console.log random album"
+          onPress={() =>
+            console.log(albums[Math.floor(Math.random() * albums.length)])
+          }
+        />
       </View>
     </View>
   );
