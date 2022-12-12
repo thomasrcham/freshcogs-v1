@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-12-12T19:47:05.134Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36" etag="cLu8Urub2P1OtzoCviRp" version="20.6.2" type="github" pages="3">
+<mxfile host="app.diagrams.net" modified="2022-12-12T21:25:42.172Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36" etag="Qb3qlJYYm3LAOnP620Hn" version="20.6.2" type="github" pages="4">
   <diagram id="vQnaIrqS837w08uxhmac" name="Page-1">
     <mxGraphModel dx="960" dy="672" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -109,7 +109,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="l5u0jKfa5x7GXwyQAAWz" name="Page-3">
-    <mxGraphModel dx="2128" dy="672" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2128" dy="671" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -249,6 +249,23 @@
         </mxCell>
         <mxCell id="ixvhf62bcY_kcOCCJ1cf-91" value="original fetch&lt;br&gt;&lt;br&gt;fetch albums info&lt;br&gt;.then(parse info &amp;amp; folders in state)&lt;br&gt;.then(folder assignment (fetches &amp;amp; sets folder value)&lt;br&gt;.then(set albums in state)&lt;br&gt;.then(store albums)&lt;br&gt;&lt;br&gt;update library (function gets albums state as prop)&lt;br&gt;&lt;br&gt;fetch albums info&lt;br&gt;.then(check date added &amp;gt; most recent from albums state)&lt;br&gt;.then(parse info)&lt;br&gt;.then(folder assignment (fetches &amp;amp; sets folder value)&lt;br&gt;.then(combine with existing albums array)&lt;br&gt;.then(set albums in state)&lt;br&gt;.then(store albums)" style="rounded=0;whiteSpace=wrap;html=1;align=left;horizontal=1;verticalAlign=top;" parent="1" vertex="1">
           <mxGeometry x="370" y="420" width="320" height="250" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="4z-iOVhQp6p2087VBWo-" name="Page-4">
+    <mxGraphModel dx="1062" dy="671" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="-usgEz1cFqTq0gsG6qe3-1" value="album&lt;br&gt;has tags" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#FF0000;" vertex="1" parent="1">
+          <mxGeometry x="110" y="80" width="120" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="-usgEz1cFqTq0gsG6qe3-2" value="list of tags&lt;br&gt;search by tags is&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#FF0000;" vertex="1" parent="1">
+          <mxGeometry x="520" y="80" width="120" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="-usgEz1cFqTq0gsG6qe3-3" value="array&lt;br&gt;{id, [tags]}" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#FF0000;" vertex="1" parent="1">
+          <mxGeometry x="320" y="80" width="120" height="180" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
