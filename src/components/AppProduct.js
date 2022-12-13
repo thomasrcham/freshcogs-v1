@@ -52,7 +52,6 @@ export default function AppProduct({ navigation }) {
         "INSPIRING",
         "EPIC",
         "FEMALE SINGER",
-        "GUITARS",
       ],
     },
   ]);
@@ -199,7 +198,7 @@ export default function AppProduct({ navigation }) {
     // let parsedReleases = returnData.map((release) => parseInfoSet(release));
   };
 
-  // fetched data manipulation
+  // data manipulation
   const parseInfo = (release) => {
     let artist = release.basic_information.artists[0].name;
 
@@ -265,6 +264,10 @@ export default function AppProduct({ navigation }) {
     setFrontPageAlbums(newArray);
   }
 
+  const handleGlobalTags = (newGlobalTags) => {
+    setGlobalTags(newGlobalTags);
+  };
+
   //storage
 
   const storeAlbums = async (value) => {
@@ -307,10 +310,6 @@ export default function AppProduct({ navigation }) {
     } catch (e) {
       console.log(`Tags Storage failure: ${e}`);
     }
-  };
-
-  const handleGlobalTags = (newGlobalTags) => {
-    setGlobalTags(newGlobalTags);
   };
 
   const Tab = createBottomTabNavigator();
