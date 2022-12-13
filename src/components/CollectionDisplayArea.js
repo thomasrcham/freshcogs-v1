@@ -7,7 +7,11 @@ import Collection from "./Collection";
 import styles from "./styles/style.js";
 
 const Stack = createNativeStackNavigator();
-export default function CollectionDisplayArea({ albums }) {
+export default function CollectionDisplayArea({
+  albums,
+  globalTags,
+  handleGlobalTags,
+}) {
   return (
     <View>
       <View style={styles.mainPageContainer}>
@@ -28,11 +32,15 @@ export default function CollectionDisplayArea({ albums }) {
               options={{ title: "My home" }}
             />
 
-            <Stack.Screen
-              name="AlbumTagsPage"
-              component={AlbumTagsPage}
-              options={{ animation: "none" }}
-            />
+            <Stack.Screen name="AlbumTagsPage" options={{ animation: "none" }}>
+              {(props) => (
+                <AlbumTagsPage
+                  {...props}
+                  globalTags={globalTags}
+                  handleGlobalTags={handleGlobalTags}
+                />
+              )}
+            </Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
       </View>

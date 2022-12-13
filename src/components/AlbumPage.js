@@ -76,7 +76,7 @@ function AlbumPage({ route, navigation }) {
 
   let tagsDisplay = tags
     ? tags.map((t) => (
-        <Pressable style={styles.albumInfoTags}>
+        <Pressable style={styles.albumInfoTags} key={t}>
           <Text>{t}</Text>
         </Pressable>
       ))
@@ -116,7 +116,7 @@ function AlbumPage({ route, navigation }) {
                 <Text style={styles.albumInfoBasicText}>
                   Genres: {album.genres.join(", ")}
                 </Text>
-                <View style={styles.AlbumTagsContainer}>{tagsDisplay}</View>
+                <View style={styles.albumTagsContainer}>{tagsDisplay}</View>
               </View>
               <View style={styles.albumRightInfoBox}>
                 {localListenEvents.length > 0 ? (

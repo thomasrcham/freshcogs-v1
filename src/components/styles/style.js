@@ -113,7 +113,7 @@ export default StyleSheet.create({
     padding: 3,
     fontSize: 12,
   },
-  AlbumTagsContainer: {
+  albumTagsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     paddingTop: 8,
@@ -125,7 +125,7 @@ export default StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     alignSelf: "flex-start",
-    fontSize: 10,
+    fontSize: 12,
   },
   albumPagePressables: {
     padding: 10,
@@ -156,6 +156,37 @@ export default StyleSheet.create({
     flexGrow: 1,
     flexDirection: "column",
     alignItems: "center",
+  },
+  tagsTitle: {
+    color: "white",
+    fontStyle: "bold",
+    ...Platform.select({
+      ios: { fontSize: 16 },
+      android: { fontSize: 18 },
+      default: { fontSize: 18 },
+    }),
+  },
+  tagsDisplayContainer: {},
+  currentTagsDisplayContainer: {
+    flexDirection: "column",
+    borderWidth: 1,
+    width: "45%",
+    borderRadius: 5,
+    padding: 3,
+  },
+  newTagsDisplayContainer: {
+    flexDirection: "column",
+    borderWidth: 1,
+    width: "55%",
+    borderRadius: 5,
+    padding: 3,
+  },
+  currentTags: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    flex: 1,
+    paddingTop: 8,
+    width: "100%",
   },
   //tab navigator
   tabButtonBox: {
