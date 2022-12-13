@@ -1,9 +1,12 @@
 import { Button, View, Image, Linking, Pressable, Text } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { format } from "date-fns";
 import styles from "./styles/style.js";
+
+import * as SQLite from "expo-sqlite";
+const db = SQLite.openDatabase("db.testDb");
 
 export default function UserPage({
   albums,
@@ -78,6 +81,57 @@ export default function UserPage({
   const removeItemValue = async () => {
     let keys = ["@albums", "@userProfile"];
     await AsyncStorage.multiRemove(keys);
+  };
+
+  function openDatabase() {
+    if (Platform.OS === "web") {
+      return {
+        transaction: () => {
+          return {
+            executeSql: () => {},
+          };
+        },
+      };
+    }
+
+    const db = SQLite.openDatabase("db.db");
+    return db;
+  }
+
+  const db = openDatabase();
+
+  useEffect(() => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "create table if not exists albums (id integer primary key not null, artist text, title text);"
+      );
+    });
+    fetchData();
+  }, []);
+
+  const add = (artist, title) => {
+    // console.log(artist + title);
+    db.transaction((tx) => {
+      tx.executeSql("insert into items (artist, title) values (?, ?)", [
+        artist,
+        title,
+      ]);
+      tx.executeSql("select * from items", [], (_, { rows }) =>
+        console.log(JSON.stringify(rows))
+      );
+    }, null);
+  };
+
+  const fetchData = () => {
+    db.transaction((tx) => {
+      // sending 4 arguments in executeSql
+      tx.executeSql(
+        "SELECT * FROM items",
+        null, // passing sql query and parameters:null
+        // success callback which sends two things Transaction object and ResultSet Object
+        (txObj, { rows: { _array } }) => console.log({ data: _array })
+      ); // end executeSQL
+    }); // end transaction
   };
 
   return (
@@ -188,6 +242,11 @@ export default function UserPage({
             console.log(albums[Math.floor(Math.random() * albums.length)])
           }
         />
+        <Button
+          title="add item"
+          onPress={() => add(albums[0].artist, albums[0].title)}
+        />
+        <Button title="check item" onPress={() => fetchData()} />
       </View>
     </View>
   );
