@@ -22,9 +22,17 @@ export default function CollectionDisplayArea({ albums }) {
             <Stack.Screen name="Collection">
               {(props) => <Collection {...props} albums={albums} />}
             </Stack.Screen>
-            <Stack.Screen name="AlbumPage" component={AlbumPage} />
+            <Stack.Screen
+              name="AlbumPage"
+              component={AlbumPage}
+              options={{ title: "My home" }}
+            />
 
-            <Stack.Screen name="AlbumTagsPage" component={AlbumTagsPage} />
+            <Stack.Screen
+              name="AlbumTagsPage"
+              component={AlbumTagsPage}
+              options={{ animation: "none" }}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </View>

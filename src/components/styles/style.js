@@ -113,14 +113,20 @@ export default StyleSheet.create({
     padding: 3,
     fontSize: 12,
   },
+  AlbumTagsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    paddingTop: 8,
+  },
   albumInfoTags: {
     backgroundColor: "#ccc2a6",
     borderRadius: 10,
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-around",
+    margin: 1,
+    paddingLeft: 5,
+    paddingRight: 5,
+    alignSelf: "flex-start",
+    fontSize: 10,
   },
-
   albumPagePressables: {
     padding: 10,
     paddingRight: 5,
