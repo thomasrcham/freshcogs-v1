@@ -366,7 +366,7 @@ export default function AppProduct({ navigation }) {
                 <View style={styles.tabButtonBox}>
                   <FontAwesome5
                     name="tags"
-                    size={28}
+                    size={30}
                     color={focused ? "#FDCA40" : "white"}
                   />
                 </View>

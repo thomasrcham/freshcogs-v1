@@ -2,6 +2,7 @@ import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AlbumPage from "./AlbumPage";
+import AlbumTagsPage from "./AlbumTagsPage";
 import Collection from "./Collection";
 import styles from "./styles/style.js";
 
@@ -22,6 +23,8 @@ export default function CollectionDisplayArea({ albums }) {
               {(props) => <Collection {...props} albums={albums} />}
             </Stack.Screen>
             <Stack.Screen name="AlbumPage" component={AlbumPage} />
+
+            <Stack.Screen name="AlbumTagsPage" component={AlbumTagsPage} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>

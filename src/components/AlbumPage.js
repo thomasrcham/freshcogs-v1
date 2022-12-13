@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import styles from "./styles/style.js";
+import style from "./styles/style.js";
 
 function AlbumPage({ route, navigation }) {
   const { album, albums } = route.params;
@@ -72,6 +73,16 @@ function AlbumPage({ route, navigation }) {
     storeListenEvents(newTotalArray);
   };
 
+  let tags = ["epic", "female singer", "guitars"];
+
+  let tagsDisplay = tags
+    ? tags.map((t) => (
+        <View style={style.albumInfoTags}>
+          <Text style={style.albumInfoTags}>{t}</Text>
+        </View>
+      ))
+    : null;
+
   return (
     <View style={[styles.container, styles.wholeAlbumPage]}>
       <Image
@@ -92,7 +103,7 @@ function AlbumPage({ route, navigation }) {
             </Text>
             <View style={{ maxHeight: 65 }}>
               <Text
-                numberOfLines={3}
+                numberOfLines={1}
                 style={{ fontSize: 16, color: "white", fontStyle: "bold" }}
               >
                 {album.title}
@@ -106,6 +117,7 @@ function AlbumPage({ route, navigation }) {
                 <Text style={styles.albumInfoBasicText}>
                   Genres: {album.genres.join(", ")}
                 </Text>
+                <Text style={styles.albumInfoBasicText}>{tagsDisplay}</Text>
               </View>
               <View style={styles.albumRightInfoBox}>
                 {localListenEvents.length > 0 ? (
@@ -130,6 +142,11 @@ function AlbumPage({ route, navigation }) {
                     No listens recorded
                   </Text>
                 )}
+                <View style={styles.albumInfoTagsButton}>
+                  <Pressable>
+                    <Text>Add Tags Now!</Text>
+                  </Pressable>
+                </View>
               </View>
             </View>
           </View>

@@ -57,7 +57,7 @@ export default StyleSheet.create({
     backgroundColor: "grey",
     marginTop: 20,
     borderRadius: 5,
-    minHeight: "25%",
+    minHeight: "28%",
   },
   albumDataDisplay: {
     flex: 1,
@@ -67,6 +67,8 @@ export default StyleSheet.create({
 
   albumInfo: {
     paddingLeft: 10,
+    paddingRight: 10,
+    flex: 1,
     flexDirection: "column",
     justifyContent: "space-between",
   },
@@ -97,10 +99,28 @@ export default StyleSheet.create({
   },
   albumLeftInfoBox: {
     width: "60%",
+    flexDirection: "column",
   },
   albumRightInfoBox: {
-    paddingLeft: 10,
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
+  albumInfoTagsButton: {
+    backgroundColor: "#ccc2a6",
+    borderRadius: 10,
+    alignItems: "center",
+    margin: 1,
+    padding: 3,
+    fontSize: 12,
+  },
+  albumInfoTags: {
+    backgroundColor: "#ccc2a6",
+    borderRadius: 10,
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+
   albumPagePressables: {
     padding: 10,
     paddingRight: 5,
