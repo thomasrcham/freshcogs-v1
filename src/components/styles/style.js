@@ -57,7 +57,7 @@ export default StyleSheet.create({
     backgroundColor: "grey",
     marginTop: 20,
     borderRadius: 5,
-    minHeight: "25%",
+    minHeight: "28%",
   },
   albumDataDisplay: {
     flex: 1,
@@ -67,6 +67,8 @@ export default StyleSheet.create({
 
   albumInfo: {
     paddingLeft: 10,
+    paddingRight: 10,
+    flex: 1,
     flexDirection: "column",
     justifyContent: "space-between",
   },
@@ -97,9 +99,33 @@ export default StyleSheet.create({
   },
   albumLeftInfoBox: {
     width: "60%",
+    flexDirection: "column",
   },
   albumRightInfoBox: {
-    paddingLeft: 10,
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  albumInfoTagsButton: {
+    backgroundColor: "#ccc2a6",
+    borderRadius: 10,
+    alignItems: "center",
+    margin: 1,
+    padding: 3,
+    fontSize: 12,
+  },
+  albumTagsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    paddingTop: 8,
+  },
+  albumInfoTags: {
+    backgroundColor: "#ccc2a6",
+    borderRadius: 10,
+    margin: 1,
+    paddingLeft: 5,
+    paddingRight: 5,
+    alignSelf: "flex-start",
+    fontSize: 12,
   },
   albumPagePressables: {
     padding: 10,
@@ -130,6 +156,37 @@ export default StyleSheet.create({
     flexGrow: 1,
     flexDirection: "column",
     alignItems: "center",
+  },
+  tagsTitle: {
+    color: "white",
+    fontStyle: "bold",
+    ...Platform.select({
+      ios: { fontSize: 16 },
+      android: { fontSize: 18 },
+      default: { fontSize: 18 },
+    }),
+  },
+  tagsDisplayContainer: {},
+  currentTagsDisplayContainer: {
+    flexDirection: "column",
+    borderWidth: 1,
+    width: "45%",
+    borderRadius: 5,
+    padding: 3,
+  },
+  newTagsDisplayContainer: {
+    flexDirection: "column",
+    borderWidth: 1,
+    width: "55%",
+    borderRadius: 5,
+    padding: 3,
+  },
+  currentTags: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    flex: 1,
+    paddingTop: 8,
+    width: "100%",
   },
   //tab navigator
   tabButtonBox: {

@@ -72,6 +72,16 @@ function AlbumPage({ route, navigation }) {
     storeListenEvents(newTotalArray);
   };
 
+  let tags = ["EPIC", "FEMALE SINGER", "GUITARS"];
+
+  let tagsDisplay = tags
+    ? tags.map((t) => (
+        <Pressable style={styles.albumInfoTags} key={t}>
+          <Text>{t}</Text>
+        </Pressable>
+      ))
+    : null;
+
   return (
     <View style={[styles.container, styles.wholeAlbumPage]}>
       <Image
@@ -92,7 +102,7 @@ function AlbumPage({ route, navigation }) {
             </Text>
             <View style={{ maxHeight: 65 }}>
               <Text
-                numberOfLines={3}
+                numberOfLines={1}
                 style={{ fontSize: 16, color: "white", fontStyle: "bold" }}
               >
                 {album.title}
@@ -106,6 +116,7 @@ function AlbumPage({ route, navigation }) {
                 <Text style={styles.albumInfoBasicText}>
                   Genres: {album.genres.join(", ")}
                 </Text>
+                <View style={styles.albumTagsContainer}>{tagsDisplay}</View>
               </View>
               <View style={styles.albumRightInfoBox}>
                 {localListenEvents.length > 0 ? (
@@ -130,6 +141,18 @@ function AlbumPage({ route, navigation }) {
                     No listens recorded
                   </Text>
                 )}
+                <View style={styles.albumInfoTagsButton}>
+                  <Pressable
+                    onPress={() =>
+                      navigation.navigate("AlbumTagsPage", {
+                        album: album,
+                        albums: albums,
+                      })
+                    }
+                  >
+                    <Text>Add Tags Now!</Text>
+                  </Pressable>
+                </View>
               </View>
             </View>
           </View>

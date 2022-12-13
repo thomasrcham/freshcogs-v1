@@ -20,3 +20,4 @@ AuthReceive.js
 AuthPass.js
 
 android/
+*.example

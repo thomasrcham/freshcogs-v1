@@ -1,9 +1,12 @@
 import { Button, View, Image, Linking, Pressable, Text } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { format } from "date-fns";
 import styles from "./styles/style.js";
+
+import * as SQLite from "expo-sqlite";
+const db = SQLite.openDatabase("db.testDb");
 
 export default function UserPage({
   albums,

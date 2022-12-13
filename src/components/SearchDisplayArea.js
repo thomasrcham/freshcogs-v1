@@ -2,6 +2,7 @@ import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AlbumPage from "./AlbumPage";
+import AlbumTagsPage from "./AlbumTagsPage";
 import FindPage from "./FindPage";
 import styles from "./styles/style.js";
 
@@ -21,6 +22,7 @@ export default function SearchDisplayArea({ albums }) {
               {(props) => <FindPage {...props} albums={albums} />}
             </Stack.Screen>
             <Stack.Screen name="AlbumPage" component={AlbumPage} />
+            <Stack.Screen name="AlbumTagsPage" component={AlbumTagsPage} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>

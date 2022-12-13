@@ -13,8 +13,6 @@ import CollectionDisplayArea from "./CollectionDisplayArea.js";
 import UserPageContainer from "./UserPageContainer";
 import SearchDisplayArea from "./SearchDisplayArea.js";
 import TagsPageContainer from "./TagsPageContainer.js";
-
-import Settings from "./Settings.js";
 import styles from "./styles/style.js";
 import "../../keys.js";
 
@@ -23,6 +21,40 @@ export default function AppProduct({ navigation }) {
   const [frontPageAlbums, setFrontPageAlbums] = useState(null);
   const [user, setUser] = useState(null);
   const [listenEvents, setListenEvents] = useState([]);
+  const [globalTags, setGlobalTags] = useState([
+    {
+      id: 0,
+      tags: [
+        "ACOUSTIC",
+        "ANGRY",
+        "CLASSIC",
+        "CLUB",
+        "DANCEABLE",
+        "DRAMATIC",
+        "ENERGETIC",
+        "FOLKY",
+        "FUNKY",
+        "GUITARS",
+        "HARMONY",
+        "HYPER",
+        "LOUD",
+        "MOODY",
+        "ORCHESTRAL",
+        "ORNATE",
+        "QUIET",
+        "RURAL",
+        "SPARSE",
+        "SYNTHS",
+        "TRIPPY",
+        "UPLIFTING",
+        "ANGSTY",
+        "UPBEAT",
+        "INSPIRING",
+        "EPIC",
+        "FEMALE SINGER",
+      ],
+    },
+  ]);
 
   //VARIABLE ESTABLISHMENT
 
@@ -57,6 +89,7 @@ export default function AppProduct({ navigation }) {
     albumDataGet();
     userDataGet();
     listenEventsDataGet();
+    // tagsDataGet();
   };
 
   const albumDataGet = async () => {
@@ -94,6 +127,19 @@ export default function AppProduct({ navigation }) {
       setListenEvents(data);
     } catch (e) {
       console.log(`Listen Events storage retrieval failure: ${e}`);
+    }
+  };
+
+  const tagsDataGet = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("@tags");
+      let data = jsonValue != null ? JSON.parse(jsonValue) : null;
+      listenEvents.length < 1
+        ? console.log(`loading ${data.length} tags from local`)
+        : `Tags storage retrieval failure: storage is empty`;
+      setTags(data);
+    } catch (e) {
+      console.log(`Tags storage retrieval failure: ${e}`);
     }
   };
 
@@ -152,7 +198,7 @@ export default function AppProduct({ navigation }) {
     // let parsedReleases = returnData.map((release) => parseInfoSet(release));
   };
 
-  // fetched data manipulation
+  // data manipulation
   const parseInfo = (release) => {
     let artist = release.basic_information.artists[0].name;
 
@@ -218,6 +264,10 @@ export default function AppProduct({ navigation }) {
     setFrontPageAlbums(newArray);
   }
 
+  const handleGlobalTags = (newGlobalTags) => {
+    setGlobalTags(newGlobalTags);
+  };
+
   //storage
 
   const storeAlbums = async (value) => {
@@ -248,6 +298,17 @@ export default function AppProduct({ navigation }) {
       setListenEvents(jsonValue);
     } catch (e) {
       console.log(`Listen Events Storage failure: ${e}`);
+    }
+  };
+
+  const storeTags = async (value) => {
+    try {
+      console.log(`storing tags: ${value.length}`);
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("@tags", jsonValue);
+      setTags(jsonValue);
+    } catch (e) {
+      console.log(`Tags Storage failure: ${e}`);
     }
   };
 
@@ -300,7 +361,12 @@ export default function AppProduct({ navigation }) {
           }}
         >
           {(props) => (
-            <CollectionDisplayArea {...props} albums={frontPageAlbums} />
+            <CollectionDisplayArea
+              {...props}
+              albums={frontPageAlbums}
+              globalTags={globalTags}
+              handleGlobalTags={handleGlobalTags}
+            />
           )}
         </Tab.Screen>
         <Tab.Screen
@@ -328,7 +394,14 @@ export default function AppProduct({ navigation }) {
             },
           }}
         >
-          {(props) => <CollectionDisplayArea {...props} albums={albums} />}
+          {(props) => (
+            <CollectionDisplayArea
+              {...props}
+              albums={albums}
+              globalTags={globalTags}
+              handleGlobalTags={handleGlobalTags}
+            />
+          )}
         </Tab.Screen>
         <Tab.Screen
           name="Search"
@@ -366,7 +439,7 @@ export default function AppProduct({ navigation }) {
                 <View style={styles.tabButtonBox}>
                   <FontAwesome5
                     name="tags"
-                    size={28}
+                    size={30}
                     color={focused ? "#FDCA40" : "white"}
                   />
                 </View>
