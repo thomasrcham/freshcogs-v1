@@ -19,14 +19,17 @@ export default function AlbumTagsPage({
   }, []);
 
   useEffect(() => {
-    let localTags = globalTags.filter((g) => g.id === album.id);
-    let setTags = localTags.length > 0 ? localTags : { id: album.id, tags: [] };
+    let localTags = globalTags.find((g) => g.id === album.id);
+    // console.log(globalTags.map((g) => g.id));
+
+    let setTags = localTags ? localTags : { id: 0, tags: [] };
+
     setLocalAlbumTags(setTags);
   }, []);
 
   function randomTagsArray(globalTags) {
     let newArray = [];
-    for (let i = 0; i < 4; i = newArray.length) {
+    for (let i = 0; i < 12; i = newArray.length) {
       let localTags = globalTags[0].tags;
       let newItem = localTags[Math.floor(Math.random() * localTags.length)];
       if (newArray.includes(newItem)) {
@@ -38,23 +41,22 @@ export default function AlbumTagsPage({
     setTagsList(newArray);
   }
 
+  console.log(globalTags);
+
   function addTagToAlbum(selectedTag) {
     let newTagItem = selectedTag._dispatchInstances.memoizedProps.value;
     let newTagsList = tagsList.filter((t) => !t.includes(newTagItem));
     setTagsList(newTagsList);
-    console.log("existing state");
-    console.log(localAlbumTags);
+    // console.log(localAlbumTags.tags);
+    let tags = [...localAlbumTags.tags, newTagItem];
     let newFullTag = {
       id: album.id,
-      tags: [...localAlbumTags.tags, newTagItem],
+      tags: tags,
     };
-    console.log("state to be set");
 
-    console.log(newFullTag);
     setLocalAlbumTags(newFullTag);
     let filterGlobalTags = globalTags.filter((g) => g.id != newFullTag.id);
     let newGlobalTags = [...filterGlobalTags, newFullTag];
-    console.log(newGlobalTags);
     handleGlobalTags(newGlobalTags);
   }
 
@@ -70,9 +72,13 @@ export default function AlbumTagsPage({
         </Pressable>
       ))
     : null;
+  console.log("tags on mount");
+  console.log(localAlbumTags);
 
   let currentTagsDisplay =
-    localAlbumTags.tags === [] ? (
+    localAlbumTags.id === 0 ? (
+      <Text>no tags</Text>
+    ) : (
       localAlbumTags.tags.map((t) => (
         <Pressable
           style={styles.albumInfoTags}
@@ -80,12 +86,13 @@ export default function AlbumTagsPage({
           value={t}
           onPress={(key) => addTagToAlbum(key)}
         >
-          <Text>{t}</Text>
+          <Text style={styles.albumInfoTags} key={t}>
+            {t}
+          </Text>
         </Pressable>
       ))
-    ) : (
-      <Text>no tags</Text>
     );
+  null;
 
   return (
     <View style={[styles.container, styles.wholeAlbumPage]}>

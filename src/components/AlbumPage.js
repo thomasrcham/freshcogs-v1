@@ -113,7 +113,7 @@ function AlbumPage({ route, navigation }) {
                 <Text style={styles.albumInfoBasicText}>
                   Originally released in {album.year}
                 </Text>
-                <Text style={styles.albumInfoBasicText}>
+                <Text style={styles.albumInfoBasicText} numberOfLines={3}>
                   Genres: {album.genres.join(", ")}
                 </Text>
                 <View style={styles.albumTagsContainer}>{tagsDisplay}</View>

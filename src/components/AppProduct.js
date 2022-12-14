@@ -43,6 +43,7 @@ export default function AppProduct({ navigation }) {
         "ORNATE",
         "QUIET",
         "RURAL",
+        "SOULFUL",
         "SPARSE",
         "SYNTHS",
         "TRIPPY",
