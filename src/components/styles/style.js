@@ -124,7 +124,6 @@ export default StyleSheet.create({
     margin: 1,
     paddingLeft: 5,
     paddingRight: 5,
-    alignSelf: "flex-start",
     fontSize: 12,
   },
   albumPagePressables: {
@@ -437,6 +436,56 @@ export default StyleSheet.create({
   tableCell: {
     width: "28%",
     paddingLeft: 2,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 5,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  input: {
+    backgroundColor: "#ccc2a6",
+    // height: 40,
+    width: 100,
+    margin: 5,
+    borderWidth: 1,
+    paddingLeft: 10,
+    borderRadius: 5,
   },
 });
 

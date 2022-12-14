@@ -1,6 +1,14 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Image, Linking, Pressable, Text, View } from "react-native";
+import {
+  Image,
+  Modal,
+  Pressable,
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import styles from "./styles/style.js";
@@ -14,6 +22,8 @@ export default function AlbumTagsPage({
   const { album } = route.params;
   const [tagsList, setTagsList] = useState(null);
   const [localAlbumTags, setLocalAlbumTags] = useState({ id: 0, tags: [] });
+  const [modalVisible, setModalVisible] = useState(false);
+  const [text, onChangeText] = useState("");
 
   useEffect(() => {
     randomTagsArray(globalTags);
@@ -46,10 +56,9 @@ export default function AlbumTagsPage({
   }
 
   function addTagToAlbum(selectedTag) {
-    let newTagItem = selectedTag._dispatchInstances.memoizedProps.value;
-    let newTagsList = tagsList.filter((t) => !t.includes(newTagItem));
+    let newTagsList = tagsList.filter((t) => !t.includes(selectedTag));
     setTagsList(newTagsList);
-    let tags = [...localAlbumTags.tags, newTagItem];
+    let tags = [...localAlbumTags.tags, selectedTag];
     let newFullTag = {
       id: album.id,
       tags: tags,
@@ -79,7 +88,9 @@ export default function AlbumTagsPage({
           style={styles.albumInfoTags}
           key={t}
           value={t}
-          onPress={(key) => addTagToAlbum(key)}
+          onPress={(key) =>
+            addTagToAlbum(key._dispatchInstances.memoizedProps.value)
+          }
         >
           <Text>{t}</Text>
         </Pressable>
@@ -102,8 +113,47 @@ export default function AlbumTagsPage({
       ))
     );
 
+  const addNewTag = (value) => {
+    setModalVisible(!modalVisible);
+    text ? addTagToAlbum(text.toUpperCase()) : null;
+  };
+
   return (
     <View style={[styles.container, styles.wholeAlbumPage]}>
+      <Modal
+        // animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <Pressable
+          onPress={() => {
+            setModalVisible(!modalVisible);
+          }}
+          style={{ flex: 1, backgroundColor: modalVisible ? "#838285CC" : "" }}
+        >
+          <View style={styles.centeredView}>
+            <TouchableWithoutFeedback>
+              <View style={styles.modalView}>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={onChangeText}
+                  value={text}
+                />
+                <Pressable
+                  // style={[styles.button, styles.buttonClose]}
+                  onPress={() => addNewTag()}
+                >
+                  <Text style={styles.albumInfoTags}>Add a tag!</Text>
+                </Pressable>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </Pressable>
+      </Modal>
       <Image
         style={styles.image}
         source={{
@@ -122,6 +172,15 @@ export default function AlbumTagsPage({
             Add New Tags:
           </Text>
           <View style={styles.currentTags}>{tagsDisplay}</View>
+          <View style={{ alignSelf: "flex-end" }}>
+            <Pressable
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <Text style={styles.albumInfoTags}>Add a Tag</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
       <View style={styles.albumPageButtonsGrid}>

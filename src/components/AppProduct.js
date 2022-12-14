@@ -319,6 +319,7 @@ export default function AppProduct({ navigation }) {
     <NavigationContainer independent={true}>
       <Tab.Navigator
         screenOptions={({ route }) => ({
+          tabBarHideOnKeyboard: true,
           unmountOnBlur: true,
           tabBarInactiveTintColor: "white",
           tabBarActiveTintColor: "#FFBF69",
