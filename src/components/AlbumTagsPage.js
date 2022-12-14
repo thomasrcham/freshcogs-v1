@@ -15,18 +15,19 @@ export default function AlbumTagsPage({
   const [tagsList, setTagsList] = useState(null);
   const [localAlbumTags, setLocalAlbumTags] = useState({ id: 0, tags: [] });
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    randomTagsArray(globalTags);
+  }, []);
 
   useEffect(() => {
     let localTags = globalTags.find((g) => g.id === album.id);
     let setTags = localTags ? localTags : { id: 0, tags: [] };
     setLocalAlbumTags(setTags);
-    randomTagsArray(globalTags);
-  }, []);
+  }, [globalTags]);
 
   function randomTagsArray(globalTags) {
     let newArray = [];
-    let localTags = globalTags.find((g) => g.id === album.id);
+    let localTags = globalTags ? globalTags.find((g) => g.id === album.id) : [];
     let remainingTags = localTags
       ? globalTags[0].tags.filter((x) => !localTags.tags.includes(x))
       : globalTags[0].tags;
@@ -71,8 +72,6 @@ export default function AlbumTagsPage({
         </Pressable>
       ))
     : null;
-
-  console.log(tagsDisplay);
 
   let currentTagsDisplay =
     localAlbumTags.id === 0 ? (

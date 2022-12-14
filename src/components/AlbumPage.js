@@ -91,7 +91,7 @@ function AlbumPage({ route, navigation, globalTags }) {
         </Pressable>
       ))
     ) : (
-      localAlbumTags.tags.slice(0, 5).map((t) => (
+      localAlbumTags.tags.slice(0, 6).map((t) => (
         <Pressable style={styles.albumInfoTags} key={t} value={t}>
           <Text style={styles.albumInfoTags} key={t}>
             {t}
@@ -99,7 +99,6 @@ function AlbumPage({ route, navigation, globalTags }) {
         </Pressable>
       ))
     );
-
   return (
     <View style={[styles.container, styles.wholeAlbumPage]}>
       <Image
@@ -167,6 +166,7 @@ function AlbumPage({ route, navigation, globalTags }) {
                     onPress={() =>
                       navigation.navigate("AlbumTagsPage", {
                         album: album,
+                        globalTags: globalTags,
                       })
                     }
                   >

@@ -90,7 +90,7 @@ export default function AppProduct({ navigation }) {
     albumDataGet();
     userDataGet();
     listenEventsDataGet();
-    // tagsDataGet();
+    tagsDataGet();
   };
 
   const albumDataGet = async () => {
@@ -138,7 +138,8 @@ export default function AppProduct({ navigation }) {
       listenEvents.length < 1
         ? console.log(`loading ${data.length} tags from local`)
         : `Tags storage retrieval failure: storage is empty`;
-      setTags(data);
+      console.log(data);
+      setGlobalTags(data);
     } catch (e) {
       console.log(`Tags storage retrieval failure: ${e}`);
     }
@@ -266,6 +267,7 @@ export default function AppProduct({ navigation }) {
   }
 
   const handleGlobalTags = (newGlobalTags) => {
+    storeTags(newGlobalTags);
     setGlobalTags(newGlobalTags);
   };
 
@@ -307,7 +309,6 @@ export default function AppProduct({ navigation }) {
       console.log(`storing tags: ${value.length}`);
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem("@tags", jsonValue);
-      setTags(jsonValue);
     } catch (e) {
       console.log(`Tags Storage failure: ${e}`);
     }
@@ -425,7 +426,14 @@ export default function AppProduct({ navigation }) {
             },
           }}
         >
-          {(props) => <SearchDisplayArea {...props} albums={albums} />}
+          {(props) => (
+            <SearchDisplayArea
+              {...props}
+              albums={albums}
+              globalTags={globalTags}
+              handleGlobalTags={handleGlobalTags}
+            />
+          )}
         </Tab.Screen>
         <Tab.Screen
           name="Tags"
