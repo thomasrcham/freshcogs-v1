@@ -5,15 +5,22 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import styles from "./styles/style.js";
 
-function AlbumPage({ route, navigation }) {
+function AlbumPage({ route, navigation, globalTags }) {
   const { album, albums } = route.params;
   const [localListenEvents, setLocalListenEvents] = useState([]);
   const [totalListenEvents, setTotalListenEvents] = useState([]);
+  const [localAlbumTags, setLocalAlbumTags] = useState({ id: 0, tags: [] });
 
   useEffect(() => {
     listenEventsDataGet();
     totalListenEventDataGet();
   }, [album]);
+
+  useEffect(() => {
+    let localTags = globalTags.find((g) => g.id === album.id);
+    let setTags = localTags ? localTags : { id: 0, tags: [] };
+    setLocalAlbumTags(setTags);
+  }, [globalTags]);
 
   const handleClick = () => {
     let URL = `https://www.discogs.com/master/${album.master_id}`;
@@ -72,15 +79,18 @@ function AlbumPage({ route, navigation }) {
     storeListenEvents(newTotalArray);
   };
 
-  let tags = ["EPIC", "FEMALE SINGER", "GUITARS"];
-
-  let tagsDisplay = tags
-    ? tags.map((t) => (
-        <Pressable style={styles.albumInfoTags} key={t}>
-          <Text>{t}</Text>
+  let currentTagsDisplay =
+    localAlbumTags.id === 0 ? (
+      <Text>no tags</Text>
+    ) : (
+      localAlbumTags.tags.map((t) => (
+        <Pressable style={styles.albumInfoTags} key={t} value={t}>
+          <Text style={styles.albumInfoTags} key={t}>
+            {t}
+          </Text>
         </Pressable>
       ))
-    : null;
+    );
 
   return (
     <View style={[styles.container, styles.wholeAlbumPage]}>
@@ -114,9 +124,12 @@ function AlbumPage({ route, navigation }) {
                   Originally released in {album.year}
                 </Text>
                 <Text style={styles.albumInfoBasicText} numberOfLines={3}>
-                  Genres: {album.genres.join(", ")}
+                  Genres:{" "}
+                  {album.genres.length > 0
+                    ? album.genres.join(", ")
+                    : "no genre recorded"}
                 </Text>
-                <View style={styles.albumTagsContainer}>{tagsDisplay}</View>
+                <View style={styles.albumPageTags}>{currentTagsDisplay}</View>
               </View>
               <View style={styles.albumRightInfoBox}>
                 {localListenEvents.length > 0 ? (
@@ -146,7 +159,6 @@ function AlbumPage({ route, navigation }) {
                     onPress={() =>
                       navigation.navigate("AlbumTagsPage", {
                         album: album,
-                        albums: albums,
                       })
                     }
                   >

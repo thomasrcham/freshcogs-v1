@@ -188,6 +188,13 @@ export default StyleSheet.create({
     paddingTop: 8,
     width: "100%",
   },
+  albumPageTags: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    flex: 1,
+    paddingTop: 8,
+    width: "90%",
+  },
   //tab navigator
   tabButtonBox: {
     flex: 1,

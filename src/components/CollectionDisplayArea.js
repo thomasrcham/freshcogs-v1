@@ -26,11 +26,15 @@ export default function CollectionDisplayArea({
             <Stack.Screen name="Collection">
               {(props) => <Collection {...props} albums={albums} />}
             </Stack.Screen>
-            <Stack.Screen
-              name="AlbumPage"
-              component={AlbumPage}
-              options={{ title: "My home" }}
-            />
+            <Stack.Screen name="AlbumPage" options={{ title: "My home" }}>
+              {(props) => (
+                <AlbumPage
+                  {...props}
+                  globalTags={globalTags}
+                  handleGlobalTags={handleGlobalTags}
+                />
+              )}
+            </Stack.Screen>
 
             <Stack.Screen name="AlbumTagsPage" options={{ animation: "none" }}>
               {(props) => (

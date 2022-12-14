@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Image, Linking, Pressable, Text, View } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import styles from "./styles/style.js";
 
@@ -10,7 +11,7 @@ export default function AlbumTagsPage({
   globalTags,
   handleGlobalTags,
 }) {
-  const { album, albums } = route.params;
+  const { album } = route.params;
   const [tagsList, setTagsList] = useState(null);
   const [localAlbumTags, setLocalAlbumTags] = useState({ id: 0, tags: [] });
 
@@ -20,10 +21,7 @@ export default function AlbumTagsPage({
 
   useEffect(() => {
     let localTags = globalTags.find((g) => g.id === album.id);
-    // console.log(globalTags.map((g) => g.id));
-
     let setTags = localTags ? localTags : { id: 0, tags: [] };
-
     setLocalAlbumTags(setTags);
   }, []);
 
@@ -53,7 +51,6 @@ export default function AlbumTagsPage({
       id: album.id,
       tags: tags,
     };
-
     setLocalAlbumTags(newFullTag);
     let filterGlobalTags = globalTags.filter((g) => g.id != newFullTag.id);
     let newGlobalTags = [...filterGlobalTags, newFullTag];
@@ -80,19 +77,11 @@ export default function AlbumTagsPage({
       <Text>no tags</Text>
     ) : (
       localAlbumTags.tags.map((t) => (
-        <Pressable
-          style={styles.albumInfoTags}
-          key={t}
-          value={t}
-          onPress={(key) => addTagToAlbum(key)}
-        >
-          <Text style={styles.albumInfoTags} key={t}>
-            {t}
-          </Text>
-        </Pressable>
+        <Text style={styles.albumInfoTags} key={t}>
+          {t}
+        </Text>
       ))
     );
-  null;
 
   return (
     <View style={[styles.container, styles.wholeAlbumPage]}>
@@ -114,6 +103,38 @@ export default function AlbumTagsPage({
             Add New Tags:
           </Text>
           <View style={styles.currentTags}>{tagsDisplay}</View>
+        </View>
+      </View>
+      <View style={styles.albumPageButtonsGrid}>
+        <View
+          style={{
+            flex: 1,
+            flexGrow: 1,
+            flexDirection: "row",
+          }}
+        >
+          <Pressable
+            style={styles.albumPageButton}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <MaterialCommunityIcons
+              name="skip-backward"
+              size={40}
+              color={"white"}
+            />
+            <Text
+              style={{
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 12,
+                transform: [{ translateY: -5 }],
+              }}
+            >
+              back
+            </Text>
+          </Pressable>
         </View>
       </View>
     </View>
