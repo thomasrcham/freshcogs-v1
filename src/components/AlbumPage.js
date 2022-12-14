@@ -82,8 +82,16 @@ function AlbumPage({ route, navigation, globalTags }) {
   let currentTagsDisplay =
     localAlbumTags.id === 0 ? (
       <Text>no tags</Text>
-    ) : (
+    ) : localAlbumTags.id < 6 ? (
       localAlbumTags.tags.map((t) => (
+        <Pressable style={styles.albumInfoTags} key={t} value={t}>
+          <Text style={styles.albumInfoTags} key={t}>
+            {t}
+          </Text>
+        </Pressable>
+      ))
+    ) : (
+      localAlbumTags.tags.slice(0, 5).map((t) => (
         <Pressable style={styles.albumInfoTags} key={t} value={t}>
           <Text style={styles.albumInfoTags} key={t}>
             {t}

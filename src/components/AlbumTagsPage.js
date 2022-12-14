@@ -15,37 +15,39 @@ export default function AlbumTagsPage({
   const [tagsList, setTagsList] = useState(null);
   const [localAlbumTags, setLocalAlbumTags] = useState({ id: 0, tags: [] });
 
-  useEffect(() => {
-    randomTagsArray(globalTags);
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     let localTags = globalTags.find((g) => g.id === album.id);
     let setTags = localTags ? localTags : { id: 0, tags: [] };
     setLocalAlbumTags(setTags);
+    randomTagsArray(globalTags);
   }, []);
 
   function randomTagsArray(globalTags) {
     let newArray = [];
-    for (let i = 0; i < 12; i = newArray.length) {
-      let localTags = globalTags[0].tags;
-      let newItem = localTags[Math.floor(Math.random() * localTags.length)];
-      if (newArray.includes(newItem)) {
+    let localTags = globalTags.find((g) => g.id === album.id);
+    let remainingTags = localTags
+      ? globalTags[0].tags.filter((x) => !localTags.tags.includes(x))
+      : globalTags[0].tags;
+    let value = remainingTags.length > 10 ? 10 : remainingTags.length;
+    for (let i = 0; i < value; i = newArray.length) {
+      let newItem =
+        remainingTags[Math.floor(Math.random() * remainingTags.length)];
+      if (newArray.includes(newItem) || localAlbumTags.tags.includes(newItem)) {
         null;
       } else {
         newArray.push(newItem);
       }
     }
+
     setTagsList(newArray);
   }
-
-  console.log(globalTags);
 
   function addTagToAlbum(selectedTag) {
     let newTagItem = selectedTag._dispatchInstances.memoizedProps.value;
     let newTagsList = tagsList.filter((t) => !t.includes(newTagItem));
     setTagsList(newTagsList);
-    // console.log(localAlbumTags.tags);
     let tags = [...localAlbumTags.tags, newTagItem];
     let newFullTag = {
       id: album.id,
@@ -69,8 +71,8 @@ export default function AlbumTagsPage({
         </Pressable>
       ))
     : null;
-  console.log("tags on mount");
-  console.log(localAlbumTags);
+
+  console.log(tagsDisplay);
 
   let currentTagsDisplay =
     localAlbumTags.id === 0 ? (
