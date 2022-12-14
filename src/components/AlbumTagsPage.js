@@ -60,6 +60,19 @@ export default function AlbumTagsPage({
     handleGlobalTags(newGlobalTags);
   }
 
+  function removeTagFromAlbum(selectedTag) {
+    let tagItemToRemove = selectedTag._dispatchInstances.memoizedProps.value;
+    let tags = localAlbumTags.tags.filter((t) => t != tagItemToRemove);
+    let newFullTag = {
+      id: album.id,
+      tags: tags,
+    };
+    setLocalAlbumTags(newFullTag);
+    let filterGlobalTags = globalTags.filter((g) => g.id != newFullTag.id);
+    let newGlobalTags = [...filterGlobalTags, newFullTag];
+    handleGlobalTags(newGlobalTags);
+  }
+
   let tagsDisplay = tagsList
     ? tagsList.map((t) => (
         <Pressable
@@ -78,9 +91,14 @@ export default function AlbumTagsPage({
       <Text>no tags</Text>
     ) : (
       localAlbumTags.tags.map((t) => (
-        <Text style={styles.albumInfoTags} key={t}>
-          {t}
-        </Text>
+        <Pressable
+          style={styles.albumInfoTags}
+          key={t}
+          value={t}
+          onPress={(key) => removeTagFromAlbum(key)}
+        >
+          <Text>{t}</Text>
+        </Pressable>
       ))
     );
 

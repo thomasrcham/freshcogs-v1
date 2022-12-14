@@ -13,7 +13,7 @@ import CollectionDisplayArea from "../CollectionDisplayArea.js";
 import UserPageContainer from "../UserPageContainer";
 import SearchDisplayArea from "../SearchDisplayArea.js";
 
-import Settings from "../Settings.js";
+import Settings from "./Settings.js";
 import styles from "../styles/style.js";
 import "../../../keys.js";
 

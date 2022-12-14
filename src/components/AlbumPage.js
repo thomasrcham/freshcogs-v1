@@ -170,7 +170,7 @@ function AlbumPage({ route, navigation, globalTags }) {
                       })
                     }
                   >
-                    <Text>Add Tags Now!</Text>
+                    <Text>Edit Tags</Text>
                   </Pressable>
                 </View>
               </View>

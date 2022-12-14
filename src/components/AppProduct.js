@@ -138,7 +138,6 @@ export default function AppProduct({ navigation }) {
       listenEvents.length < 1
         ? console.log(`loading ${data.length} tags from local`)
         : `Tags storage retrieval failure: storage is empty`;
-      console.log(data);
       setGlobalTags(data);
     } catch (e) {
       console.log(`Tags storage retrieval failure: ${e}`);
