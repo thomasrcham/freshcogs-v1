@@ -203,7 +203,6 @@ export default StyleSheet.create({
     fontSize: 14,
     color: "white",
     fontWeight: "bold",
-    // flexShrink: "1",
     width: "80%",
     alignSelf: "center",
   },
