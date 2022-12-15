@@ -198,10 +198,14 @@ export default StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     margin: 1,
-    padding: 3,
-    fontSize: 12,
+    paddingTop: 2,
+    paddingBottom: 2,
+    fontSize: 14,
     color: "white",
     fontWeight: "bold",
+    // flexShrink: "1",
+    width: "80%",
+    alignSelf: "center",
   },
 
   albumPageButtonsGrid: {
