@@ -57,19 +57,18 @@ export default function AlbumTagsPage({
   const addNewTag = () => {
     setModalVisible(!modalVisible);
     text ? addTagToAlbum(text.toUpperCase()) : null;
-    text ? addTagToGlobal(text.toUpperCase()) : null;
+    // text ? addTagToGlobal(text.toUpperCase()) : null;
     onChangeText("");
   };
 
-  const addTagToGlobal = (tag) => {
-    let tags = [...globalTags[0].tags, tag];
+  const addTagToGlobal = (tag, id) => {
+    let filteredTags = globalTags.filter((g) => g.id != id);
+    let removedGlobalTags = filteredTags.filter((g) => g.id != 0);
     let newFullTag = {
       id: 0,
-      tags: tags,
+      tags: [...globalTags.filter((g) => g.id === 0)[0].tags, tag],
     };
-    let filterGlobalTags = globalTags.filter((g) => g.id != newFullTag.id);
-    let newGlobalTags = [...filterGlobalTags, newFullTag];
-    handleGlobalTags(newGlobalTags);
+    return [...removedGlobalTags, newFullTag];
   };
 
   function addTagToAlbum(selectedTag) {
@@ -81,7 +80,11 @@ export default function AlbumTagsPage({
       tags: tags,
     };
     setLocalAlbumTags(newFullTag);
-    let filterGlobalTags = globalTags.filter((g) => g.id != newFullTag.id);
+    let filterGlobalTags = globalTags
+      .find((g) => g.id === 0)
+      .tags.includes(selectedTag)
+      ? globalTags.filter((g) => g.id != newFullTag.id)
+      : addTagToGlobal(selectedTag, album.id);
     let newGlobalTags = [...filterGlobalTags, newFullTag];
     handleGlobalTags(newGlobalTags);
   }
