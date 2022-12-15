@@ -36,11 +36,14 @@ export default function AlbumTagsPage({
   }, [globalTags]);
 
   function randomTagsArray(globalTags) {
+    let fullTagList = globalTags.find((g) => g.id === 0).tags;
+    // console.log(fullTagList);
     let newArray = [];
     let localTags = globalTags ? globalTags.find((g) => g.id === album.id) : [];
     let remainingTags = localTags
-      ? globalTags[0].tags.filter((x) => !localTags.tags.includes(x))
-      : globalTags[0].tags;
+      ? fullTagList.filter((x) => !localTags.tags.includes(x))
+      : fullTagList;
+    console.log(remainingTags);
     let value = remainingTags.length > 10 ? 10 : remainingTags.length;
     for (let i = 0; i < value; i = newArray.length) {
       let newItem =
@@ -86,6 +89,7 @@ export default function AlbumTagsPage({
       ? globalTags.filter((g) => g.id != newFullTag.id)
       : addTagToGlobal(selectedTag, album.id);
     let newGlobalTags = [...filterGlobalTags, newFullTag];
+    // console.log(newGlobalTags);
     handleGlobalTags(newGlobalTags);
   }
 

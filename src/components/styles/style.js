@@ -102,7 +102,6 @@ export default StyleSheet.create({
   //album page
   wholeAlbumPage: {
     flex: 1,
-    // flexDirection: "column",
     paddingTop: 30,
     padding: 20,
     backgroundColor: `#040F0F`,
@@ -384,7 +383,8 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-evenly",
     width: "100%",
-  }, //results page
+  },
+  //results page
   resultsPageContainer: {
     backgroundColor: "#D8DBE2",
     width: "100%",
@@ -502,6 +502,15 @@ export default StyleSheet.create({
   tableCell: {
     width: "28%",
     paddingLeft: 2,
+  },
+  //tags page
+  tagsPageContainer: {
+    height: mainWindowHeight * 0.89,
+    width: windowWidth,
+    padding: 20,
+    alignContent: "space-between",
+    justifyContent: "center",
+    flexDirection: "column",
   },
 });
 
