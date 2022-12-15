@@ -5,7 +5,7 @@ import TagsPage from "./TagsPage.js";
 import styles from "./styles/style.js";
 
 const Stack = createNativeStackNavigator();
-export default function TagsPageContainer({}) {
+export default function TagsPageContainer({ albums, globalTags }) {
   return (
     <View>
       <View style={styles.mainPageContainer}>
@@ -18,7 +18,7 @@ export default function TagsPageContainer({}) {
             initialRouteName="Collection"
           >
             <Stack.Screen name="UserPage">
-              {(props) => <TagsPage />}
+              {(props) => <TagsPage albums={albums} globalTags={globalTags} />}
             </Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>

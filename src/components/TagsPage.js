@@ -3,18 +3,11 @@ import { useEffect, useState, useRef } from "react";
 import TagsDecision from "./TagsDecision.js";
 
 import styles from "./styles/style.js";
-export default function TagsPage() {
+export default function TagsPage({ albums, globalTags }) {
   return (
     <View style={styles.tagsPageContainer}>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: "blue",
-          marginTop: 20,
-          marginBottom: 30,
-        }}
-      >
-        <TagsDecision />
+      <View style={styles.tagsDecisionContainer}>
+        <TagsDecision albums={albums} globalTags={globalTags} />
       </View>
       <View
         style={{ flex: 2, backgroundColor: "green", marginBottom: 30 }}

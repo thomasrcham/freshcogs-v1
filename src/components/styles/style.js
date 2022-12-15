@@ -1,3 +1,4 @@
+import { autoBatchEnhancer } from "@reduxjs/toolkit";
 import { Dimensions, StyleSheet, Platform } from "react-native";
 
 const mainWindowHeight = Dimensions.get("window").height * 1;
@@ -505,12 +506,90 @@ export default StyleSheet.create({
   },
   //tags page
   tagsPageContainer: {
+    backgroundColor: "#D8DBE2",
     height: mainWindowHeight * 0.89,
     width: windowWidth,
     padding: 20,
     alignContent: "space-between",
-    justifyContent: "center",
+  },
+  tagsDecisionContainer: {
+    flex: 1,
+    backgroundColor: "#878684",
+    flex: 1,
+    marginTop: 20,
+    marginBottom: 30,
+    borderRadius: 10,
+    borderWidth: 2,
+  },
+  tagsDecisionWindowTotal: {
+    flex: 1,
     flexDirection: "column",
+    borderwidth: 1,
+  },
+  tagsDecisionWindowUpper: {
+    height: "55%",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+
+  tagsDecisionRowUpper: {
+    alignSelf: "center",
+    justifyContent: "center",
+    width: "40%",
+  },
+  tagsDecisionButtonUpper: {
+    flexDirection: "row",
+    backgroundColor: "#124242",
+    borderRadius: 8,
+    borderWidth: 1,
+  },
+  tagsDecisionText: {
+    padding: 9,
+    color: "white",
+    fontWeight: "bold",
+    overflow: "hidden",
+    fontSize: 15,
+    ...Platform.select({
+      ios: { margin: 2 },
+      android: { margin: 2.4 },
+      default: { margin: 2 },
+    }),
+  },
+  tagsDecisionWindowLower: {
+    height: "45%",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  tagsDecisionRowLower: {
+    alignSelf: "center",
+    justifyContent: "center",
+    width: "25%",
+  },
+  tagsDecisionButtonLower: {
+    flexDirection: "row",
+    backgroundColor: "#124242",
+    borderRadius: 8,
+    borderWidth: 1,
+  },
+  tagsLowerDecisionText: {
+    padding: 4,
+    color: "white",
+    fontWeight: "bold",
+    overflow: "hidden",
+    fontSize: 12,
+    ...Platform.select({
+      ios: { margin: 2 },
+      android: { margin: 2.4 },
+      default: { margin: 2 },
+    }),
+  },
+  tagDecisionRemaining: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  tagDecisionRemainingText: {
+    fontSize: 12,
   },
 });
 
