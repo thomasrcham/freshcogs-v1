@@ -84,16 +84,16 @@ function AlbumPage({ route, navigation, globalTags }) {
       <Text>no tags</Text>
     ) : localAlbumTags.id < 6 ? (
       localAlbumTags.tags.map((t) => (
-        <Pressable style={styles.albumInfoTags} key={t} value={t}>
-          <Text style={styles.albumInfoTags} key={t}>
+        <Pressable key={t} value={t}>
+          <Text style={styles.albumPageCurrentTags} key={t}>
             {t}
           </Text>
         </Pressable>
       ))
     ) : (
       localAlbumTags.tags.slice(0, 6).map((t) => (
-        <Pressable style={styles.albumInfoTags} key={t} value={t}>
-          <Text style={styles.albumInfoTags} key={t}>
+        <Pressable key={t} value={t}>
+          <Text style={styles.albumPageCurrentTags} key={t}>
             {t}
           </Text>
         </Pressable>
@@ -170,7 +170,7 @@ function AlbumPage({ route, navigation, globalTags }) {
                       })
                     }
                   >
-                    <Text>Edit Tags</Text>
+                    <Text style={styles.albumInfoTagsButton}>Edit Tags</Text>
                   </Pressable>
                 </View>
               </View>

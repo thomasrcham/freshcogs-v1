@@ -85,14 +85,13 @@ export default function AlbumTagsPage({
   let tagsDisplay = tagsList
     ? tagsList.map((t) => (
         <Pressable
-          style={styles.albumInfoTags}
           key={t}
           value={t}
           onPress={(key) =>
             addTagToAlbum(key._dispatchInstances.memoizedProps.value)
           }
         >
-          <Text>{t}</Text>
+          <Text style={styles.albumInfoTags}>{t}</Text>
         </Pressable>
       ))
     : null;
@@ -102,13 +101,8 @@ export default function AlbumTagsPage({
       <Text>no tags</Text>
     ) : (
       localAlbumTags.tags.map((t) => (
-        <Pressable
-          style={styles.albumInfoTags}
-          key={t}
-          value={t}
-          onPress={(key) => removeTagFromAlbum(key)}
-        >
-          <Text>{t}</Text>
+        <Pressable key={t} value={t} onPress={(key) => removeTagFromAlbum(key)}>
+          <Text style={styles.albumInfoTags}>{t}</Text>
         </Pressable>
       ))
     );
@@ -143,10 +137,7 @@ export default function AlbumTagsPage({
                   onChangeText={onChangeText}
                   value={text}
                 />
-                <Pressable
-                  // style={[styles.button, styles.buttonClose]}
-                  onPress={() => addNewTag()}
-                >
+                <Pressable onPress={() => addNewTag()}>
                   <Text style={styles.albumInfoTags}>Add a tag!</Text>
                 </Pressable>
               </View>
@@ -172,7 +163,7 @@ export default function AlbumTagsPage({
             Add New Tags:
           </Text>
           <View style={styles.currentTags}>{tagsDisplay}</View>
-          <View style={{ alignSelf: "flex-end" }}>
+          <View style={{ alignSelf: "flex-end", marginTop: 1 }}>
             <Pressable
               onPress={() => {
                 setModalVisible(!modalVisible);
