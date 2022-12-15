@@ -73,7 +73,9 @@ function AlbumPage({ route, navigation, globalTags }) {
     let newArray = localListenEvents
       ? [...localListenEvents, newEvent]
       : [newEvent];
-    let newTotalArray = [...totalListenEvents, newEvent];
+    let newTotalArray = totalListenEvents
+      ? [...totalListenEvents, newEvent]
+      : [newEvent];
     setLocalListenEvents(newArray);
     setTotalListenEvents(newTotalArray);
     storeListenEvents(newTotalArray);
@@ -136,7 +138,9 @@ function AlbumPage({ route, navigation, globalTags }) {
                     ? album.genres.join(", ")
                     : "no genre recorded"}
                 </Text>
+                {/* <View> */}
                 <View style={styles.albumPageTags}>{currentTagsDisplay}</View>
+                {/* </View> */}
               </View>
               <View style={styles.albumRightInfoBox}>
                 {localListenEvents.length > 0 ? (
@@ -150,7 +154,10 @@ function AlbumPage({ route, navigation, globalTags }) {
                     <Text style={styles.albumInfoBasicText}>
                       {format(
                         new Date(
-                          localListenEvents.map((e) => e.dateTime).sort()[0]
+                          localListenEvents
+                            .map((e) => e.dateTime)
+                            .sort()
+                            .reverse()[0]
                         ),
                         "MMMM d yyyy"
                       )}
@@ -170,7 +177,9 @@ function AlbumPage({ route, navigation, globalTags }) {
                       })
                     }
                   >
-                    <Text style={styles.albumInfoTagsButton}>Edit Tags</Text>
+                    <Text style={styles.albumInfoTagsButton}>
+                      {localAlbumTags.id === 0 ? "Add Tags!" : "Edit Tags"}
+                    </Text>
                   </Pressable>
                 </View>
               </View>

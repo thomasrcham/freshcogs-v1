@@ -51,7 +51,6 @@ export default function AlbumTagsPage({
         newArray.push(newItem);
       }
     }
-
     setTagsList(newArray);
   }
 
@@ -151,7 +150,7 @@ export default function AlbumTagsPage({
           uri: `${album.uri}`,
         }}
       />
-      <View style={styles.albumDataContainer}>
+      <View style={styles.tagsDisplayContainer}>
         <View style={styles.currentTagsDisplayContainer}>
           <Text numberOfLines={1} style={styles.tagsTitle}>
             Current Tags:
@@ -163,14 +162,33 @@ export default function AlbumTagsPage({
             Add New Tags:
           </Text>
           <View style={styles.currentTags}>{tagsDisplay}</View>
-          <View style={{ alignSelf: "flex-end", marginTop: 1 }}>
-            <Pressable
-              onPress={() => {
-                setModalVisible(!modalVisible);
+          <View
+            style={{
+              alignSelf: "flex-end",
+              marginTop: 1,
+            }}
+          >
+            <View
+              style={{
+                alignItems: "space-between",
+                flexDirection: "row",
               }}
             >
-              <Text style={styles.albumInfoTags}>Add a Tag</Text>
-            </Pressable>
+              <Pressable
+                onPress={() => {
+                  randomTagsArray(globalTags);
+                }}
+              >
+                <Text style={styles.albumInfoTags}>Reload Tags</Text>
+              </Pressable>
+              <Pressable
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <Text style={styles.albumInfoTags}>New Tag</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </View>
