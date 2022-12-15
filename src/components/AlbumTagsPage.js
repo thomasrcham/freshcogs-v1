@@ -54,6 +54,24 @@ export default function AlbumTagsPage({
     setTagsList(newArray);
   }
 
+  const addNewTag = () => {
+    setModalVisible(!modalVisible);
+    text ? addTagToAlbum(text.toUpperCase()) : null;
+    text ? addTagToGlobal(text.toUpperCase()) : null;
+    onChangeText("");
+  };
+
+  const addTagToGlobal = (tag) => {
+    let tags = [...globalTags[0].tags, tag];
+    let newFullTag = {
+      id: 0,
+      tags: tags,
+    };
+    let filterGlobalTags = globalTags.filter((g) => g.id != newFullTag.id);
+    let newGlobalTags = [...filterGlobalTags, newFullTag];
+    handleGlobalTags(newGlobalTags);
+  };
+
   function addTagToAlbum(selectedTag) {
     let newTagsList = tagsList.filter((t) => !t.includes(selectedTag));
     setTagsList(newTagsList);
@@ -105,11 +123,6 @@ export default function AlbumTagsPage({
         </Pressable>
       ))
     );
-
-  const addNewTag = (value) => {
-    setModalVisible(!modalVisible);
-    text ? addTagToAlbum(text.toUpperCase()) : null;
-  };
 
   return (
     <View style={[styles.container, styles.wholeAlbumPage]}>

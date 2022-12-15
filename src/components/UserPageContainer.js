@@ -11,6 +11,9 @@ export default function UserPageContainer({
   getData,
   setAlbums,
   storeAlbums,
+  handleGlobalTags,
+  globalTags,
+  globalResetTags,
   setUser,
   listenEvents,
   requestOptions,
@@ -40,6 +43,9 @@ export default function UserPageContainer({
                   setAlbums={setAlbums}
                   setUser={setUser}
                   updateLibraryFetch={updateLibraryFetch}
+                  globalTags={globalTags}
+                  globalResetTags={globalResetTags}
+                  handleGlobalTags={handleGlobalTags}
                 />
               )}
             </Stack.Screen>

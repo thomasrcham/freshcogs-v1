@@ -11,6 +11,9 @@ const db = SQLite.openDatabase("db.testDb");
 export default function UserPage({
   albums,
   getData,
+  handleGlobalTags,
+  globalTags,
+  globalResetTags,
   setAlbums,
   storeAlbums,
   setUser,
@@ -81,6 +84,16 @@ export default function UserPage({
   const removeItemValue = async () => {
     let keys = ["@albums", "@userProfile"];
     await AsyncStorage.multiRemove(keys);
+  };
+
+  const resetGlobalTags = (globalTags, globalResetTags) => {
+    let newFullTag = {
+      id: 0,
+      tags: globalResetTags,
+    };
+    let filterGlobalTags = globalTags.filter((g) => g.id != newFullTag.id);
+    let newGlobalTags = [...filterGlobalTags, newFullTag];
+    handleGlobalTags(newGlobalTags);
   };
 
   return (
@@ -185,6 +198,11 @@ export default function UserPage({
           }}
         />
         <Button title="update library" onPress={() => updateLibraryFetch()} />
+        <Button
+          title="reset default tags"
+          onPress={() => resetGlobalTags(globalTags, globalResetTags)}
+        />
+
         <Button
           title="console.log random album"
           onPress={() =>

@@ -24,42 +24,43 @@ export default function AppProduct({ navigation }) {
   const [globalTags, setGlobalTags] = useState([
     {
       id: 0,
-      tags: [
-        "ACOUSTIC",
-        "ANGRY",
-        "CLASSIC",
-        "CLUB",
-        "DANCEABLE",
-        "DRAMATIC",
-        "ENERGETIC",
-        "FOLKY",
-        "FUNKY",
-        "GUITARS",
-        "HARMONY",
-        "HYPER",
-        "LOUD",
-        "MOODY",
-        "ORCHESTRAL",
-        "ORNATE",
-        "QUIET",
-        "RURAL",
-        "SOULFUL",
-        "SPARSE",
-        "SYNTHS",
-        "TRIPPY",
-        "UPLIFTING",
-        "ANGSTY",
-        "UPBEAT",
-        "INSPIRING",
-        "EPIC",
-        "FEMALE SINGER",
-      ],
+      tags: globalResetTags,
     },
   ]);
 
   //VARIABLE ESTABLISHMENT
 
   var dateTime = Math.round(new Date().getTime() / 1000);
+  const globalResetTags = [
+    "ACOUSTIC",
+    "ANGRY",
+    "CLASSIC",
+    "CLUB",
+    "DANCEABLE",
+    "DRAMATIC",
+    "ENERGETIC",
+    "FOLKY",
+    "FUNKY",
+    "GUITARS",
+    "HARMONY",
+    "HYPER",
+    "LOUD",
+    "MOODY",
+    "ORCHESTRAL",
+    "ORNATE",
+    "QUIET",
+    "RURAL",
+    "SOULFUL",
+    "SPARSE",
+    "SYNTHS",
+    "TRIPPY",
+    "UPLIFTING",
+    "ANGSTY",
+    "UPBEAT",
+    "INSPIRING",
+    "EPIC",
+    "FEMALE SINGER",
+  ];
 
   //fetch request setup
   var myHeaders = new Headers();
@@ -491,6 +492,9 @@ export default function AppProduct({ navigation }) {
               setAlbums={setAlbums}
               setUser={setUser}
               updateLibraryFetch={updateLibraryFetch}
+              globalTags={globalTags}
+              globalResetTags={globalResetTags}
+              handleGlobalTags={handleGlobalTags}
             />
           )}
         </Tab.Screen>
