@@ -322,7 +322,7 @@ export default function AppProduct({ navigation }) {
       console.log(`albums to be stored: ${value.length}`);
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem("@albums", jsonValue);
-      await firebaseStore("albums", albums);
+      // await firebaseStore("albums", albums);
     } catch (e) {
       console.log(`albums storage failure: ${e}`);
     }

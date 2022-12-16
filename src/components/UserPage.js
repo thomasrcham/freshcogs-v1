@@ -43,7 +43,7 @@ export default function UserPage({
     setUpdating("In Progress");
     let myInterval = setInterval(() => {
       let needsReplacement = albums
-        ? albums.filter((a) => a.isReissue === true).slice(0, 5)
+        ? albums.filter((a) => a.isReissue === true).slice(0, 1)
         : console.log("none to set as needs replacement");
 
       if (needsReplacement.length === 0) {
@@ -63,7 +63,7 @@ export default function UserPage({
         setUpdating("In Progress");
         needsReplacement.map((album) => individualYearReplace(album));
       }
-    }, 10000);
+    }, 1500);
   }
 
   function individualYearReplace(album) {
@@ -190,13 +190,13 @@ export default function UserPage({
         </View>
       </View>
       <View style={styles.userPageButtons}>
-        <Button title="reset storage" onPress={() => clearStorage()} />
+        {/* <Button title="reset storage" onPress={() => clearStorage()} />
         <Button
           title="refresh fetch data"
           onPress={() => {
             getData();
           }}
-        />
+        /> */}
         <Button title="update library" onPress={() => updateLibraryFetch()} />
         <Button
           title="reset default tags"
@@ -209,10 +209,10 @@ export default function UserPage({
             console.log(albums[Math.floor(Math.random() * albums.length)])
           }
         />
-        <Button
+        {/* <Button
           title="clear global tags"
           onPress={() => handleGlobalTags([])}
-        />
+        /> */}
       </View>
     </View>
   );
