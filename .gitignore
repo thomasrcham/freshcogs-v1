@@ -21,3 +21,4 @@ AuthPass.js
 
 android/
 *.example
+firebaseConfig.js

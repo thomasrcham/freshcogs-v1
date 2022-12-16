@@ -209,6 +209,10 @@ export default function UserPage({
             console.log(albums[Math.floor(Math.random() * albums.length)])
           }
         />
+        <Button
+          title="clear global tags"
+          onPress={() => handleGlobalTags([])}
+        />
       </View>
     </View>
   );

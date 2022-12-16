@@ -9,6 +9,35 @@ import {
 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDoc,
+  getDocs,
+  query,
+  orderBy,
+  limit,
+} from "firebase/firestore";
+
+// TODO: Replace the following with your app's Firebase project configuration
+// See: https://firebase.google.com/docs/web/learn-more#config-object
+const firebaseConfig = {
+  apiKey: "AIzaSyCU8M3IjBt89WJPtuJRcEtRME94lvsZfvs",
+  authDomain: "freshcogs.firebaseapp.com",
+  projectId: "freshcogs",
+  storageBucket: "freshcogs.appspot.com",
+  messagingSenderId: "605440666542",
+  appId: "1:605440666542:web:aef1c7aef573c97e76363f",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
+
 import CollectionDisplayArea from "./CollectionDisplayArea.js";
 import UserPageContainer from "./UserPageContainer";
 import SearchDisplayArea from "./SearchDisplayArea.js";
@@ -29,6 +58,34 @@ export default function AppProduct({ navigation }) {
   ]);
 
   //VARIABLE ESTABLISHMENT
+
+  async function firebaseStore(target, payload) {
+    try {
+      const docRef = await addDoc(collection(db, target), {
+        dateTime: new Date().toISOString(),
+        [target]: payload,
+      });
+      console.log("firestore success: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+
+  const firebaseRead = async (target) => {
+    console.log(`retrieving ${target} from firestore`);
+    const dbRef = collection(db, target);
+    const q = query(dbRef, orderBy("dateTime"), limit(1));
+    const result = await getDocs(q);
+    // console.log(result[0]);
+    // let words = result.data();
+    // .data().tags;
+    let newArray = [];
+    result.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      newArray.push(doc.data());
+    });
+    return newArray[0];
+  };
 
   var dateTime = Math.round(new Date().getTime() / 1000);
   const globalResetTags = [
@@ -123,9 +180,11 @@ export default function AppProduct({ navigation }) {
     try {
       const jsonValue = await AsyncStorage.getItem("@listenEvents");
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
-      listenEvents.length < 1
+      data.length > 1
         ? console.log(`loading ${data.length} listen events from local`)
-        : `Listen Events storage retrieval failure: storage is empty`;
+        : console.log(
+            `Listen Events storage retrieval failure: storage is empty`
+          );
       setListenEvents(data);
     } catch (e) {
       console.log(`Listen Events storage retrieval failure: ${e}`);
@@ -134,12 +193,16 @@ export default function AppProduct({ navigation }) {
 
   const tagsDataGet = async () => {
     try {
+      let firebaseReturn;
       const jsonValue = await AsyncStorage.getItem("@tags");
-      let data = jsonValue != null ? JSON.parse(jsonValue) : null;
-      listenEvents.length < 1
+      let data = [];
+      jsonValue != null ? JSON.parse(jsonValue) : null;
+      data.length > 1
         ? console.log(`loading ${data.length} tags from local`)
-        : `Tags storage retrieval failure: storage is empty`;
-      setGlobalTags(data);
+        : (firebaseReturn = await firebaseRead("tags"));
+      data.length > 1
+        ? setGlobalTags(data)
+        : setGlobalTags(firebaseReturn.tags);
     } catch (e) {
       console.log(`Tags storage retrieval failure: ${e}`);
     }
@@ -278,6 +341,7 @@ export default function AppProduct({ navigation }) {
       console.log(`albums to be stored: ${value.length}`);
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem("@albums", jsonValue);
+      await firebaseStore("albums", albums);
     } catch (e) {
       console.log(`albums storage failure: ${e}`);
     }
@@ -306,9 +370,10 @@ export default function AppProduct({ navigation }) {
 
   const storeTags = async (value) => {
     try {
-      console.log(`storing tags: ${value.length}`);
+      console.log(`storing tags locally: items: ${value.length}`);
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem("@tags", jsonValue);
+      // await firebaseStore("tags", jsonValue);
     } catch (e) {
       console.log(`Tags Storage failure: ${e}`);
     }
