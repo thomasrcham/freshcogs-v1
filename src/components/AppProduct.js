@@ -59,34 +59,6 @@ export default function AppProduct({ navigation }) {
 
   //VARIABLE ESTABLISHMENT
 
-  async function firebaseStore(target, payload) {
-    try {
-      const docRef = await addDoc(collection(db, target), {
-        dateTime: new Date().toISOString(),
-        [target]: payload,
-      });
-      console.log("firestore success: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  }
-
-  const firebaseRead = async (target) => {
-    console.log(`retrieving ${target} from firestore`);
-    const dbRef = collection(db, target);
-    const q = query(dbRef, orderBy("dateTime"), limit(1));
-    const result = await getDocs(q);
-    // console.log(result[0]);
-    // let words = result.data();
-    // .data().tags;
-    let newArray = [];
-    result.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      newArray.push(doc.data());
-    });
-    return newArray[0];
-  };
-
   var dateTime = Math.round(new Date().getTime() / 1000);
   const globalResetTags = [
     "ACOUSTIC",
@@ -195,8 +167,7 @@ export default function AppProduct({ navigation }) {
     try {
       let firebaseReturn;
       const jsonValue = await AsyncStorage.getItem("@tags");
-      let data = [];
-      jsonValue != null ? JSON.parse(jsonValue) : null;
+      let data = jsonValue != null ? JSON.parse(jsonValue) : null;
       data.length > 1
         ? console.log(`loading ${data.length} tags from local`)
         : (firebaseReturn = await firebaseRead("tags"));
@@ -206,6 +177,18 @@ export default function AppProduct({ navigation }) {
     } catch (e) {
       console.log(`Tags storage retrieval failure: ${e}`);
     }
+  };
+
+  const firebaseRead = async (target) => {
+    console.log(`retrieving ${target} from firestore`);
+    const dbRef = collection(db, target);
+    const q = query(dbRef, orderBy("dateTime"), limit(1));
+    const result = await getDocs(q);
+    let newArray = [];
+    result.forEach((doc) => {
+      newArray.push(doc.data());
+    });
+    return newArray[0];
   };
 
   //FETCHES
@@ -373,11 +356,23 @@ export default function AppProduct({ navigation }) {
       console.log(`storing tags locally: items: ${value.length}`);
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem("@tags", jsonValue);
-      // await firebaseStore("tags", jsonValue);
+      await firebaseStore("tags", jsonValue);
     } catch (e) {
       console.log(`Tags Storage failure: ${e}`);
     }
   };
+
+  async function firebaseStore(target, payload) {
+    try {
+      const docRef = await addDoc(collection(db, target), {
+        dateTime: new Date().toISOString(),
+        [target]: payload,
+      });
+      console.log("firestore success: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
 
   const Tab = createBottomTabNavigator();
 

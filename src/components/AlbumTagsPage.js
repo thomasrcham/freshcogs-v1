@@ -37,13 +37,11 @@ export default function AlbumTagsPage({
 
   function randomTagsArray(globalTags) {
     let fullTagList = globalTags.find((g) => g.id === 0).tags;
-    // console.log(fullTagList);
     let newArray = [];
     let localTags = globalTags ? globalTags.find((g) => g.id === album.id) : [];
     let remainingTags = localTags
       ? fullTagList.filter((x) => !localTags.tags.includes(x))
       : fullTagList;
-    console.log(remainingTags);
     let value = remainingTags.length > 10 ? 10 : remainingTags.length;
     for (let i = 0; i < value; i = newArray.length) {
       let newItem =
