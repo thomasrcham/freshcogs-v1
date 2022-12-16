@@ -1,8 +1,8 @@
 import { Pressable, Text, View } from "react-native";
-import { useEffect, useState, useRef } from "react";
 import TagsDecision from "./TagsDecision.js";
 
 import styles from "./styles/style.js";
+
 export default function TagsPage({ albums, globalTags }) {
   return (
     <View style={styles.tagsPageContainer}>

@@ -22,17 +22,6 @@ function AlbumPage({ route, navigation, globalTags }) {
     setLocalAlbumTags(setTags);
   }, [globalTags]);
 
-  const handleClick = () => {
-    let URL = `https://www.discogs.com/master/${album.master_id}`;
-    Linking.canOpenURL(URL).then((supported) => {
-      if (supported) {
-        Linking.openURL(URL);
-      } else {
-        console.log("Don't know how to open URI: " + URL);
-      }
-    });
-  };
-
   const listenEventsDataGet = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem("@listenEvents");
@@ -68,7 +57,6 @@ function AlbumPage({ route, navigation, globalTags }) {
 
   const createListenEvent = () => {
     let dateTime = new Date().toISOString();
-    // let newAlbum = albums[Math.floor(Math.random() * albums.length)];
     let newEvent = { album: album, dateTime: dateTime };
     let newArray = localListenEvents
       ? [...localListenEvents, newEvent]
@@ -138,9 +126,7 @@ function AlbumPage({ route, navigation, globalTags }) {
                     ? album.genres.join(", ")
                     : "no genre recorded"}
                 </Text>
-                {/* <View> */}
                 <View style={styles.albumPageTags}>{currentTagsDisplay}</View>
-                {/* </View> */}
               </View>
               <View style={styles.albumRightInfoBox}>
                 {localListenEvents.length > 0 ? (

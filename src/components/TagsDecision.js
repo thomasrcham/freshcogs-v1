@@ -16,7 +16,6 @@ export default function TagsDecision({ albums, globalTags }) {
     let tagsList = globalTags.filter((g) => g.id === 0)[0].tags;
     for (let i = 0; i < 14; i = newArray.length) {
       let newItem = tagsList[Math.floor(Math.random() * tagsList.length)];
-      //   console.log(newItem);
       if (newArray.includes(newItem)) {
         null;
       } else {

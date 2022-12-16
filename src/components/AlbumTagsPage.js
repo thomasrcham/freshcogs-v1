@@ -58,18 +58,7 @@ export default function AlbumTagsPage({
   const addNewTag = () => {
     setModalVisible(!modalVisible);
     text ? addTagToAlbum(text.toUpperCase()) : null;
-    // text ? addTagToGlobal(text.toUpperCase()) : null;
     onChangeText("");
-  };
-
-  const addTagToGlobal = (tag, id) => {
-    let filteredTags = globalTags.filter((g) => g.id != id);
-    let removedGlobalTags = filteredTags.filter((g) => g.id != 0);
-    let newFullTag = {
-      id: 0,
-      tags: [...globalTags.filter((g) => g.id === 0)[0].tags, tag],
-    };
-    return [...removedGlobalTags, newFullTag];
   };
 
   function addTagToAlbum(selectedTag) {
@@ -87,9 +76,18 @@ export default function AlbumTagsPage({
       ? globalTags.filter((g) => g.id != newFullTag.id)
       : addTagToGlobal(selectedTag, album.id);
     let newGlobalTags = [...filterGlobalTags, newFullTag];
-    // console.log(newGlobalTags);
     handleGlobalTags(newGlobalTags);
   }
+
+  const addTagToGlobal = (tag, id) => {
+    let filteredTags = globalTags.filter((g) => g.id != id);
+    let removedGlobalTags = filteredTags.filter((g) => g.id != 0);
+    let newFullTag = {
+      id: 0,
+      tags: [...globalTags.filter((g) => g.id === 0)[0].tags, tag],
+    };
+    return [...removedGlobalTags, newFullTag];
+  };
 
   function removeTagFromAlbum(selectedTag) {
     let tagItemToRemove = selectedTag._dispatchInstances.memoizedProps.value;
@@ -132,7 +130,6 @@ export default function AlbumTagsPage({
   return (
     <View style={[styles.container, styles.wholeAlbumPage]}>
       <Modal
-        // animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {

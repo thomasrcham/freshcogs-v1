@@ -40,8 +40,6 @@ export default function SearchBar({
             title="✓"
             onPress={() => {
               Keyboard.dismiss();
-              // setClicked(false);
-              // handleSearch();
             }}
           />
         </View>

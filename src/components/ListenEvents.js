@@ -51,39 +51,8 @@ export default function ListenEvents({ listenEvents }) {
           renderItem={renderItem}
           keyExtractor={(item) => item.dateTime}
           extraData={sortedTableData}
-          //   stickyHeaderIndices={[0]}
         />
       </View>
     </>
-  );
-
-  return (
-    <View style={styles.tableContainer}>
-      <View style={styles.tableRow}>
-        <View style={styles.tableCell}>
-          <Text>Date</Text>
-        </View>
-        <View style={styles.tableCell}>
-          <Text>Artist</Text>
-        </View>
-        <View style={styles.tableCell}>
-          <Text>Title</Text>
-        </View>
-      </View>
-      {/* <View style={styles.tableRow} key={sortedTableData[0].id}>
-        <View style={styles.tableCell}>
-          <Text>
-            {format(new Date(sortedTableData[0].dateTime), "MM/dd/yyyy")}
-          </Text>
-        </View>
-        <View style={styles.tableCell}>
-          <Text>{sortedTableData[0].artist}</Text>
-        </View>
-        <View style={styles.tableCell}>
-          <Text>{sortedTableData[0].title}</Text>
-        </View>
-      </View> */}
-      {tableRow}
-    </View>
   );
 }

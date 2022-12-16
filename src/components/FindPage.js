@@ -122,6 +122,7 @@ export default function FindPage({ albums, navigation }) {
         return filterAlbums;
     }
   };
+
   function displayList() {
     let searchedAlbums = searchPhrase
       ? (searchedAlbums = albums.filter(

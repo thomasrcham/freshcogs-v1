@@ -21,27 +21,11 @@ import {
   limit,
 } from "firebase/firestore";
 
-// TODO: Replace the following with your app's Firebase project configuration
-// See: https://firebase.google.com/docs/web/learn-more#config-object
-const firebaseConfig = {
-  apiKey: "AIzaSyCU8M3IjBt89WJPtuJRcEtRME94lvsZfvs",
-  authDomain: "freshcogs.firebaseapp.com",
-  projectId: "freshcogs",
-  storageBucket: "freshcogs.appspot.com",
-  messagingSenderId: "605440666542",
-  appId: "1:605440666542:web:aef1c7aef573c97e76363f",
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-// Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(app);
-
 import CollectionDisplayArea from "./CollectionDisplayArea.js";
 import UserPageContainer from "./UserPageContainer";
 import SearchDisplayArea from "./SearchDisplayArea.js";
 import TagsPageContainer from "./TagsPageContainer.js";
+
 import styles from "./styles/style.js";
 import "../../keys.js";
 
@@ -90,6 +74,19 @@ export default function AppProduct({ navigation }) {
     "EPIC",
     "FEMALE SINGER",
   ];
+
+  // firebase establishment
+  const firebaseConfig = {
+    apiKey: "AIzaSyCU8M3IjBt89WJPtuJRcEtRME94lvsZfvs",
+    authDomain: "freshcogs.firebaseapp.com",
+    projectId: "freshcogs",
+    storageBucket: "freshcogs.appspot.com",
+    messagingSenderId: "605440666542",
+    appId: "1:605440666542:web:aef1c7aef573c97e76363f",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
   //fetch request setup
   var myHeaders = new Headers();
@@ -247,6 +244,7 @@ export default function AppProduct({ navigation }) {
   };
 
   // data manipulation
+
   const parseInfo = (release) => {
     let artist = release.basic_information.artists[0].name;
 
@@ -312,11 +310,6 @@ export default function AppProduct({ navigation }) {
     setFrontPageAlbums(newArray);
   }
 
-  const handleGlobalTags = (newGlobalTags) => {
-    storeTags(newGlobalTags);
-    setGlobalTags(newGlobalTags);
-  };
-
   //storage
 
   const storeAlbums = async (value) => {
@@ -360,6 +353,11 @@ export default function AppProduct({ navigation }) {
     } catch (e) {
       console.log(`Tags Storage failure: ${e}`);
     }
+  };
+
+  const handleGlobalTags = (newGlobalTags) => {
+    storeTags(newGlobalTags);
+    setGlobalTags(newGlobalTags);
   };
 
   async function firebaseStore(target, payload) {
