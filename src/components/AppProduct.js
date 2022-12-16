@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Dimensions, View, Text } from "react-native";
+import { Dimensions, View, Text, Alert } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
@@ -224,23 +224,28 @@ export default function AppProduct({ navigation }) {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.releases.length);
-        // let latestAlbum = albums
-        //   ? albums
-        //       .map((a) => a.date_added)
-        //       .sort()
-        //       .reverse()[0]
-        //   : null;
+        let latestAlbum = albums
+          ? albums
+              .map((a) => a.date_added)
+              .sort()
+              .reverse()[0]
+          : null;
 
-        // let newest = data.releases
-        //   .map((r) => r.date_added)
-        //   .sort()
-        //   .reverse()[0];
-
-        // console.log(newest);
-        // console.log(latestAlbum);
+        let newAlbums = data.releases.filter((r) => r.date_added > latestAlbum);
+        if (newAlbums.length > 0) {
+          let newParsedReleases = newAlbums.map((release) =>
+            parseInfo(release)
+          );
+          let newArray = [...albums, newParsedReleases];
+          setAlbums(newArray);
+          storeAlbums(newArray);
+          Alert.alert(
+            `Library is updated: ${newParsedReleases.length} albums have been added`
+          );
+        } else {
+          Alert.alert("Library is synced; no new albums to add");
+        }
       });
-    // let parsedReleases = returnData.map((release) => parseInfoSet(release));
   };
 
   // data manipulation
