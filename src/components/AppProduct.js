@@ -546,7 +546,11 @@ export default function AppProduct({ navigation }) {
           }}
         >
           {(props) => (
-            <TagsPageContainer albums={albums} globalTags={globalTags} />
+            <TagsPageContainer
+              albums={albums}
+              globalTags={globalTags}
+              handleGlobalTags={handleGlobalTags}
+            />
           )}
         </Tab.Screen>
         <Tab.Screen

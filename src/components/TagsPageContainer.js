@@ -1,24 +1,47 @@
+import TagsPage from "./TagsPage.js";
+
 import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import TagsPage from "./TagsPage.js";
+import AlbumPage from "./AlbumPage";
+import AlbumTagsPage from "./AlbumTagsPage";
 import styles from "./styles/style.js";
 
 const Stack = createNativeStackNavigator();
-export default function TagsPageContainer({ albums, globalTags }) {
+export default function TagsPageContainer({
+  albums,
+  globalTags,
+  handleGlobalTags,
+}) {
   return (
     <View>
       <View style={styles.mainPageContainer}>
         <NavigationContainer independent={true}>
           <Stack.Navigator
-            backBehavior="none"
             screenOptions={{
               headerShown: false,
             }}
-            initialRouteName="Collection"
+            initialRouteName="TagsPage"
           >
-            <Stack.Screen name="UserPage">
-              {(props) => <TagsPage albums={albums} globalTags={globalTags} />}
+            <Stack.Screen name="TagsPage">
+              {(props) => (
+                <TagsPage {...props} albums={albums} globalTags={globalTags} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="AlbumPage">
+              {(props) => (
+                <AlbumPage {...props} albums={albums} globalTags={globalTags} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="AlbumTagsPage">
+              {(props) => (
+                <AlbumTagsPage
+                  {...props}
+                  albums={albums}
+                  globalTags={globalTags}
+                  handleGlobalTags={handleGlobalTags}
+                />
+              )}
             </Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>

@@ -515,7 +515,6 @@ export default StyleSheet.create({
   tagsDecisionContainer: {
     flex: 1,
     backgroundColor: "#878684",
-    flex: 1,
     marginTop: 20,
     marginBottom: 30,
     borderRadius: 10,
@@ -590,6 +589,41 @@ export default StyleSheet.create({
   },
   tagDecisionRemainingText: {
     fontSize: 12,
+  },
+  needsTagsContainer: {
+    flex: 2,
+    backgroundColor: "#878684",
+    alignItems: "space-between",
+    justifyContent: "flex-start",
+    marginTop: 15,
+    marginBottom: 15,
+    borderRadius: 10,
+    borderWidth: 2,
+  },
+  needsTagsTitle: {
+    paddingTop: 3,
+    paddingLeft: 3,
+    color: "white",
+    fontWeight: "bold",
+    overflow: "hidden",
+    fontSize: 15,
+    ...Platform.select({
+      ios: { margin: 2 },
+      android: { margin: 2.4 },
+      default: { margin: 2 },
+    }),
+  },
+  needsTagsImageGrid: {
+    width: "25%",
+    padding: 4,
+    overflow: "hidden",
+  },
+  needsTagsImage: {
+    aspectRatio: 1,
+    resizeMode: "contain",
+    borderColor: "black",
+    borderWidth: 2,
+    borderRadius: 5,
   },
 });
 

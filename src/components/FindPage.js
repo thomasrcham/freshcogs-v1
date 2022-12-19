@@ -19,6 +19,8 @@ export default function FindPage({ albums, navigation }) {
 
   const listRef = useRef(null);
 
+  console.log(navigation);
+
   useEffect(() => {
     setLocalAlbums(albums);
   }, [albums]);
