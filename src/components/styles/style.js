@@ -126,7 +126,7 @@ export default StyleSheet.create({
     backgroundColor: "#878684",
     marginTop: 20,
     borderRadius: 5,
-    minHeight: "27%",
+    minHeight: "28%",
   },
   albumDataDisplay: {
     flex: 1,

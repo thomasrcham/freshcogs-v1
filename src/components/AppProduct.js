@@ -110,7 +110,7 @@ export default function AppProduct({ navigation }) {
     getData();
   }, []);
 
-  // LOCAL STORAGE AND RETRIEVAL
+  // LOCAL RETRIEVAL
 
   //handles the overall retrieval from storage for all main states
   const getData = () => {
@@ -129,7 +129,17 @@ export default function AppProduct({ navigation }) {
       setAlbums(data);
     } catch (e) {
       console.log(`Album retrieval failure: ${e}`);
-      handleAlbumFetch();
+      try {
+        const jsonValue = await firebaseRead("albums");
+        let data = jsonValue != null ? JSON.parse(jsonValue) : null;
+        console.log(`loading albums from firebase, items: ${data.length}`);
+        randomArray(data);
+        setAlbums(data);
+        storeAlbums(data);
+      } catch (e) {
+        console.log("firebase read failed");
+        handleAlbumFetch();
+      }
     }
   };
 
@@ -162,17 +172,21 @@ export default function AppProduct({ navigation }) {
 
   const tagsDataGet = async () => {
     try {
-      let firebaseReturn;
       const jsonValue = await AsyncStorage.getItem("@tags");
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
-      data.length > 1
-        ? console.log(`loading ${data.length} tags from local`)
-        : (firebaseReturn = await firebaseRead("tags"));
-      data.length > 1
-        ? setGlobalTags(data)
-        : setGlobalTags(firebaseReturn.tags);
+      console.log(`loading ${data.length} tags from local`);
+      setGlobalTags(data);
     } catch (e) {
-      console.log(`Tags storage retrieval failure: ${e}`);
+      console.log(`Tag retrieval failure: ${e}`);
+      try {
+        const jsonValue = await firebaseRead("tags");
+        let data = jsonValue != null ? jsonValue : null;
+        console.log(`loading tags from firebase, items: ${data.length}`);
+        setGlobalTags(data);
+        storeTags(data);
+      } catch (e) {
+        console.log(`firebase read failed: ${e}`);
+      }
     }
   };
 
@@ -182,9 +196,19 @@ export default function AppProduct({ navigation }) {
     const q = query(dbRef, orderBy("dateTime"), limit(1));
     const result = await getDocs(q);
     let newArray = [];
-    result.forEach((doc) => {
-      newArray.push(doc.data());
-    });
+    switch (target) {
+      case "albums": {
+        result.forEach((doc) => {
+          newArray.push(doc.data().albums);
+        });
+      }
+      case "tags": {
+        result.forEach((doc) => {
+          newArray.push(doc.data().tags);
+        });
+      }
+    }
+
     return newArray[0];
   };
 
@@ -322,7 +346,7 @@ export default function AppProduct({ navigation }) {
       console.log(`albums to be stored: ${value.length}`);
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem("@albums", jsonValue);
-      // await firebaseStore("albums", albums);
+      await firebaseStore("albums", jsonValue);
     } catch (e) {
       console.log(`albums storage failure: ${e}`);
     }
@@ -344,6 +368,7 @@ export default function AppProduct({ navigation }) {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem("@listenEvents", jsonValue);
       setListenEvents(jsonValue);
+      await firebaseStore("listenEvents", jsonValue);
     } catch (e) {
       console.log(`Listen Events Storage failure: ${e}`);
     }
@@ -524,7 +549,6 @@ export default function AppProduct({ navigation }) {
             <TagsPageContainer albums={albums} globalTags={globalTags} />
           )}
         </Tab.Screen>
-
         <Tab.Screen
           name="User"
           options={{
@@ -560,6 +584,7 @@ export default function AppProduct({ navigation }) {
               globalTags={globalTags}
               globalResetTags={globalResetTags}
               handleGlobalTags={handleGlobalTags}
+              setGlobalTags={setGlobalTags}
             />
           )}
         </Tab.Screen>

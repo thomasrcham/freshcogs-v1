@@ -14,6 +14,7 @@ export default function UserPageContainer({
   handleGlobalTags,
   globalTags,
   globalResetTags,
+  setGlobalTags,
   setUser,
   listenEvents,
   requestOptions,
@@ -46,6 +47,7 @@ export default function UserPageContainer({
                   globalTags={globalTags}
                   globalResetTags={globalResetTags}
                   handleGlobalTags={handleGlobalTags}
+                  setGlobalTags={setGlobalTags}
                 />
               )}
             </Stack.Screen>

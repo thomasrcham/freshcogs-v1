@@ -14,6 +14,7 @@ export default function UserPage({
   handleGlobalTags,
   globalTags,
   globalResetTags,
+  setGlobalTags,
   setAlbums,
   storeAlbums,
   setUser,
@@ -78,11 +79,11 @@ export default function UserPage({
 
   const clearStorage = () => {
     removeItemValue();
-    setAlbums(null);
+    setGlobalTags(null);
   };
 
   const removeItemValue = async () => {
-    let keys = ["@albums", "@userProfile"];
+    let keys = ["@albums", "@userProfile", "@tags"];
     await AsyncStorage.multiRemove(keys);
   };
 
@@ -190,8 +191,8 @@ export default function UserPage({
         </View>
       </View>
       <View style={styles.userPageButtons}>
-        {/* <Button title="reset storage" onPress={() => clearStorage()} />
-        <Button
+        <Button title="reset storage" onPress={() => clearStorage()} />
+        {/*<Button
           title="refresh fetch data"
           onPress={() => {
             getData();
