@@ -221,7 +221,7 @@ export default function FindPage({ albums, navigation }) {
               listRef.current.scrollToOffset({ offset: 0, animated: true });
             }}
           >
-            <FontAwesome5 name="arrow-circle-up" size={32} color={"#3F7CAC"} />
+            <FontAwesome5 name="arrow-circle-up" size={32} color={"white"} />
           </Pressable>
         </View>
       </View>

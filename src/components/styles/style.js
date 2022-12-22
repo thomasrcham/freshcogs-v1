@@ -439,6 +439,15 @@ export default StyleSheet.create({
     maxHeight: 40,
     color: "white",
   },
+  backButton: {
+    padding: 10,
+    alignSelf: "flex-end",
+    alignItems: "flex-end",
+    justifyContent: "center",
+    position: "absolute",
+    bottom: "12%",
+    width: windowWidth,
+  },
   //user page
   userPageContainer: {
     flexDirection: "row",
