@@ -57,7 +57,6 @@ export default function NeedsTags({ albums, globalTags, navigation }) {
 
   return (
     <View>
-      <Text style={styles.needsTagsTitle}>These Need Tags:</Text>
       <View>
         <FlatList
           data={needsTagsList}

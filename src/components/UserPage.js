@@ -22,6 +22,7 @@ export default function UserPage({
   requestOptions,
   user,
   updateLibraryFetch,
+  setListenEvents,
 }) {
   const navigation = useNavigation();
   const [updating, setUpdating] = useState("Update Now");
@@ -79,11 +80,16 @@ export default function UserPage({
 
   const clearStorage = () => {
     removeItemValue();
-    setGlobalTags(null);
+    setListenEvents(null);
   };
 
   const removeItemValue = async () => {
-    let keys = ["@albums", "@userProfile", "@tags"];
+    let keys = [
+      //   "@albums",
+      // "@userProfile",
+      // "@tags",
+      "@listenEvents",
+    ];
     await AsyncStorage.multiRemove(keys);
   };
 

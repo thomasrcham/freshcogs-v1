@@ -11,6 +11,7 @@ export default function SearchDisplayArea({
   albums,
   globalTags,
   handleGlobalTags,
+  storeListenEvents,
 }) {
   return (
     <View>
@@ -27,7 +28,12 @@ export default function SearchDisplayArea({
             </Stack.Screen>
             <Stack.Screen name="AlbumPage">
               {(props) => (
-                <AlbumPage {...props} albums={albums} globalTags={globalTags} />
+                <AlbumPage
+                  {...props}
+                  albums={albums}
+                  globalTags={globalTags}
+                  storeListenEvents={storeListenEvents}
+                />
               )}
             </Stack.Screen>
             <Stack.Screen name="AlbumTagsPage">

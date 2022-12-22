@@ -12,6 +12,7 @@ export default function TagsPageContainer({
   albums,
   globalTags,
   handleGlobalTags,
+  storeListenEvents,
 }) {
   return (
     <View>
@@ -30,7 +31,12 @@ export default function TagsPageContainer({
             </Stack.Screen>
             <Stack.Screen name="AlbumPage">
               {(props) => (
-                <AlbumPage {...props} albums={albums} globalTags={globalTags} />
+                <AlbumPage
+                  {...props}
+                  albums={albums}
+                  globalTags={globalTags}
+                  storeListenEvents={storeListenEvents}
+                />
               )}
             </Stack.Screen>
             <Stack.Screen name="AlbumTagsPage">

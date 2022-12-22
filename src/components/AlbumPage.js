@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import styles from "./styles/style.js";
 
-function AlbumPage({ route, navigation, globalTags }) {
+function AlbumPage({ route, navigation, globalTags, storeListenEvents }) {
   const { album, albums } = route.params;
   const [localListenEvents, setLocalListenEvents] = useState([]);
   const [totalListenEvents, setTotalListenEvents] = useState([]);
@@ -45,16 +45,6 @@ function AlbumPage({ route, navigation, globalTags }) {
     }
   };
 
-  const storeListenEvents = async (value) => {
-    try {
-      console.log(`storing listening events: ${value.length}`);
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("@listenEvents", jsonValue);
-    } catch (e) {
-      console.log(`Listen Events Storage failure: ${e}`);
-    }
-  };
-
   const createListenEvent = () => {
     let dateTime = new Date().toISOString();
     let newEvent = { album: album, dateTime: dateTime };
@@ -64,6 +54,7 @@ function AlbumPage({ route, navigation, globalTags }) {
     let newTotalArray = totalListenEvents
       ? [...totalListenEvents, newEvent]
       : [newEvent];
+    console.log(newTotalArray);
     setLocalListenEvents(newArray);
     setTotalListenEvents(newTotalArray);
     storeListenEvents(newTotalArray);

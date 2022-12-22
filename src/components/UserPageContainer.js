@@ -20,6 +20,8 @@ export default function UserPageContainer({
   requestOptions,
   user,
   updateLibraryFetch,
+  storeListenEvents,
+  setListenEvents,
 }) {
   return (
     <View>
@@ -48,6 +50,8 @@ export default function UserPageContainer({
                   globalResetTags={globalResetTags}
                   handleGlobalTags={handleGlobalTags}
                   setGlobalTags={setGlobalTags}
+                  storeListenEvents={storeListenEvents}
+                  setListenEvents={setListenEvents}
                 />
               )}
             </Stack.Screen>

@@ -11,6 +11,7 @@ export default function CollectionDisplayArea({
   albums,
   globalTags,
   handleGlobalTags,
+  storeListenEvents,
 }) {
   return (
     <View>
@@ -32,6 +33,7 @@ export default function CollectionDisplayArea({
                   {...props}
                   globalTags={globalTags}
                   handleGlobalTags={handleGlobalTags}
+                  storeListenEvents={storeListenEvents}
                 />
               )}
             </Stack.Screen>

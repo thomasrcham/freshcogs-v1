@@ -159,14 +159,21 @@ export default function AppProduct({ navigation }) {
     try {
       const jsonValue = await AsyncStorage.getItem("@listenEvents");
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
-      data.length > 1
-        ? console.log(`loading ${data.length} listen events from local`)
-        : console.log(
-            `Listen Events storage retrieval failure: storage is empty`
-          );
+
+      console.log(`loading ${data.length} listen events from local`);
       setListenEvents(data);
     } catch (e) {
       console.log(`Listen Events storage retrieval failure: ${e}`);
+      try {
+        const jsonValue = await firebaseRead("listenEvents");
+        let data = jsonValue != null ? JSON.parse(jsonValue) : null;
+        console.log(
+          `loading listen events from firebase, items: ${data.length}`
+        );
+        storeListenEvents(data);
+      } catch (e) {
+        console.log(`firebase read failed: ${e}`);
+      }
     }
   };
 
@@ -193,7 +200,7 @@ export default function AppProduct({ navigation }) {
   const firebaseRead = async (target) => {
     console.log(`retrieving ${target} from firestore`);
     const dbRef = collection(db, target);
-    const q = query(dbRef, orderBy("dateTime"), limit(1));
+    const q = query(dbRef, orderBy("dateTime", "desc"), limit(1));
     const result = await getDocs(q);
     let newArray = [];
     switch (target) {
@@ -205,6 +212,11 @@ export default function AppProduct({ navigation }) {
       case "tags": {
         result.forEach((doc) => {
           newArray.push(doc.data().tags);
+        });
+      }
+      case "listenEvents": {
+        result.forEach((doc) => {
+          newArray.push(doc.data().listenEvents);
         });
       }
     }
@@ -366,8 +378,8 @@ export default function AppProduct({ navigation }) {
     try {
       console.log(`storing listening events: ${value.length}`);
       const jsonValue = JSON.stringify(value);
+      setListenEvents(value);
       await AsyncStorage.setItem("@listenEvents", jsonValue);
-      setListenEvents(jsonValue);
       await firebaseStore("listenEvents", jsonValue);
     } catch (e) {
       console.log(`Listen Events Storage failure: ${e}`);
@@ -457,6 +469,7 @@ export default function AppProduct({ navigation }) {
               albums={frontPageAlbums}
               globalTags={globalTags}
               handleGlobalTags={handleGlobalTags}
+              storeListenEvents={storeListenEvents}
             />
           )}
         </Tab.Screen>
@@ -491,6 +504,7 @@ export default function AppProduct({ navigation }) {
               albums={albums}
               globalTags={globalTags}
               handleGlobalTags={handleGlobalTags}
+              storeListenEvents={storeListenEvents}
             />
           )}
         </Tab.Screen>
@@ -521,6 +535,7 @@ export default function AppProduct({ navigation }) {
               albums={albums}
               globalTags={globalTags}
               handleGlobalTags={handleGlobalTags}
+              storeListenEvents={storeListenEvents}
             />
           )}
         </Tab.Screen>
@@ -550,6 +565,7 @@ export default function AppProduct({ navigation }) {
               albums={albums}
               globalTags={globalTags}
               handleGlobalTags={handleGlobalTags}
+              storeListenEvents={storeListenEvents}
             />
           )}
         </Tab.Screen>
@@ -589,45 +605,11 @@ export default function AppProduct({ navigation }) {
               globalResetTags={globalResetTags}
               handleGlobalTags={handleGlobalTags}
               setGlobalTags={setGlobalTags}
+              storeListenEvents={storeListenEvents}
+              setListenEvents={setListenEvents}
             />
           )}
         </Tab.Screen>
-
-        {/* <Tab.Screen
-          name="Settings"
-          options={{
-            tabBarIcon: ({ size, focused, color }) => {
-              return (
-                <View style={styles.tabButtonBox}>
-                  <MaterialIcons
-                    name="settings-applications"
-                    size={40}
-                    color={focused ? "#FDCA40" : "white"}
-                  />
-                </View>
-              );
-            },
-          }}
-        >
-          {(props) => (
-            <Settings
-              {...props}
-              albums={albums}
-              user={user}
-              listenEvents={listenEvents}
-              getData={getData}
-              setAlbums={setAlbums}
-              setListenEvents={setListenEvents}
-              setUser={setUser}
-              handleAlbumFetch={handleAlbumFetch}
-              getUserData={getUserData}
-              storeAlbums={storeAlbums}
-              storeUser={storeUser}
-              storeListenEvents={storeListenEvents}
-              updateLibraryFetch={updateLibraryFetch}
-            />
-          )}
-        </Tab.Screen> */}
       </Tab.Navigator>
     </NavigationContainer>
   );

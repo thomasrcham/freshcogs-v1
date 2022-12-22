@@ -507,15 +507,33 @@ export default StyleSheet.create({
   //tags page
   tagsPageContainer: {
     backgroundColor: "#D8DBE2",
-    height: mainWindowHeight * 0.89,
+
     width: windowWidth,
     padding: 20,
     alignContent: "space-between",
+    ...Platform.select({
+      ios: { height: mainWindowHeight * 0.83 },
+      android: { height: mainWindowHeight * 0.89 },
+      default: { height: mainWindowHeight * 0.89 },
+    }),
   },
+  TagsPageTitle: {
+    paddingTop: 3,
+    paddingLeft: 3,
+    color: "black",
+    fontWeight: "bold",
+    overflow: "hidden",
+    fontSize: 15,
+    ...Platform.select({
+      ios: { margin: 2 },
+      android: { margin: 2.4 },
+      default: { margin: 2 },
+    }),
+  },
+
   tagsDecisionContainer: {
     flex: 1,
     backgroundColor: "#878684",
-    marginTop: 20,
     marginBottom: 30,
     borderRadius: 10,
     borderWidth: 2,
@@ -591,27 +609,13 @@ export default StyleSheet.create({
     fontSize: 12,
   },
   needsTagsContainer: {
-    flex: 2,
+    flex: 1.5,
     backgroundColor: "#878684",
     alignItems: "space-between",
     justifyContent: "flex-start",
-    marginTop: 15,
     marginBottom: 15,
     borderRadius: 10,
     borderWidth: 2,
-  },
-  needsTagsTitle: {
-    paddingTop: 3,
-    paddingLeft: 3,
-    color: "white",
-    fontWeight: "bold",
-    overflow: "hidden",
-    fontSize: 15,
-    ...Platform.select({
-      ios: { margin: 2 },
-      android: { margin: 2.4 },
-      default: { margin: 2 },
-    }),
   },
   needsTagsImageGrid: {
     width: "25%",
