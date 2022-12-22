@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 import styles from "./styles/style.js";
 
 const FrontPageItem = ({ item, onPress }) => (
@@ -42,7 +44,7 @@ const CollectionItem = ({ item, onPress }) => (
   </View>
 );
 
-function Collection({ albums, navigation }) {
+function Collection({ albums, allAlbums, navigation, randomArray }) {
   const route = useRoute();
 
   const renderFrontPageItem = ({ item }) => {
@@ -81,16 +83,33 @@ function Collection({ albums, navigation }) {
     >
       {albums ? (
         albums.length <= 6 ? (
-          <View style={styles.albumDisplayContainer}>
-            <FlatList
-              style={styles.frontPageContainer}
-              data={albums}
-              renderItem={renderFrontPageItem}
-              keyExtractor={(item) => item.id}
-              extraData={albums}
-              numColumns="2"
-            />
-          </View>
+          <>
+            <View style={styles.albumDisplayContainer}>
+              <FlatList
+                style={styles.frontPageContainer}
+                data={albums}
+                renderItem={renderFrontPageItem}
+                keyExtractor={(item) => item.id}
+                extraData={albums}
+                numColumns="2"
+              />
+            </View>
+            <View style={styles.backButton}>
+              <View>
+                <Pressable
+                  onPress={() => {
+                    randomArray(allAlbums);
+                  }}
+                >
+                  <MaterialCommunityIcons
+                    name="refresh-circle"
+                    size={32}
+                    color={"white"}
+                  />
+                </Pressable>
+              </View>
+            </View>
+          </>
         ) : null
       ) : null}
       <View style={styles.albumDisplayContainer}>

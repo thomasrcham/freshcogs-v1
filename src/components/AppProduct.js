@@ -470,6 +470,8 @@ export default function AppProduct({ navigation }) {
               globalTags={globalTags}
               handleGlobalTags={handleGlobalTags}
               storeListenEvents={storeListenEvents}
+              randomArray={randomArray}
+              allAlbums={albums}
             />
           )}
         </Tab.Screen>

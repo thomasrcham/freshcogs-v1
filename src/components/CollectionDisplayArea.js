@@ -9,9 +9,11 @@ import styles from "./styles/style.js";
 const Stack = createNativeStackNavigator();
 export default function CollectionDisplayArea({
   albums,
+  allAlbums,
   globalTags,
   handleGlobalTags,
   storeListenEvents,
+  randomArray,
 }) {
   return (
     <View>
@@ -25,7 +27,14 @@ export default function CollectionDisplayArea({
             initialRouteName="Collection"
           >
             <Stack.Screen name="Collection">
-              {(props) => <Collection {...props} albums={albums} />}
+              {(props) => (
+                <Collection
+                  {...props}
+                  albums={albums}
+                  randomArray={randomArray}
+                  allAlbums={allAlbums}
+                />
+              )}
             </Stack.Screen>
             <Stack.Screen name="AlbumPage" options={{ title: "My home" }}>
               {(props) => (
