@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import UserPage from "./UserPage";
 import ListenEvents from "./ListenEvents";
 import styles from "./styles/style.js";
+import UserButtons from "./UserButtons";
 
 const Stack = createNativeStackNavigator();
 export default function UserPageContainer({
@@ -22,6 +23,14 @@ export default function UserPageContainer({
   updateLibraryFetch,
   storeListenEvents,
   setListenEvents,
+  save,
+  getValueFor,
+  lastFMUsername,
+  onChangelastFMUsername,
+  lastFMPassword,
+  onChangelastFMPassword,
+  lastFMauth,
+  lastFMUser,
 }) {
   return (
     <View>
@@ -52,11 +61,22 @@ export default function UserPageContainer({
                   setGlobalTags={setGlobalTags}
                   storeListenEvents={storeListenEvents}
                   setListenEvents={setListenEvents}
+                  save={save}
+                  getValueFor={getValueFor}
+                  lastFMUsername={lastFMUsername}
+                  onChangelastFMUsername={onChangelastFMUsername}
+                  lastFMPassword={lastFMPassword}
+                  onChangelastFMPassword={onChangelastFMPassword}
+                  lastFMauth={lastFMauth}
+                  lastFMUser={lastFMUser}
                 />
               )}
             </Stack.Screen>
             <Stack.Screen name="ListenEvents">
               {(props) => <ListenEvents listenEvents={listenEvents} />}
+            </Stack.Screen>
+            <Stack.Screen name="Buttons">
+              {(props) => <UserButtons listenEvents={listenEvents} />}
             </Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>

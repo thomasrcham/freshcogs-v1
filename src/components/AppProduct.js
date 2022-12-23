@@ -8,6 +8,8 @@ import {
   FontAwesome5,
 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
+import md5 from "crypto-js/md5";
 
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
@@ -40,6 +42,7 @@ export default function AppProduct({ navigation }) {
       tags: globalResetTags,
     },
   ]);
+  const [lastFMUser, setLastFMUser] = useState([]);
 
   //VARIABLE ESTABLISHMENT
 
@@ -118,6 +121,7 @@ export default function AppProduct({ navigation }) {
     userDataGet();
     listenEventsDataGet();
     tagsDataGet();
+    lfmUserDataGet();
   };
 
   const albumDataGet = async () => {
@@ -194,6 +198,20 @@ export default function AppProduct({ navigation }) {
       } catch (e) {
         console.log(`firebase read failed: ${e}`);
       }
+    }
+  };
+
+  const lfmUserDataGet = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("@lfmuser");
+      let data = jsonValue != null ? JSON.parse(jsonValue) : null;
+      data.username
+        ? console.log(`loading lfm user data from local`)
+        : lastFMUserFetch();
+      setLastFMUser(data);
+    } catch (e) {
+      console.log(`User storage retrieval failure: ${e}`);
+      lastFMUserFetch();
     }
   };
 
@@ -284,7 +302,7 @@ export default function AppProduct({ navigation }) {
       });
   };
 
-  // data manipulation
+  //data manipulation
 
   const parseInfo = (release) => {
     let artist = release.basic_information.artists[0].name;
@@ -397,6 +415,17 @@ export default function AppProduct({ navigation }) {
     }
   };
 
+  const storeLFMUser = async (value) => {
+    try {
+      console.log(`storing lfm user locally`);
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("@lfmuser", jsonValue);
+      // await firebaseStore("tags", jsonValue);
+    } catch (e) {
+      console.log(`Tags Storage failure: ${e}`);
+    }
+  };
+
   const handleGlobalTags = (newGlobalTags) => {
     storeTags(newGlobalTags);
     setGlobalTags(newGlobalTags);
@@ -414,6 +443,87 @@ export default function AppProduct({ navigation }) {
     }
   }
 
+  //secure storage for keys
+
+  async function save(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
+
+  async function getValueFor(key) {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) {
+      alert("🔐 Here's your value 🔐 \n" + result);
+    } else {
+      alert("No values stored under that key.");
+    }
+  }
+
+  //last.fm user auth
+
+  const [lastFMUsername, onChangelastFMUsername] = useState("");
+  const [lastFMPassword, onChangelastFMPassword] = useState("");
+
+  var parseString = require("xml2js").parseString;
+  var CryptoJS = require("crypto-js");
+
+  var requestOptionslfm = {
+    method: "POST",
+    redirect: "follow",
+  };
+
+  let lfmsig = CryptoJS.MD5(
+    `api_key${lfm_api_key}methodauth.getMobileSessionpassword${lastFMPassword}username${lastFMUsername}${lfm_secret}`
+  ).toString();
+
+  const lastFMauth = async () => {
+    await fetch(
+      `http://ws.audioscrobbler.com/2.0/?method=auth.getMobileSession&password=${lastFMPassword}&username=${lastFMUsername}&api_key=${lfm_api_key}&api_sig=${lfmsig}`,
+      requestOptionslfm
+    )
+      .then((response) => response.text())
+      .then((result) =>
+        parseString(result, function (err, output) {
+          save("lfmauth", output.lfm.session[0].key[0]);
+          onChangelastFMPassword("");
+          onChangelastFMUsername("");
+        })
+      )
+      .catch((error) => console.log("error", error));
+  };
+
+  //last fm user info fetch
+
+  var userRequestOptions = {
+    method: "GET",
+    redirect: "follow",
+  };
+  const lastFMUserFetch = () => {
+    fetch(
+      "http://ws.audioscrobbler.com/2.0/?method=user.getinfo&api_key=b650b6efea21e952669a541014c5b4ff&user=guseldorph",
+      userRequestOptions
+    )
+      .then((response) => response.text())
+      .then((result) =>
+        parseString(result, function (err, output) {
+          lfmUserParse(output.lfm.user[0]);
+        })
+      )
+      .catch((error) => console.log("error", error));
+  };
+
+  const lfmUserParse = (lfmResponse) => {
+    let parsedUser = {
+      username: lfmResponse.name[0],
+      playcount: lfmResponse.playcount[0],
+      dateRegistered: new Date(
+        lfmResponse.registered[0]._ * 1000
+      ).toISOString(),
+      lfmURL: lfmResponse.url[0],
+      lfmPFP: lfmResponse.image[2]._,
+    };
+    storeLFMUser(parsedUser);
+    setLastFMUser(parsedUser);
+  };
   const Tab = createBottomTabNavigator();
 
   return (
@@ -609,6 +719,14 @@ export default function AppProduct({ navigation }) {
               setGlobalTags={setGlobalTags}
               storeListenEvents={storeListenEvents}
               setListenEvents={setListenEvents}
+              save={save}
+              getValueFor={getValueFor}
+              lastFMUsername={lastFMUsername}
+              onChangelastFMUsername={onChangelastFMUsername}
+              lastFMPassword={lastFMPassword}
+              onChangelastFMPassword={onChangelastFMPassword}
+              lastFMauth={lastFMauth}
+              lastFMUser={lastFMUser}
             />
           )}
         </Tab.Screen>

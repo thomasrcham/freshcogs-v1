@@ -1,12 +1,20 @@
-import { Button, View, Image, Linking, Pressable, Text } from "react-native";
-import { useState, useEffect } from "react";
+import {
+  Button,
+  View,
+  Image,
+  Linking,
+  Modal,
+  Pressable,
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+} from "react-native";
+import { useState, useEffect, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { format } from "date-fns";
-import styles from "./styles/style.js";
 
-import * as SQLite from "expo-sqlite";
-const db = SQLite.openDatabase("db.testDb");
+import styles from "./styles/style.js";
 
 export default function UserPage({
   albums,
@@ -23,15 +31,24 @@ export default function UserPage({
   user,
   updateLibraryFetch,
   setListenEvents,
+  save,
+  getValueFor,
+  lastFMUsername,
+  onChangelastFMUsername,
+  lastFMPassword,
+  onChangelastFMPassword,
+  lastFMauth,
+  lastFMUser,
 }) {
   const navigation = useNavigation();
+  const ref_input2 = useRef();
   const [updating, setUpdating] = useState("Update Now");
   const [albumsToUpdate, setAlbumsToUpdate] = useState(
     albums ? albums.filter((a) => a.isReissue === true).length : 0
   );
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const handleProfileClick = () => {
-    let URL = `${user.uri}`;
+  const handleProfileClick = (URL) => {
     Linking.canOpenURL(URL).then((supported) => {
       if (supported) {
         Linking.openURL(URL);
@@ -78,33 +95,56 @@ export default function UserPage({
       });
   }
 
-  const clearStorage = () => {
-    removeItemValue();
-    setListenEvents(null);
-  };
-
-  const removeItemValue = async () => {
-    let keys = [
-      //   "@albums",
-      // "@userProfile",
-      // "@tags",
-      "@listenEvents",
-    ];
-    await AsyncStorage.multiRemove(keys);
-  };
-
-  const resetGlobalTags = (globalTags, globalResetTags) => {
-    let newFullTag = {
-      id: 0,
-      tags: globalResetTags,
-    };
-    let filterGlobalTags = globalTags.filter((g) => g.id != newFullTag.id);
-    let newGlobalTags = [...filterGlobalTags, newFullTag];
-    handleGlobalTags(newGlobalTags);
-  };
-
   return (
     <View style={styles.mainPageContainer}>
+      <Modal
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <Pressable
+          onPress={() => {
+            setModalVisible(!modalVisible);
+          }}
+          style={{ flex: 1, backgroundColor: modalVisible ? "#838285CC" : "" }}
+        >
+          <View style={styles.centeredView}>
+            <TouchableWithoutFeedback>
+              <View style={styles.modalView}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Last.fm Username"
+                  autoFocus={true}
+                  onChangeText={onChangelastFMUsername}
+                  value={lastFMUsername}
+                  blurOnSubmit={false}
+                />
+                <TextInput
+                  placeholder="Last.fm Password"
+                  ref={ref_input2}
+                  style={styles.input}
+                  onChangeText={onChangelastFMPassword}
+                  value={lastFMPassword}
+                  textContentType={"password"}
+                />
+
+                <Pressable
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                    lastFMauth();
+                  }}
+                >
+                  <Text style={styles.albumInfoTags}>Submit</Text>
+                </Pressable>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </Pressable>
+      </Modal>
+
       <View style={styles.userPageContainer}>
         <View style={styles.userImageContainer}>
           <Image
@@ -123,7 +163,10 @@ export default function UserPage({
           <Text style={styles.userText}>
             Records in Collection: {user.num_collection}
           </Text>
-          <Pressable onPress={handleProfileClick} style={styles.userText}>
+          <Pressable
+            onPress={() => handleProfileClick(user.uri)}
+            style={styles.userText}
+          >
             <View
               style={{
                 flex: 1,
@@ -196,30 +239,54 @@ export default function UserPage({
           />
         </View>
       </View>
-      <View style={styles.userPageButtons}>
-        <Button title="reset storage" onPress={() => clearStorage()} />
-        {/*<Button
-          title="refresh fetch data"
-          onPress={() => {
-            getData();
-          }}
-        /> */}
-        <Button title="update library" onPress={() => updateLibraryFetch()} />
-        <Button
-          title="reset default tags"
-          onPress={() => resetGlobalTags(globalTags, globalResetTags)}
-        />
+      <View style={styles.userPageContainer}>
+        <View style={styles.userTextContainer}>
+          <Text style={styles.userText}>Username: {lastFMUser.username}</Text>
+          <Text style={styles.userText}>
+            Last.fm Member Since:{" "}
+            {format(new Date(lastFMUser.dateRegistered), "MM/dd/yyyy")}
+          </Text>
+          <Text style={styles.userText}>
+            Total Playcount: {lastFMUser.playcount}
+          </Text>
+          <Pressable
+            onPress={() => handleProfileClick(lastFMUser.lfmURL)}
+            style={styles.userText}
+          >
+            <View
+              style={{
+                flex: 1,
+              }}
+            >
+              <Image
+                style={{
+                  aspectRatio: 1,
+                  height: 25,
+                  marginRight: 3,
+                }}
+                source={require("../icons/vinyl.png")}
+              />
+            </View>
+            <Text style={(styles.userText, styles.discogsLinkText)}>
+              Last.fm Profile
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.userImageContainer}>
+          <Image
+            style={styles.userImage}
+            source={{
+              uri: `${lastFMUser.lfmPFP}`,
+            }}
+          />
+        </View>
+      </View>
 
+      <View style={styles.userPageButtons}>
         <Button
-          title="console.log random album"
-          onPress={() =>
-            console.log(albums[Math.floor(Math.random() * albums.length)])
-          }
+          title="Last.fm auth"
+          onPress={() => setModalVisible(!modalVisible)}
         />
-        {/* <Button
-          title="clear global tags"
-          onPress={() => handleGlobalTags([])}
-        /> */}
       </View>
     </View>
   );
