@@ -431,7 +431,7 @@ export default function AppProduct({ navigation }) {
     setGlobalTags(newGlobalTags);
   };
 
-  const firebaseStore = async (target, payload) => {
+  async function firebaseStore(target, payload) {
     try {
       const docRef = await addDoc(collection(db, target), {
         dateTime: new Date().toISOString(),
@@ -441,22 +441,22 @@ export default function AppProduct({ navigation }) {
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-  };
+  }
 
   //secure storage for keys
 
-  const save = async (key, value) => {
+  async function save(key, value) {
     await SecureStore.setItemAsync(key, value);
-  };
+  }
 
-  const getValueFor = async (key) => {
+  async function getValueFor(key) {
     let result = await SecureStore.getItemAsync(key);
     if (result) {
       alert("🔐 Here's your value 🔐 \n" + result);
     } else {
       alert("No values stored under that key.");
     }
-  };
+  }
 
   //last.fm user auth
 
@@ -524,7 +524,6 @@ export default function AppProduct({ navigation }) {
     storeLFMUser(parsedUser);
     setLastFMUser(parsedUser);
   };
-
   const Tab = createBottomTabNavigator();
 
   return (
