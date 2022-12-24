@@ -51,36 +51,34 @@ export default function UserButtons(
 
   return (
     <View style={styles.mainPageContainer}>
-      <View style={styles.userPageContainer}>
-        <View style={styles.userPageButtons}>
-          <Button title="reset storage" onPress={() => clearStorage()} />
-          {/*<Button
+      <View style={styles.userPageButtons}>
+        <Button title="reset storage" onPress={() => clearStorage()} />
+        {/*<Button
         title="refresh fetch data"
         onPress={() => {
           getData();
         }}
       /> */}
-          <Button title="update library" onPress={() => updateLibraryFetch()} />
-          <Button
-            title="reset default tags"
-            onPress={() => resetGlobalTags(globalTags, globalResetTags)}
-          />
-          <Button
-            title="console.log random album"
-            onPress={() =>
-              console.log(albums[Math.floor(Math.random() * albums.length)])
-            }
-          />
-          {/* <Button
+        <Button title="update library" onPress={() => updateLibraryFetch()} />
+        <Button
+          title="reset default tags"
+          onPress={() => resetGlobalTags(globalTags, globalResetTags)}
+        />
+        <Button
+          title="console.log random album"
+          onPress={() =>
+            console.log(albums[Math.floor(Math.random() * albums.length)])
+          }
+        />
+        {/* <Button
         title="clear global tags"
         onPress={() => handleGlobalTags([])}
       /> */}
-          <Button
-            title="Last.fm auth"
-            onPress={() => setModalVisible(!modalVisible)}
-          />
-          <Button title="log key" onPress={() => getValueFor("lfmauth")} />
-        </View>
+        <Button
+          title="Last.fm auth"
+          onPress={() => setModalVisible(!modalVisible)}
+        />
+        <Button title="log key" onPress={() => getValueFor("lfmauth")} />
       </View>
     </View>
   );

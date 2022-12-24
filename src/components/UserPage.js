@@ -287,6 +287,10 @@ export default function UserPage({
           title="Last.fm auth"
           onPress={() => setModalVisible(!modalVisible)}
         />
+        <Button
+          title="Buttons"
+          onPress={() => navigation.navigate("Buttons")}
+        />
       </View>
     </View>
   );
