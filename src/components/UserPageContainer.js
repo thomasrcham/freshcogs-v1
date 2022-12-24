@@ -76,7 +76,9 @@ export default function UserPageContainer({
               {(props) => <ListenEvents listenEvents={listenEvents} />}
             </Stack.Screen>
             <Stack.Screen name="Buttons">
-              {(props) => <UserButtons listenEvents={listenEvents} />}
+              {(props) => (
+                <UserButtons listenEvents={listenEvents} albums={albums} />
+              )}
             </Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
