@@ -16,14 +16,15 @@ import { format } from "date-fns";
 
 import styles from "./styles/style.js";
 
-export default function UserButtons(
+export default function UserButtons({
+  albums,
   setListenEvents,
   handleGlobalTags,
   globalTags,
   globalResetTags,
   updateLibraryFetch,
-  getValueFor
-) {
+  getValueFor,
+}) {
   const clearStorage = () => {
     removeItemValue();
     setListenEvents(null);
