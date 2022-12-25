@@ -43,6 +43,7 @@ export default function AppProduct({ navigation }) {
     },
   ]);
   const [lastFMUser, setLastFMUser] = useState([]);
+  const [LFMKey, setLFMKey] = useState(null);
 
   //VARIABLE ESTABLISHMENT
 
@@ -122,6 +123,7 @@ export default function AppProduct({ navigation }) {
     listenEventsDataGet();
     tagsDataGet();
     lfmUserDataGet();
+    setKey("lfmauth");
   };
 
   const albumDataGet = async () => {
@@ -449,10 +451,10 @@ export default function AppProduct({ navigation }) {
     await SecureStore.setItemAsync(key, value);
   };
 
-  const getValueFor = async (key) => {
+  const setKey = async (key) => {
     let result = await SecureStore.getItemAsync(key);
     if (result) {
-      alert("🔐 Here's your value 🔐 \n" + result);
+      setLFMKey(result);
     } else {
       alert("No values stored under that key.");
     }
@@ -721,13 +723,13 @@ export default function AppProduct({ navigation }) {
               storeListenEvents={storeListenEvents}
               setListenEvents={setListenEvents}
               save={save}
-              getValueFor={getValueFor}
               lastFMUsername={lastFMUsername}
               onChangelastFMUsername={onChangelastFMUsername}
               lastFMPassword={lastFMPassword}
               onChangelastFMPassword={onChangelastFMPassword}
               lastFMauth={lastFMauth}
               lastFMUser={lastFMUser}
+              LFMKey={LFMKey}
             />
           )}
         </Tab.Screen>

@@ -24,13 +24,13 @@ export default function UserPageContainer({
   storeListenEvents,
   setListenEvents,
   save,
-  getValueFor,
   lastFMUsername,
   onChangelastFMUsername,
   lastFMPassword,
   onChangelastFMPassword,
   lastFMauth,
   lastFMUser,
+  LFMKey,
 }) {
   return (
     <View>
@@ -46,15 +46,15 @@ export default function UserPageContainer({
             <Stack.Screen name="UserPage">
               {(props) => (
                 <UserPage
-                  user={user}
                   albums={albums}
-                  storeAlbums={storeAlbums}
-                  requestOptions={requestOptions}
-                  listenEvents={listenEvents}
                   getData={getData}
+                  listenEvents={listenEvents}
+                  requestOptions={requestOptions}
                   setAlbums={setAlbums}
                   setUser={setUser}
+                  storeAlbums={storeAlbums}
                   updateLibraryFetch={updateLibraryFetch}
+                  user={user}
                   globalTags={globalTags}
                   globalResetTags={globalResetTags}
                   handleGlobalTags={handleGlobalTags}
@@ -62,7 +62,6 @@ export default function UserPageContainer({
                   storeListenEvents={storeListenEvents}
                   setListenEvents={setListenEvents}
                   save={save}
-                  getValueFor={getValueFor}
                   lastFMUsername={lastFMUsername}
                   onChangelastFMUsername={onChangelastFMUsername}
                   lastFMPassword={lastFMPassword}
@@ -77,7 +76,12 @@ export default function UserPageContainer({
             </Stack.Screen>
             <Stack.Screen name="Buttons">
               {(props) => (
-                <UserButtons listenEvents={listenEvents} albums={albums} />
+                <UserButtons
+                  listenEvents={listenEvents}
+                  albums={albums}
+                  requestOptions={requestOptions}
+                  LFMKey={LFMKey}
+                />
               )}
             </Stack.Screen>
           </Stack.Navigator>
