@@ -9,14 +9,23 @@ import {
 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
-import md5 from "crypto-js/md5";
+
+import {
+  FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET,
+  FIREBASE_MESSAGING_SENDER_ID,
+  FIREBASE_APP_ID,
+  discogsConsumerKey,
+  discogsUserToken,
+} from "@env";
 
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import {
   collection,
   addDoc,
-  getDoc,
   getDocs,
   query,
   orderBy,
@@ -81,12 +90,12 @@ export default function AppProduct({ navigation }) {
 
   // firebase establishment
   const firebaseConfig = {
-    apiKey: "AIzaSyCU8M3IjBt89WJPtuJRcEtRME94lvsZfvs",
-    authDomain: "freshcogs.firebaseapp.com",
-    projectId: "freshcogs",
-    storageBucket: "freshcogs.appspot.com",
-    messagingSenderId: "605440666542",
-    appId: "1:605440666542:web:aef1c7aef573c97e76363f",
+    apiKey: FIREBASE_API_KEY,
+    authDomain: FIREBASE_AUTH_DOMAIN,
+    projectId: FIREBASE_PROJECT_ID,
+    storageBucket: FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
+    appId: FIREBASE_APP_ID,
   };
 
   const app = initializeApp(firebaseConfig);
@@ -101,7 +110,7 @@ export default function AppProduct({ navigation }) {
   );
   myHeaders.append(
     "Authorization",
-    `OAuth oauth_consumer_key=${consumerKey},oauth_token=${userToken},oauth_signature_method="PLAINTEXT",oauth_timestamp="${dateTime}",oauth_nonce="${dateTime}",oauth_version="1.0",oauth_signature=""&"consumer_secret=${consumerKey}`
+    `OAuth oauth_consumer_key=${discogsConsumerKey},oauth_token=${discogsUserToken},oauth_signature_method="PLAINTEXT",oauth_timestamp="${dateTime}",oauth_nonce="${dateTime}",oauth_version="1.0",oauth_signature=""&"consumer_secret=${discogsConsumerKey}`
   );
 
   var requestOptions = {
