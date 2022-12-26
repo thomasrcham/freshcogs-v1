@@ -1,4 +1,3 @@
-import { autoBatchEnhancer } from "@reduxjs/toolkit";
 import { Dimensions, StyleSheet, Platform } from "react-native";
 
 const mainWindowHeight = Dimensions.get("window").height * 1;
@@ -526,7 +525,7 @@ export default StyleSheet.create({
       default: { height: mainWindowHeight * 0.89 },
     }),
   },
-  TagsPageTitle: {
+  tagsPageTitle: {
     paddingTop: 3,
     paddingLeft: 3,
     color: "black",
