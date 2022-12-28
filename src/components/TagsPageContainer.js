@@ -1,10 +1,11 @@
-import TagsPage from "./TagsPage.js";
-
 import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import AlbumPage from "./AlbumPage";
 import AlbumTagsPage from "./AlbumTagsPage";
+import TagsPage from "./TagsPage.js";
+
 import styles from "./styles/style.js";
 
 const Stack = createNativeStackNavigator();

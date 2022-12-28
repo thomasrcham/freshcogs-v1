@@ -542,7 +542,7 @@ export default StyleSheet.create({
   tagsDecisionContainer: {
     flex: 1,
     backgroundColor: "#878684",
-    marginBottom: 30,
+    marginBottom: 10,
     borderRadius: 10,
     borderWidth: 2,
   },
@@ -616,6 +616,26 @@ export default StyleSheet.create({
   tagDecisionRemainingText: {
     fontSize: 12,
   },
+  tagsSelectionContainer: {
+    flex: 2,
+    backgroundColor: "#878684",
+    marginBottom: 10,
+    borderRadius: 10,
+    borderWidth: 2,
+  },
+  tagsSelectionButtonLower: {
+    flexDirection: "row",
+    backgroundColor: "#124242",
+    borderRadius: 8,
+    borderWidth: 1,
+  },
+  tagsSelectionButtonLowerChosen: {
+    backgroundColor: "#0E5757",
+    flexDirection: "row",
+    borderRadius: 8,
+    borderWidth: 1,
+  },
+
   needsTagsContainer: {
     flex: 1.5,
     backgroundColor: "#878684",
@@ -636,6 +656,14 @@ export default StyleSheet.create({
     borderColor: "black",
     borderWidth: 2,
     borderRadius: 5,
+  },
+  needsTagsImageDone: {
+    aspectRatio: 1,
+    resizeMode: "contain",
+    borderColor: "black",
+    borderWidth: 2,
+    borderRadius: 5,
+    opacity: 0.1,
   },
 });
 

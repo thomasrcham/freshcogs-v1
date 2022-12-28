@@ -52,7 +52,6 @@ export default function AlbumTagsPage({
       }
     }
     setTagsList(newArray);
-    console.log(newArray);
   }
 
   const addNewTag = () => {
