@@ -191,12 +191,18 @@ export default function AlbumTagsPage({
             >
               <Pressable
                 onPress={() => {
-                  let newTagsList = tagsList.slice(10, tagsList.length);
+                  let newTagsList = tagsList
+                    ? tagsList.slice(10, tagsList.length)
+                    : null;
                   setTagsList(newTagsList);
                 }}
               >
                 <Text style={styles.albumInfoTags}>
-                  {tagsList.length > 0 ? "Reload Tags" : "Add tags -->"}
+                  {tagsList
+                    ? tagsList.length > 0
+                      ? "More Tags"
+                      : "Add tags -->"
+                    : null}
                 </Text>
               </Pressable>
               <Pressable
