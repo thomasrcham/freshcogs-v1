@@ -42,7 +42,7 @@ export default function AlbumTagsPage({
       ? fullTagList.filter((x) => !localTags.tags.includes(x))
       : fullTagList;
     let value = remainingTags.length > 10 ? 10 : remainingTags.length;
-    for (let i = 0; i < value; i = newArray.length) {
+    for (let i = 0; i < remainingTags.length; i = newArray.length) {
       let newItem =
         remainingTags[Math.floor(Math.random() * remainingTags.length)];
       if (newArray.includes(newItem) || localAlbumTags.tags.includes(newItem)) {
@@ -52,6 +52,7 @@ export default function AlbumTagsPage({
       }
     }
     setTagsList(newArray);
+    console.log(newArray);
   }
 
   const addNewTag = () => {
@@ -102,7 +103,7 @@ export default function AlbumTagsPage({
   }
 
   let tagsDisplay = tagsList
-    ? tagsList.map((t) => (
+    ? tagsList.slice(0, 10).map((t) => (
         <Pressable
           key={t}
           value={t}
@@ -190,10 +191,13 @@ export default function AlbumTagsPage({
             >
               <Pressable
                 onPress={() => {
-                  randomTagsArray(globalTags);
+                  let newTagsList = tagsList.slice(10, tagsList.length);
+                  setTagsList(newTagsList);
                 }}
               >
-                <Text style={styles.albumInfoTags}>Reload Tags</Text>
+                <Text style={styles.albumInfoTags}>
+                  {tagsList.length > 0 ? "Reload Tags" : "Add tags -->"}
+                </Text>
               </Pressable>
               <Pressable
                 onPress={() => {

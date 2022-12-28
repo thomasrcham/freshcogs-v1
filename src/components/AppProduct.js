@@ -19,6 +19,8 @@ import {
   FIREBASE_APP_ID,
   discogsConsumerKey,
   discogsUserToken,
+  lfm_api_key,
+  lfm_secret,
 } from "@env";
 
 import { initializeApp } from "firebase/app";
