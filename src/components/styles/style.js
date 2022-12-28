@@ -623,6 +623,15 @@ export default StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
   },
+  tagsSeeTheList: {
+    flexDirection: "row",
+    backgroundColor: "#124242",
+    borderRadius: 8,
+    borderWidth: 1,
+    maxWidth: "30%",
+    alignSelf: "center",
+    marginBottom: 3,
+  },
   tagsSelectionButtonLower: {
     flexDirection: "row",
     backgroundColor: "#124242",
@@ -634,6 +643,18 @@ export default StyleSheet.create({
     flexDirection: "row",
     borderRadius: 8,
     borderWidth: 1,
+  },
+  tagsSelectionLowerText: {
+    padding: 2,
+    color: "white",
+    fontWeight: "bold",
+    overflow: "hidden",
+    fontSize: 12,
+    ...Platform.select({
+      ios: { margin: 2 },
+      android: { margin: 2.4 },
+      default: { margin: 2 },
+    }),
   },
 
   needsTagsContainer: {
