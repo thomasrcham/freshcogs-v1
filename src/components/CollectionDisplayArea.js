@@ -43,10 +43,9 @@ export default function CollectionDisplayArea({
                 <AlbumPage
                   {...props}
                   globalTags={globalTags}
-                  handleGlobalTags={handleGlobalTags}
-                  storeListenEvents={storeListenEvents}
-                  requestOptions={requestOptions}
                   LFMKey={LFMKey}
+                  requestOptions={requestOptions}
+                  storeListenEvents={storeListenEvents}
                 />
               )}
             </Stack.Screen>

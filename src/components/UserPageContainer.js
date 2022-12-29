@@ -42,7 +42,7 @@ export default function UserPageContainer({
             screenOptions={{
               headerShown: false,
             }}
-            initialRouteName="Collection"
+            initialRouteName="UserPage"
           >
             <Stack.Screen name="UserPage">
               {(props) => (

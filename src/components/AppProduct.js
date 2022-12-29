@@ -666,6 +666,8 @@ export default function AppProduct({ navigation }) {
               globalTags={globalTags}
               handleGlobalTags={handleGlobalTags}
               storeListenEvents={storeListenEvents}
+              LFMKey={LFMKey}
+              requestOptions={requestOptions}
             />
           )}
         </Tab.Screen>
@@ -696,6 +698,8 @@ export default function AppProduct({ navigation }) {
               globalTags={globalTags}
               handleGlobalTags={handleGlobalTags}
               storeListenEvents={storeListenEvents}
+              LFMKey={LFMKey}
+              requestOptions={requestOptions}
             />
           )}
         </Tab.Screen>

@@ -1,4 +1,4 @@
-import { Image, Linking, Pressable, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -12,16 +12,14 @@ function AlbumPage({
   route,
   navigation,
   globalTags,
-  storeListenEvents,
-  requestOptions,
   LFMKey,
+  requestOptions,
+  storeListenEvents,
 }) {
   const { album, albums } = route.params;
   const [localListenEvents, setLocalListenEvents] = useState([]);
   const [totalListenEvents, setTotalListenEvents] = useState([]);
   const [localAlbumTags, setLocalAlbumTags] = useState({ id: 0, tags: [] });
-
-  console.log(LFMKey);
 
   useEffect(() => {
     listenEventsDataGet();
@@ -66,14 +64,13 @@ function AlbumPage({
     let newTotalArray = totalListenEvents
       ? [...totalListenEvents, newEvent]
       : [newEvent];
-    console.log(newTotalArray);
-    logEvent();
+    scrobbleEvent();
     setLocalListenEvents(newArray);
     setTotalListenEvents(newTotalArray);
     storeListenEvents(newTotalArray);
   };
 
-  const logEvent = () => {
+  const scrobbleEvent = () => {
     let URL;
     if (album.id === album.master_id) {
       URL = `releases/${album.id}`;
@@ -161,6 +158,7 @@ function AlbumPage({
         </Pressable>
       ))
     );
+
   return (
     <View style={[styles.container, styles.wholeAlbumPage]}>
       <Image

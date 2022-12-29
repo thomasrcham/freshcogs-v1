@@ -12,6 +12,8 @@ export default function SearchDisplayArea({
   globalTags,
   handleGlobalTags,
   storeListenEvents,
+  LFMKey,
+  requestOptions,
 }) {
   return (
     <View>
@@ -30,8 +32,9 @@ export default function SearchDisplayArea({
               {(props) => (
                 <AlbumPage
                   {...props}
-                  albums={albums}
                   globalTags={globalTags}
+                  LFMKey={LFMKey}
+                  requestOptions={requestOptions}
                   storeListenEvents={storeListenEvents}
                 />
               )}
@@ -40,7 +43,6 @@ export default function SearchDisplayArea({
               {(props) => (
                 <AlbumTagsPage
                   {...props}
-                  albums={albums}
                   globalTags={globalTags}
                   handleGlobalTags={handleGlobalTags}
                 />

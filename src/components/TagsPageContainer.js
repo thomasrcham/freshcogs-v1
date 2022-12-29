@@ -16,6 +16,8 @@ export default function TagsPageContainer({
   globalTags,
   handleGlobalTags,
   storeListenEvents,
+  LFMKey,
+  requestOptions,
 }) {
   const route = useRoute();
 
@@ -38,8 +40,9 @@ export default function TagsPageContainer({
               {(props) => (
                 <AlbumPage
                   {...props}
-                  albums={albums}
                   globalTags={globalTags}
+                  LFMKey={LFMKey}
+                  requestOptions={requestOptions}
                   storeListenEvents={storeListenEvents}
                 />
               )}
@@ -48,7 +51,6 @@ export default function TagsPageContainer({
               {(props) => (
                 <AlbumTagsPage
                   {...props}
-                  albums={albums}
                   globalTags={globalTags}
                   handleGlobalTags={handleGlobalTags}
                 />
