@@ -10,7 +10,7 @@ import {
 
 import styles from "./styles/style.js";
 
-export default function TagsSelection({ globalTags, displayedTags }) {
+export default function TagsChoose3({ globalTags, displayedTags }) {
   const [chosenTags, setChosenTags] = useState(["", "", ""]);
   const [numChosenTags, setNumChosenTags] = useState(0);
 

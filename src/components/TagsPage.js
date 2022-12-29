@@ -5,7 +5,7 @@ import TagsDecision from "./TagsDecision.js";
 import NeedsTags from "./NeedsTags.js";
 
 import styles from "./styles/style.js";
-import TagsSelection from "./TagsSelection.js";
+import TagsChoose3 from "./TagsChoose3.js";
 
 export default function TagsPage({ albums, globalTags, navigation }) {
   const [displayedTags, setDisplayedTags] = useState(null);
@@ -36,7 +36,7 @@ export default function TagsPage({ albums, globalTags, navigation }) {
       </View>
       <Text style={styles.tagsPageTitle}>Choose 3 and see what matches:</Text>
       <View style={styles.tagsSelectionContainer}>
-        <TagsSelection
+        <TagsChoose3
           albums={albums}
           globalTags={globalTags}
           navigation={navigation}
