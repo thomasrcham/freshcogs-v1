@@ -31,7 +31,6 @@ export default function TagsDecision({ albums, globalTags, navigation }) {
       ...chosenTags,
       click._dispatchInstances.memoizedProps.value,
     ];
-    console.log(newChosenTags);
     setChosenTags(newChosenTags);
     let newDecisionList = tagDecisionList.slice(2, tagDecisionList.length);
     setTagDecisionList(newDecisionList);
