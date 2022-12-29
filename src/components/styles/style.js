@@ -623,6 +623,22 @@ export default StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
   },
+  tagsSelectionWindow: {
+    padding: 5,
+    alignContent: "flex-end",
+    flexDirection: "column",
+  },
+  tagsSelectionWindowLower: {
+    marginBottom: 6,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  tagsSelectionRowLower: {
+    alignSelf: "center",
+    justifyContent: "center",
+    width: "30%",
+  },
+
   tagsSeeTheList: {
     flexDirection: "row",
     backgroundColor: "#124242",
