@@ -204,7 +204,7 @@ export default function AppProduct({ navigation }) {
       console.log(`Tag retrieval failure: ${e}`);
       try {
         const jsonValue = await firebaseRead("tags");
-        let data = jsonValue != null ? jsonValue : null;
+        let data = jsonValue != null ? JSON.parse(jsonValue) : null;
         console.log(`loading tags from firebase, items: ${data.length}`);
         setGlobalTags(data);
         storeTags(data);
@@ -253,6 +253,10 @@ export default function AppProduct({ navigation }) {
     }
 
     return newArray[0];
+  };
+
+  const resetState = () => {
+    setAlbums(null);
   };
 
   //FETCHES
@@ -467,7 +471,7 @@ export default function AppProduct({ navigation }) {
     if (result) {
       setLFMKey(result);
     } else {
-      alert("No values stored under that key.");
+      // alert("No values stored under that key.");
     }
   };
 
@@ -494,13 +498,14 @@ export default function AppProduct({ navigation }) {
       requestOptionslfm
     )
       .then((response) => response.text())
-      .then((result) =>
+      .then((result) => {
+        console.log(result);
         parseString(result, function (err, output) {
           save("lfmauth", output.lfm.session[0].key[0]);
           onChangelastFMPassword("");
           onChangelastFMUsername("");
-        })
-      )
+        });
+      })
       .catch((error) => console.log("error", error));
   };
 

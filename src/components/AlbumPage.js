@@ -114,15 +114,16 @@ function AlbumPage({
       scrobbleRequestOptions
     )
       .then((response) => response.text())
-      .then((result) =>
+      .then((result) => {
+        console.log(result);
         parseString(result, function (err, output) {
           output.lfm.scrobbles[0].$.accepted
             ? console.log(
                 "scrobbled " + output.lfm.scrobbles[0].scrobble[0].track[0]._
               )
             : Alert.alert("failed");
-        })
-      )
+        });
+      })
       .catch((error) => console.log("error", error));
   };
 

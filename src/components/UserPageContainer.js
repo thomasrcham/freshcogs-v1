@@ -83,6 +83,7 @@ export default function UserPageContainer({
                   albums={albums}
                   requestOptions={requestOptions}
                   LFMKey={LFMKey}
+                  getData={getData}
                 />
               )}
             </Stack.Screen>
