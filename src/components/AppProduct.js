@@ -741,6 +741,7 @@ export default function AppProduct({ navigation }) {
               lastFMauth={lastFMauth}
               lastFMUser={lastFMUser}
               LFMKey={LFMKey}
+              lastFMUserFetch={lastFMUserFetch}
             />
           )}
         </Tab.Screen>

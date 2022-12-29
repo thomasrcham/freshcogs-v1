@@ -39,6 +39,7 @@ export default function UserPage({
   onChangelastFMPassword,
   lastFMauth,
   lastFMUser,
+  lastFMUserFetch,
 }) {
   const navigation = useNavigation();
   const ref_input2 = useRef();
@@ -57,6 +58,10 @@ export default function UserPage({
       }
     });
   };
+
+  useEffect(() => {
+    lastFMUserFetch();
+  }, []);
 
   function yearReplaceTimer() {
     setUpdating("In Progress");

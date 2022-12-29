@@ -31,6 +31,7 @@ export default function UserPageContainer({
   lastFMauth,
   lastFMUser,
   LFMKey,
+  lastFMUserFetch,
 }) {
   return (
     <View>
@@ -68,6 +69,7 @@ export default function UserPageContainer({
                   onChangelastFMPassword={onChangelastFMPassword}
                   lastFMauth={lastFMauth}
                   lastFMUser={lastFMUser}
+                  lastFMUserFetch={lastFMUserFetch}
                 />
               )}
             </Stack.Screen>
