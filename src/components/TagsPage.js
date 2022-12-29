@@ -17,8 +17,12 @@ export default function TagsPage({ albums, globalTags, navigation }) {
   function tagsDisplayArray() {
     let newArray = [];
     let tagsList = globalTags.filter((g) => g.id === 0)[0].tags;
+    let filteredTagsList = tagsList.filter(
+      (t) => !["CHRISTMAS", "CLASSICAL"].includes(t)
+    );
     for (let i = 0; i < 15; i = newArray.length) {
-      let newItem = tagsList[Math.floor(Math.random() * tagsList.length)];
+      let newItem =
+        filteredTagsList[Math.floor(Math.random() * filteredTagsList.length)];
       if (newArray.includes(newItem)) {
         null;
       } else {
