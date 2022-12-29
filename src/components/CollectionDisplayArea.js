@@ -14,6 +14,8 @@ export default function CollectionDisplayArea({
   handleGlobalTags,
   storeListenEvents,
   randomArray,
+  requestOptions,
+  LFMKey,
 }) {
   return (
     <View>
@@ -43,6 +45,8 @@ export default function CollectionDisplayArea({
                   globalTags={globalTags}
                   handleGlobalTags={handleGlobalTags}
                   storeListenEvents={storeListenEvents}
+                  requestOptions={requestOptions}
+                  LFMKey={LFMKey}
                 />
               )}
             </Stack.Screen>

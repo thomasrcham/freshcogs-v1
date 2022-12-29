@@ -596,6 +596,8 @@ export default function AppProduct({ navigation }) {
               storeListenEvents={storeListenEvents}
               randomArray={randomArray}
               allAlbums={albums}
+              requestOptions={requestOptions}
+              LFMKey={LFMKey}
             />
           )}
         </Tab.Screen>
@@ -631,6 +633,8 @@ export default function AppProduct({ navigation }) {
               globalTags={globalTags}
               handleGlobalTags={handleGlobalTags}
               storeListenEvents={storeListenEvents}
+              requestOptions={requestOptions}
+              LFMKey={LFMKey}
             />
           )}
         </Tab.Screen>
