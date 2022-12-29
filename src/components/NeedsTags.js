@@ -2,7 +2,6 @@ import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { useEffect, useState } from "react";
 
 import styles from "./styles/style.js";
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable.js";
 
 export default function NeedsTags({ albums, globalTags, navigation }) {
   const [needsTagsList, setNeedsTagsList] = useState(null);
@@ -45,17 +44,6 @@ export default function NeedsTags({ albums, globalTags, navigation }) {
           }
           key={item.title}
         />
-        {/* {completedTags.includes(item.title) ? (
-           <View
-             style={{
-               backgroundColor: "#E1DEE354",
-               flex: 1,
-               transform: [{ translateY: -50 }],
-             }}
-           >
-             <Text style={{ alignSelf: "center" }}>Check!</Text>
-           </View>
-         ) : null} */}
       </TouchableOpacity>
     </View>
   );

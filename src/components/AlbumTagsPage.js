@@ -19,13 +19,16 @@ export default function AlbumTagsPage({
   handleGlobalTags,
 }) {
   const { album } = route.params;
-  const [tagsList, setTagsList] = useState(null);
+  const [displayTagsList, setDisplayTagsList] = useState(null);
+
+  const [remainingTagsList, setRemainingTagsList] = useState(null);
   const [localAlbumTags, setLocalAlbumTags] = useState({ id: 0, tags: [] });
   const [modalVisible, setModalVisible] = useState(false);
   const [text, onChangeText] = useState("");
+  const [loaded, setLoaded] = useState(0);
 
   useEffect(() => {
-    randomTagsArray(globalTags);
+    loaded === 0 ? randomTagsArray(globalTags) : null;
   }, []);
 
   useEffect(() => {
@@ -41,7 +44,6 @@ export default function AlbumTagsPage({
     let remainingTags = localTags
       ? fullTagList.filter((x) => !localTags.tags.includes(x))
       : fullTagList;
-    let value = remainingTags.length > 10 ? 10 : remainingTags.length;
     for (let i = 0; i < remainingTags.length; i = newArray.length) {
       let newItem =
         remainingTags[Math.floor(Math.random() * remainingTags.length)];
@@ -51,7 +53,15 @@ export default function AlbumTagsPage({
         newArray.push(newItem);
       }
     }
-    setTagsList(newArray);
+    setDisplayTagsList(
+      newArray.length > 8
+        ? newArray.slice(0, 8)
+        : newArray.slice(0, newArray.length)
+    );
+    setRemainingTagsList(
+      newArray.length > 8 ? newArray.slice(8, newArray.length) : null
+    );
+    setLoaded(1);
   }
 
   const addNewTag = () => {
@@ -61,8 +71,8 @@ export default function AlbumTagsPage({
   };
 
   function addTagToAlbum(selectedTag) {
-    let newTagsList = tagsList.filter((t) => !t.includes(selectedTag));
-    setTagsList(newTagsList);
+    let newTagsList = displayTagsList.filter((t) => !t.includes(selectedTag));
+    setDisplayTagsList(newTagsList);
     let tags = [...localAlbumTags.tags, selectedTag];
     let newFullTag = {
       id: album.id,
@@ -101,8 +111,8 @@ export default function AlbumTagsPage({
     handleGlobalTags(newGlobalTags);
   }
 
-  let tagsDisplay = tagsList
-    ? tagsList.slice(0, 10).map((t) => (
+  let tagsDisplay = displayTagsList
+    ? displayTagsList.slice(0, 8).map((t) => (
         <Pressable
           key={t}
           value={t}
@@ -189,19 +199,32 @@ export default function AlbumTagsPage({
               }}
             >
               <Pressable
-                onPress={() => {
-                  let newTagsList = tagsList
-                    ? tagsList.slice(10, tagsList.length)
-                    : null;
-                  setTagsList(newTagsList);
-                }}
+                onPress={
+                  remainingTagsList
+                    ? () => {
+                        setDisplayTagsList(
+                          remainingTagsList.length > 8
+                            ? remainingTagsList.slice(0, 8)
+                            : remainingTagsList
+                        );
+                        setRemainingTagsList(
+                          remainingTagsList.length > 8
+                            ? remainingTagsList.slice(
+                                8,
+                                remainingTagsList.length
+                              )
+                            : null
+                        );
+                      }
+                    : null
+                }
               >
                 <Text style={styles.albumInfoTags}>
-                  {tagsList
-                    ? tagsList.length > 0
+                  {displayTagsList
+                    ? remainingTagsList
                       ? "More Tags"
                       : "Add tags -->"
-                    : null}
+                    : "Add tags -->"}
                 </Text>
               </Pressable>
               <Pressable
