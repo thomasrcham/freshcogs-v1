@@ -1,8 +1,9 @@
 import { Button, Pressable, Text, View } from "react-native";
 import { useState, useEffect } from "react";
+
 import styles from "./styles/style.js";
 
-export default function TagsDecision({ albums, globalTags }) {
+export default function TagsDecision({ albums, globalTags, navigation }) {
   const [decisionAlbums, setDecisionAlbums] = useState(albums);
   const [tagDecisionList, setTagDecisionList] = useState([]);
   const [chosenTags, setChosenTags] = useState([]);
@@ -34,10 +35,15 @@ export default function TagsDecision({ albums, globalTags }) {
     setChosenTags(newChosenTags);
     let newDecisionList = tagDecisionList.slice(2, tagDecisionList.length);
     setTagDecisionList(newDecisionList);
-
-    // TODO: filter albums list
-    // TODO: send to results page
-    // TODO: display results page
+    let newDecisionIDs = globalTags
+      .filter((i) =>
+        i.tags.includes(click._dispatchInstances.memoizedProps.value)
+      )
+      .map((i) => i.id);
+    let newDecisionAlbums = decisionAlbums.filter((a) =>
+      newDecisionIDs.includes(a.id)
+    );
+    setDecisionAlbums(newDecisionAlbums);
   }
 
   function skip() {
@@ -46,7 +52,10 @@ export default function TagsDecision({ albums, globalTags }) {
   }
 
   function seeTheList() {
-    console.log("see the list");
+    navigation.navigate("List", {
+      localAlbums: decisionAlbums,
+      chosenTags: chosenTags,
+    });
   }
 
   return (

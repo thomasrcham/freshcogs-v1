@@ -32,7 +32,11 @@ export default function TagsPage({ albums, globalTags, navigation }) {
     <View style={styles.tagsPageContainer}>
       <Text style={styles.tagsPageTitle}>Choose by Tag:</Text>
       <View style={styles.tagsDecisionContainer}>
-        <TagsDecision albums={albums} globalTags={globalTags} />
+        <TagsDecision
+          albums={albums}
+          globalTags={globalTags}
+          navigation={navigation}
+        />
       </View>
       <Text style={styles.tagsPageTitle}>Choose 3 and see what matches:</Text>
       <View style={styles.tagsSelectionContainer}>
