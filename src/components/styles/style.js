@@ -24,12 +24,27 @@ export default StyleSheet.create({
     backgroundColor: "#124242",
     height: topBarHeight,
     justifyContent: "flex-end",
+    flexDirection: "column",
+  },
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    width: windowWidth,
+    marginBottom: 5,
+  },
+  headerImage: {
+    aspectRatio: 1,
+    maxHeight: "80%",
+    maxWidth: "8%",
+    marginRight: 3,
+    resizeMode: "contain",
+    alignSelf: "center",
   },
   headerText: {
     color: "white",
     fontWeight: "bold",
     fontSize: 22,
-    paddingLeft: 20,
+    alignSelf: "center",
   },
   //tab navigator
   tabButtonBox: {

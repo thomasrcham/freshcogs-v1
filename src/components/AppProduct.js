@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Dimensions, View, Text, Alert } from "react-native";
+import { Alert, Dimensions, Image, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
@@ -549,6 +549,21 @@ export default function AppProduct({ navigation }) {
           unmountOnBlur: true,
           tabBarInactiveTintColor: "white",
           tabBarActiveTintColor: "#FFBF69",
+          header: () => (
+            <View style={styles.header}>
+              <View style={styles.headerRow}>
+                <Image
+                  style={styles.headerImage}
+                  source={require("../icons/icon.png")}
+                />
+                <Text style={styles.headerText}> Freshcogs </Text>
+                <Image
+                  style={styles.headerImage}
+                  source={require("../icons/icon.png")}
+                />
+              </View>
+            </View>
+          ),
           tabBarStyle: {
             display: "flex",
             flexDirection: "row",
@@ -570,11 +585,6 @@ export default function AppProduct({ navigation }) {
         <Tab.Screen
           name="FrontPage"
           options={{
-            header: () => (
-              <View style={styles.header}>
-                <Text style={styles.headerText}>Check these out:</Text>
-              </View>
-            ),
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
@@ -608,12 +618,12 @@ export default function AppProduct({ navigation }) {
             backgroundColor: "black",
           }}
           options={{
-            header: () => (
-              <View style={styles.header}>
-                <Text style={styles.headerText}>Collection Browser</Text>
-              </View>
-            ),
-            headerTintColor: "white",
+            // header: () => (
+            //   <View style={styles.header}>
+            //     <Text style={styles.headerText}>Collection Browser</Text>
+            //   </View>
+            // ),
+            // headerTintColor: "white",
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
@@ -642,11 +652,11 @@ export default function AppProduct({ navigation }) {
         <Tab.Screen
           name="Search"
           options={{
-            header: () => (
-              <View style={styles.header}>
-                <Text style={styles.headerText}>Search your Collection:</Text>
-              </View>
-            ),
+            // header: () => (
+            //   <View style={styles.header}>
+            //     <Text style={styles.headerText}>Search your Collection:</Text>
+            //   </View>
+            // ),
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
@@ -675,11 +685,11 @@ export default function AppProduct({ navigation }) {
         <Tab.Screen
           name="Tags"
           options={{
-            header: () => (
-              <View style={styles.header}>
-                <Text style={styles.headerText}>Tags</Text>
-              </View>
-            ),
+            // header: () => (
+            //   <View style={styles.header}>
+            //     <Text style={styles.headerText}>Tags</Text>
+            //   </View>
+            // ),
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
@@ -707,11 +717,11 @@ export default function AppProduct({ navigation }) {
         <Tab.Screen
           name="User"
           options={{
-            header: () => (
-              <View style={styles.header}>
-                <Text style={styles.headerText}>User Profile</Text>
-              </View>
-            ),
+            // header: () => (
+            //   <View style={styles.header}>
+            //     <Text style={styles.headerText}>User Profile</Text>
+            //   </View>
+            // ),
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
