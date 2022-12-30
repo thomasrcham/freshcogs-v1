@@ -94,7 +94,7 @@ function Collection({ albums, allAlbums, navigation, randomArray }) {
                 numColumns="2"
               />
             </View>
-            <View style={styles.backButton}>
+            {/* <View style={styles.backButton}>
               <View>
                 <Pressable
                   onPress={() => {
@@ -108,7 +108,7 @@ function Collection({ albums, allAlbums, navigation, randomArray }) {
                   />
                 </Pressable>
               </View>
-            </View>
+            </View> */}
           </>
         ) : null
       ) : null}

@@ -255,10 +255,6 @@ export default function AppProduct({ navigation }) {
     return newArray[0];
   };
 
-  const resetState = () => {
-    setAlbums(null);
-  };
-
   //FETCHES
 
   const handleAlbumFetch = async () => {

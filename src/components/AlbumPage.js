@@ -115,7 +115,6 @@ function AlbumPage({
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
         parseString(result, function (err, output) {
           output.lfm.scrobbles[0].$.accepted
             ? console.log(

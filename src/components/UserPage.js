@@ -288,10 +288,10 @@ export default function UserPage({
       </View>
 
       <View style={styles.userPageButtons}>
-        <Button
+        {/* <Button
           title="Last.fm auth"
           onPress={() => setModalVisible(!modalVisible)}
-        />
+        /> */}
         <Button
           title="Buttons"
           onPress={() => navigation.navigate("Buttons")}
