@@ -440,6 +440,15 @@ export default StyleSheet.create({
   },
   backButton: {
     padding: 10,
+    // alignSelf: "flex-end",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    position: "absolute",
+    bottom: "12%",
+    width: windowWidth,
+  },
+  topButton: {
+    padding: 10,
     alignSelf: "flex-end",
     alignItems: "flex-end",
     justifyContent: "center",
@@ -447,6 +456,7 @@ export default StyleSheet.create({
     bottom: "12%",
     width: windowWidth,
   },
+
   //user page
   userPageContainer: {
     flexDirection: "row",
@@ -666,6 +676,37 @@ export default StyleSheet.create({
     fontWeight: "bold",
     overflow: "hidden",
     fontSize: 12,
+    ...Platform.select({
+      ios: { margin: 2 },
+      android: { margin: 2.4 },
+      default: { margin: 2 },
+    }),
+  },
+  tagsListWindow: {
+    flexDirection: "row",
+  },
+
+  tagsListRow: {
+    flexDirection: "row",
+    flex: 1,
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+  },
+  tagsListButton: {
+    flexDirection: "row",
+    backgroundColor: "#124242",
+    borderRadius: 8,
+    borderWidth: 1,
+    margin: 2,
+  },
+  tagsListText: {
+    padding: 2,
+    color: "white",
+    fontWeight: "bold",
+    overflow: "hidden",
+    fontSize: 14,
     ...Platform.select({
       ios: { margin: 2 },
       android: { margin: 2.4 },

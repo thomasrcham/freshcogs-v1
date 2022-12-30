@@ -214,7 +214,7 @@ export default function FindPage({ albums, navigation }) {
         </Text>
         <View style={styles.resultsList}>{listDisplay}</View>
       </View>
-      <View style={styles.backButton}>
+      <View style={styles.topButton}>
         <View>
           <Pressable
             onPress={() => {

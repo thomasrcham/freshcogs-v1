@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import style from "./styles/style.js";
 
 import styles from "./styles/style.js";
 
@@ -99,7 +98,7 @@ export default function TagsChoose3({
   };
 
   return (
-    <View style={style.tagsSelectionWindow}>
+    <View style={styles.tagsSelectionWindow}>
       <View style={{ marginBottom: 6 }}>
         <Text>Chosen Tags:</Text>
         <FlatList

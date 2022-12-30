@@ -27,7 +27,6 @@ export default function TagsDecision({ albums, globalTags, navigation }) {
         newArray.push(newItem);
       }
     }
-    console.log(newArray);
     setTagDecisionList(newArray);
   }
 
