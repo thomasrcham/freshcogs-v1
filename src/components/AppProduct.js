@@ -613,7 +613,7 @@ export default function AppProduct({ navigation }) {
           )}
         </Tab.Screen>
         <Tab.Screen
-          name="Collection"
+          name="Covers"
           tabBarLabelStyle={{
             backgroundColor: "black",
           }}
@@ -650,7 +650,7 @@ export default function AppProduct({ navigation }) {
           )}
         </Tab.Screen>
         <Tab.Screen
-          name="Search"
+          name="Browse"
           options={{
             // header: () => (
             //   <View style={styles.header}>

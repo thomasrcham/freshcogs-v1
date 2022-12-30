@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import styles from "./styles/style.js";
 
@@ -113,7 +112,7 @@ function Collection({ albums, allAlbums, navigation, randomArray }) {
         ) : null
       ) : null}
       <View style={styles.albumDisplayContainer}>
-        {albums && route.name === "Collection" && albums.length != 6 ? (
+        {albums && route.name === "Covers" && albums.length != 6 ? (
           <FlatList
             style={styles.collectionPageContainer}
             data={albums}

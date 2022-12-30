@@ -26,9 +26,9 @@ export default function CollectionDisplayArea({
             screenOptions={{
               headerShown: false,
             }}
-            initialRouteName="Collection"
+            initialRouteName="Covers"
           >
-            <Stack.Screen name="Collection">
+            <Stack.Screen name="Covers">
               {(props) => (
                 <Collection
                   {...props}

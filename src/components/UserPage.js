@@ -101,7 +101,7 @@ export default function UserPage({
   }
 
   return (
-    <View style={styles.mainPageContainer}>
+    <View style={styles.mainUserContainer}>
       <Modal
         transparent={true}
         visible={modalVisible}
@@ -149,7 +149,7 @@ export default function UserPage({
           </View>
         </Pressable>
       </Modal>
-
+      <Text style={styles.tagsPageTitle}>Discogs Profile:</Text>
       <View style={styles.userPageContainer}>
         <View style={styles.userImageContainer}>
           <Image
@@ -187,9 +187,52 @@ export default function UserPage({
               />
             </View>
             <Text style={(styles.userText, styles.discogsLinkText)}>
-              Discogs Profile
+              Open Profile
             </Text>
           </Pressable>
+        </View>
+      </View>
+      <Text style={styles.tagsPageTitle}>Last.fm Profile:</Text>
+      <View style={styles.userPageContainer}>
+        <View style={styles.userTextContainer}>
+          <Text style={styles.userText}>Username: {lastFMUser.username}</Text>
+          <Text style={styles.userText}>
+            Last.fm Member Since:{" "}
+            {format(new Date(lastFMUser.dateRegistered), "MM/dd/yyyy")}
+          </Text>
+          <Text style={styles.userText}>
+            Total Playcount: {lastFMUser.playcount}
+          </Text>
+          <Pressable
+            onPress={() => handleProfileClick(lastFMUser.lfmURL)}
+            style={styles.userText}
+          >
+            <View
+              style={{
+                flex: 1,
+              }}
+            >
+              <Image
+                style={{
+                  aspectRatio: 1,
+                  height: 25,
+                  marginRight: 3,
+                }}
+                source={require("../icons/vinyl.png")}
+              />
+            </View>
+            <Text style={(styles.userText, styles.discogsLinkText)}>
+              Open Profile
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.userImageContainer}>
+          <Image
+            style={styles.userImage}
+            source={{
+              uri: `${lastFMUser.lfmPFP}`,
+            }}
+          />
         </View>
       </View>
       <View
@@ -244,58 +287,12 @@ export default function UserPage({
           />
         </View>
       </View>
-      <View style={styles.userPageContainer}>
-        <View style={styles.userTextContainer}>
-          <Text style={styles.userText}>Username: {lastFMUser.username}</Text>
-          <Text style={styles.userText}>
-            Last.fm Member Since:{" "}
-            {format(new Date(lastFMUser.dateRegistered), "MM/dd/yyyy")}
-          </Text>
-          <Text style={styles.userText}>
-            Total Playcount: {lastFMUser.playcount}
-          </Text>
-          <Pressable
-            onPress={() => handleProfileClick(lastFMUser.lfmURL)}
-            style={styles.userText}
-          >
-            <View
-              style={{
-                flex: 1,
-              }}
-            >
-              <Image
-                style={{
-                  aspectRatio: 1,
-                  height: 25,
-                  marginRight: 3,
-                }}
-                source={require("../icons/vinyl.png")}
-              />
-            </View>
-            <Text style={(styles.userText, styles.discogsLinkText)}>
-              Last.fm Profile
-            </Text>
-          </Pressable>
-        </View>
-        <View style={styles.userImageContainer}>
-          <Image
-            style={styles.userImage}
-            source={{
-              uri: `${lastFMUser.lfmPFP}`,
-            }}
-          />
-        </View>
-      </View>
-
       <View style={styles.userPageButtons}>
         {/* <Button
           title="Last.fm auth"
           onPress={() => setModalVisible(!modalVisible)}
         /> */}
-        <Button
-          title="Buttons"
-          onPress={() => navigation.navigate("Buttons")}
-        />
+        <Button title="Admin" onPress={() => navigation.navigate("Buttons")} />
       </View>
     </View>
   );

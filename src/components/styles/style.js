@@ -5,7 +5,7 @@ const windowWidth = Dimensions.get("window").width;
 const buttonWidth = Dimensions.get("window").width * 0.3;
 const searchBarWindowHeight = Dimensions.get("window").height * 0.08;
 const filterBarWindowHeight = Dimensions.get("window").height * 0.05;
-const topBarHeight = Dimensions.get("window").height * 0.11;
+const topBarHeight = Dimensions.get("window").height * 0.1;
 
 export default StyleSheet.create({
   container: {
@@ -473,11 +473,19 @@ export default StyleSheet.create({
   },
 
   //user page
+  mainUserContainer: {
+    height: mainWindowHeight,
+    width: windowWidth,
+    backgroundColor: "#D8DBE2",
+  },
+
   userPageContainer: {
     flexDirection: "row",
     alignContent: "space-between",
-    marginTop: 30,
-    backgroundColor: "#D8DBE2",
+    borderTopColor: "black",
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderRadius: 5,
   },
   userImageContainer: {
     padding: 10,
