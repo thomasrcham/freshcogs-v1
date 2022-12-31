@@ -9,29 +9,31 @@ import UserButtons from "./UserButtons";
 const Stack = createNativeStackNavigator();
 export default function UserPageContainer({
   albums,
+  customFields,
   getData,
-  setAlbums,
-  storeAlbums,
-  handleGlobalTags,
-  globalTags,
+  getKey,
   globalResetTags,
-  setGlobalTags,
-  setUser,
-  listenEvents,
-  requestOptions,
-  user,
-  updateLibraryFetch,
-  storeListenEvents,
-  setListenEvents,
-  save,
-  lastFMUsername,
-  onChangelastFMUsername,
-  lastFMPassword,
-  onChangelastFMPassword,
+  globalTags,
+  handleGlobalTags,
   lastFMauth,
+  lastFMPassword,
   lastFMUser,
-  LFMKey,
   lastFMUserFetch,
+  lastFMUsername,
+  LFMKey,
+  listenEvents,
+  onChangelastFMPassword,
+  onChangelastFMUsername,
+  requestOptions,
+  save,
+  setAlbums,
+  setGlobalTags,
+  setListenEvents,
+  setUser,
+  storeAlbums,
+  storeListenEvents,
+  updateLibraryFetch,
+  user,
 }) {
   return (
     <View>
@@ -81,6 +83,8 @@ export default function UserPageContainer({
                 <UserButtons
                   listenEvents={listenEvents}
                   albums={albums}
+                  customFields={customFields}
+                  getKey={getKey}
                   requestOptions={requestOptions}
                   LFMKey={LFMKey}
                   getData={getData}

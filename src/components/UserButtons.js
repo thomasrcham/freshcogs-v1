@@ -5,12 +5,15 @@ import styles from "./styles/style.js";
 
 export default function UserButtons({
   albums,
+  customFields,
   getData,
+  getKey,
   globalTags,
   globalResetTags,
   handleGlobalTags,
   setListenEvents,
   updateLibraryFetch,
+  requestOptions,
 }) {
   const clearStorage = () => {
     removeItemValue();
@@ -41,6 +44,23 @@ export default function UserButtons({
     removeItemValue();
     getData();
   };
+
+  // var myHeaders = new Headers();
+  // myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+  // myHeaders.append(
+  //   "User-Agent",
+  //   "Flashcogs/1.0 +https://github.com/thomasrcham/discogs-app-v3"
+  // );
+  // myHeaders.append(
+  //   "Authorization",
+  //   `OAuth oauth_consumer_key=${discogsConsumerKey},oauth_token=${discogsUserToken},oauth_signature_method="PLAINTEXT",oauth_timestamp="${dateTime}",oauth_nonce="${dateTime}",oauth_version="1.0",oauth_signature=""&"consumer_secret=${discogsConsumerKey}`
+  // );
+
+  // var discogsTagsRequestOptions = {
+  //   method: "POST",
+  //   headers: myHeaders,
+  //   redirect: "follow",
+  // };
 
   return (
     <View style={styles.mainPageContainer}>
@@ -77,7 +97,9 @@ export default function UserButtons({
           title="Last.fm auth"
           onPress={() => setModalVisible(!modalVisible)}
         />
-        <Button title="log key" onPress={() => getValueFor("lfmauth")} />
+        {/* <Button title="log key" onPress={() => getValueFor("lfmauth")} /> */}
+        <Button title="custom field" onPress={() => customFields()} />
+        <Button title="get key" onPress={() => getKey("oauth_token")} />
       </View>
     </View>
   );

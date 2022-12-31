@@ -18,7 +18,10 @@ import {
   FIREBASE_MESSAGING_SENDER_ID,
   FIREBASE_APP_ID,
   discogsConsumerKey,
+  discogsConsumerSecret,
   discogsUserToken,
+  discogsOAuthtoken,
+  discogsUserSecret,
   lfm_api_key,
   lfm_secret,
 } from "@env";
@@ -112,8 +115,27 @@ export default function AppProduct({ navigation }) {
   );
   myHeaders.append(
     "Authorization",
-    `OAuth oauth_consumer_key=${discogsConsumerKey},oauth_token=${discogsUserToken},oauth_signature_method="PLAINTEXT",oauth_timestamp="${dateTime}",oauth_nonce="${dateTime}",oauth_version="1.0",oauth_signature=""&"consumer_secret=${discogsConsumerKey}`
+    // `OAuth
+
+    // oauth_consumer_key="${discogsConsumerKey}",
+    // oauth_nonce="${dateTime}",
+
+    // oauth_signature="${discogsConsumerSecret}&"
+    // oauth_signature_method="PLAINTEXT",
+    // oauth_timestamp="${dateTime}",
+    // oauth_callback="https://github.com/thomasrcham/discogs-app-v3",`
+
+    `OAuth oauth_consumer_key="${discogsConsumerKey}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${dateTime}",oauth_nonce="${dateTime}",oauth_version="1.0",oauth_signature="${discogsConsumerSecret}&", oauth_callback="your_callback"`
+    // consumer_secret=${discogsConsumerKey},
+    // oauth_token=${discogsOAuthtoken},
+    // oauth_token_secret=${discogsUserSecret},`
   );
+
+  const customFields = async () => {
+    await fetch(`https://api.discogs.com/oauth/request_token`, requestOptions)
+      .then((res) => res.formData())
+      .then((data) => data._parts.map((r) => save(r[0], r[1])));
+  };
 
   var requestOptions = {
     method: "GET",
@@ -459,6 +481,7 @@ export default function AppProduct({ navigation }) {
   //secure storage for keys
 
   const save = async (key, value) => {
+    console.log(key, value);
     await SecureStore.setItemAsync(key, value);
   };
 
@@ -466,6 +489,15 @@ export default function AppProduct({ navigation }) {
     let result = await SecureStore.getItemAsync(key);
     if (result) {
       setLFMKey(result);
+    } else {
+      // alert("No values stored under that key.");
+    }
+  };
+
+  const getKey = async (key) => {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) {
+      console.log(result);
     } else {
       // alert("No values stored under that key.");
     }
@@ -717,11 +749,6 @@ export default function AppProduct({ navigation }) {
         <Tab.Screen
           name="User"
           options={{
-            // header: () => (
-            //   <View style={styles.header}>
-            //     <Text style={styles.headerText}>User Profile</Text>
-            //   </View>
-            // ),
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
@@ -737,30 +764,32 @@ export default function AppProduct({ navigation }) {
         >
           {(props) => (
             <UserPageContainer
-              user={user}
               albums={albums}
-              storeAlbums={storeAlbums}
-              requestOptions={requestOptions}
-              listenEvents={listenEvents}
+              customFields={customFields}
               getData={getData}
-              setAlbums={setAlbums}
-              setUser={setUser}
-              updateLibraryFetch={updateLibraryFetch}
-              globalTags={globalTags}
+              getKey={getKey}
               globalResetTags={globalResetTags}
+              globalTags={globalTags}
               handleGlobalTags={handleGlobalTags}
-              setGlobalTags={setGlobalTags}
-              storeListenEvents={storeListenEvents}
-              setListenEvents={setListenEvents}
-              save={save}
-              lastFMUsername={lastFMUsername}
-              onChangelastFMUsername={onChangelastFMUsername}
-              lastFMPassword={lastFMPassword}
-              onChangelastFMPassword={onChangelastFMPassword}
               lastFMauth={lastFMauth}
+              lastFMPassword={lastFMPassword}
               lastFMUser={lastFMUser}
-              LFMKey={LFMKey}
               lastFMUserFetch={lastFMUserFetch}
+              lastFMUsername={lastFMUsername}
+              LFMKey={LFMKey}
+              listenEvents={listenEvents}
+              onChangelastFMPassword={onChangelastFMPassword}
+              onChangelastFMUsername={onChangelastFMUsername}
+              requestOptions={requestOptions}
+              save={save}
+              setAlbums={setAlbums}
+              setGlobalTags={setGlobalTags}
+              setListenEvents={setListenEvents}
+              setUser={setUser}
+              storeAlbums={storeAlbums}
+              storeListenEvents={storeListenEvents}
+              updateLibraryFetch={updateLibraryFetch}
+              user={user}
             />
           )}
         </Tab.Screen>
