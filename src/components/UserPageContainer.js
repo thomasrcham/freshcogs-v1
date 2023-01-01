@@ -10,6 +10,7 @@ const Stack = createNativeStackNavigator();
 export default function UserPageContainer({
   albums,
   customFields,
+  discogsAuth,
   getData,
   getKey,
   globalResetTags,
@@ -84,6 +85,7 @@ export default function UserPageContainer({
                   listenEvents={listenEvents}
                   albums={albums}
                   customFields={customFields}
+                  discogsAuth={discogsAuth}
                   getKey={getKey}
                   requestOptions={requestOptions}
                   LFMKey={LFMKey}

@@ -2,7 +2,6 @@ import {
   Button,
   View,
   Image,
-  Linking,
   Modal,
   Pressable,
   Text,
@@ -11,8 +10,9 @@ import {
 } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { format } from "date-fns";
+import * as Linking from "expo-linking";
+import * as WebBrowser from "expo-web-browser";
 
 import styles from "./styles/style.js";
 
@@ -169,7 +169,7 @@ export default function UserPage({
             Records in Collection: {user.num_collection}
           </Text>
           <Pressable
-            onPress={() => handleProfileClick(user.uri)}
+            onPress={() => Linking.openURL("https://expo.dev")}
             style={styles.userText}
           >
             <View

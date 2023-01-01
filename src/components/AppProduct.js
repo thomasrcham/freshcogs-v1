@@ -9,6 +9,7 @@ import {
 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
+import * as Linking from "expo-linking";
 
 import {
   FIREBASE_API_KEY,
@@ -58,6 +59,9 @@ export default function AppProduct({ navigation }) {
   ]);
   const [lastFMUser, setLastFMUser] = useState([]);
   const [LFMKey, setLFMKey] = useState(null);
+  const [discogsToken, setDiscogsToken] = useState(null);
+  const [discogsTokenSecret, setDiscogsTokenSecret] = useState(null);
+  const [discogsVerifier, setDiscogsVerifier] = useState(null);
 
   //VARIABLE ESTABLISHMENT
 
@@ -111,31 +115,17 @@ export default function AppProduct({ navigation }) {
   myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
   myHeaders.append(
     "User-Agent",
-    "Flashcogs/1.0 +https://github.com/thomasrcham/discogs-app-v3"
+    "Freshcogs/1.0 +https://github.com/thomasrcham/discogs-app-v3"
   );
   myHeaders.append(
     "Authorization",
-    // `OAuth
-
-    // oauth_consumer_key="${discogsConsumerKey}",
-    // oauth_nonce="${dateTime}",
-
-    // oauth_signature="${discogsConsumerSecret}&"
-    // oauth_signature_method="PLAINTEXT",
-    // oauth_timestamp="${dateTime}",
-    // oauth_callback="https://github.com/thomasrcham/discogs-app-v3",`
-
-    `OAuth oauth_consumer_key="${discogsConsumerKey}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${dateTime}",oauth_nonce="${dateTime}",oauth_version="1.0",oauth_signature="${discogsConsumerSecret}&", oauth_callback="your_callback"`
-    // consumer_secret=${discogsConsumerKey},
-    // oauth_token=${discogsOAuthtoken},
-    // oauth_token_secret=${discogsUserSecret},`
+    `OAuth oauth_consumer_key="${discogsConsumerKey}", oauth_nonce="${dateTime}", oauth_token="${discogsToken}", oauth_signature="${discogsConsumerSecret}&", oauth_signature_method="PLAINTEXT", oauth_timestamp="${dateTime}", oauth_callback="exp://127.0.0.1:19000", oauth_verifier="${discogsVerifier}", oauth_token_secret="${discogsTokenSecret}"`
   );
-
-  const customFields = async () => {
-    await fetch(`https://api.discogs.com/oauth/request_token`, requestOptions)
-      .then((res) => res.formData())
-      .then((data) => data._parts.map((r) => save(r[0], r[1])));
-  };
+  console.log("discogsConsumerKey: " + discogsConsumerKey);
+  console.log("oauth_token: " + discogsToken);
+  console.log("oauth_signature: " + discogsConsumerSecret);
+  console.log("oauth_verifier: " + discogsVerifier);
+  console.log("oauth_token_secret: " + discogsTokenSecret);
 
   var requestOptions = {
     method: "GET",
@@ -143,20 +133,42 @@ export default function AppProduct({ navigation }) {
     redirect: "follow",
   };
 
+  const customFields = async () => {
+    await fetch(`https://api.discogs.com/oauth/request_token`, requestOptions)
+      .then((res) => res.formData())
+      .then((data) => {
+        data._parts.map((r) => save(r[0], r[1]));
+        let token = data._parts.filter((r) => r[0] === "oauth_token")[0][1];
+        Linking.openURL(
+          `https://discogs.com/oauth/authorize?oauth_token=${token}`
+        );
+      });
+  };
+
+  const discogsAuth = async () => {
+    await customFields();
+    const url = Linking.useURL();
+    let verifier = url.includes("verifier")
+      ? url.split("verifier=")[1]
+      : "nope";
+    console.log(verifier);
+  };
+
   useEffect(() => {
     getData();
+    setKeys();
   }, []);
 
   // LOCAL RETRIEVAL
 
   //handles the overall retrieval from storage for all main states
   const getData = () => {
-    albumDataGet();
+    // albumDataGet();
     userDataGet();
-    listenEventsDataGet();
-    tagsDataGet();
-    lfmUserDataGet();
-    setKey("lfmauth");
+    // listenEventsDataGet();
+    // tagsDataGet();
+    // lfmUserDataGet();
+    // setKey("lfmauth");
   };
 
   const albumDataGet = async () => {
@@ -169,7 +181,7 @@ export default function AppProduct({ navigation }) {
     } catch (e) {
       console.log(`Album retrieval failure: ${e}`);
       try {
-        const jsonValue = await firebaseRead("albums");
+        // const jsonValue = await firebaseRead("albums");
         let data = jsonValue != null ? JSON.parse(jsonValue) : null;
         console.log(`loading albums from firebase, items: ${data.length}`);
         randomArray(data);
@@ -184,7 +196,7 @@ export default function AppProduct({ navigation }) {
 
   const userDataGet = async () => {
     try {
-      const jsonValue = await AsyncStorage.getItem("@userProfile");
+      // const jsonValue = await AsyncStorage.getItem("@userProfile");
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
       data.username ? console.log(`loading user from local`) : getUserData();
       setUser(data);
@@ -204,7 +216,7 @@ export default function AppProduct({ navigation }) {
     } catch (e) {
       console.log(`Listen Events storage retrieval failure: ${e}`);
       try {
-        const jsonValue = await firebaseRead("listenEvents");
+        // const jsonValue = await firebaseRead("listenEvents");
         let data = jsonValue != null ? JSON.parse(jsonValue) : null;
         console.log(
           `loading listen events from firebase, items: ${data.length}`
@@ -225,7 +237,7 @@ export default function AppProduct({ navigation }) {
     } catch (e) {
       console.log(`Tag retrieval failure: ${e}`);
       try {
-        const jsonValue = await firebaseRead("tags");
+        // const jsonValue = await firebaseRead("tags");
         let data = jsonValue != null ? JSON.parse(jsonValue) : null;
         console.log(`loading tags from firebase, items: ${data.length}`);
         setGlobalTags(data);
@@ -297,11 +309,12 @@ export default function AppProduct({ navigation }) {
   };
 
   const getUserData = () => {
-    fetch(`https://api.discogs.com/users/theyear1000`, requestOptions)
-      .then((response) => response.json())
+    fetch(`https://api.discogs.com/oauth/identity`, requestOptions)
+      .then((response) => response.formData())
       .then((result) => {
-        storeUser(result);
-        setUser(result);
+        console.log(result);
+        //   storeUser(result);
+        //   setUser(result);
       })
       .catch((error) => console.log("user data error", error));
   };
@@ -485,12 +498,28 @@ export default function AppProduct({ navigation }) {
     await SecureStore.setItemAsync(key, value);
   };
 
-  const setKey = async (key) => {
+  const setKeys = () => {
+    setKey("oauth_token", "discogsToken");
+    // setKey("oauth_token_secret", "discogsSecret");
+    setKey("oauth_verifier", "discogsVerifier");
+  };
+
+  const setKey = async (key, func) => {
     let result = await SecureStore.getItemAsync(key);
     if (result) {
-      setLFMKey(result);
+      switch (func) {
+        case "discogsToken": {
+          setDiscogsToken(result);
+        }
+        case "discogsVerifier": {
+          setDiscogsVerifier(result);
+        }
+        case "discogsSecret": {
+          setDiscogsTokenSecret(result);
+        }
+      }
     } else {
-      // alert("No values stored under that key.");
+      console.log(key + "No values stored under that key.");
     }
   };
 
@@ -499,7 +528,7 @@ export default function AppProduct({ navigation }) {
     if (result) {
       console.log(result);
     } else {
-      // alert("No values stored under that key.");
+      console.log(key + "No values stored under that key.");
     }
   };
 
@@ -766,6 +795,7 @@ export default function AppProduct({ navigation }) {
             <UserPageContainer
               albums={albums}
               customFields={customFields}
+              discogsAuth={discogsAuth}
               getData={getData}
               getKey={getKey}
               globalResetTags={globalResetTags}

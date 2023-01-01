@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AlbumPage from "./AlbumPage";
 import AlbumTagsPage from "./AlbumTagsPage";
 import Collection from "./Collection";
+import Auth from "./Auth";
+
 import styles from "./styles/style.js";
 
 const Stack = createNativeStackNavigator();
@@ -58,6 +60,9 @@ export default function CollectionDisplayArea({
                   handleGlobalTags={handleGlobalTags}
                 />
               )}
+            </Stack.Screen>
+            <Stack.Screen name="Auth" options={{ animation: "none" }}>
+              {(props) => <Auth {...props} />}
             </Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>

@@ -6,6 +6,7 @@ import styles from "./styles/style.js";
 export default function UserButtons({
   albums,
   customFields,
+  discogsAuth,
   getData,
   getKey,
   globalTags,
@@ -98,7 +99,7 @@ export default function UserButtons({
           onPress={() => setModalVisible(!modalVisible)}
         />
         {/* <Button title="log key" onPress={() => getValueFor("lfmauth")} /> */}
-        <Button title="custom field" onPress={() => customFields()} />
+        <Button title="custom field" onPress={() => discogsAuth()} />
         <Button title="get key" onPress={() => getKey("oauth_token")} />
       </View>
     </View>
