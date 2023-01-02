@@ -20,9 +20,6 @@ import {
   FIREBASE_APP_ID,
   discogsConsumerKey,
   discogsConsumerSecret,
-  discogsUserToken,
-  discogsOAuthtoken,
-  discogsUserSecret,
   lfm_api_key,
   lfm_secret,
 } from "@env";
@@ -46,7 +43,7 @@ import TagsPageContainer from "./TagsPageContainer.js";
 import styles from "./styles/style.js";
 import "../../keys.js";
 
-export default function AppProduct({ navigation }) {
+export default function AppProduct({ username, secondToken }) {
   const [albums, setAlbums] = useState(null);
   const [frontPageAlbums, setFrontPageAlbums] = useState(null);
   const [user, setUser] = useState(null);
@@ -57,15 +54,17 @@ export default function AppProduct({ navigation }) {
       tags: globalResetTags,
     },
   ]);
+
+  const [discogsToken, setDiscogsToken] = useState(null);
+  const [discogsSecretToken, setDiscogsSecretToken] = useState(null);
+
   const [lastFMUser, setLastFMUser] = useState([]);
   const [LFMKey, setLFMKey] = useState(null);
-  const [discogsToken, setDiscogsToken] = useState(null);
-  const [discogsTokenSecret, setDiscogsTokenSecret] = useState(null);
-  const [discogsVerifier, setDiscogsVerifier] = useState(null);
 
   //VARIABLE ESTABLISHMENT
 
   var dateTime = Math.round(new Date().getTime() / 1000);
+
   const globalResetTags = [
     "ACOUSTIC",
     "ANGRY",
@@ -111,59 +110,25 @@ export default function AppProduct({ navigation }) {
   const db = getFirestore(app);
 
   //fetch request setup
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-  myHeaders.append(
-    "User-Agent",
-    "Freshcogs/1.0 +https://github.com/thomasrcham/discogs-app-v3"
-  );
-  myHeaders.append(
-    "Authorization",
-    `OAuth oauth_consumer_key="${discogsConsumerKey}", oauth_nonce="${dateTime}", oauth_token="${discogsToken}", oauth_signature="${discogsConsumerSecret}&", oauth_signature_method="PLAINTEXT", oauth_timestamp="${dateTime}", oauth_callback="exp://127.0.0.1:19000", oauth_verifier="${discogsVerifier}", oauth_token_secret="${discogsTokenSecret}"`
-  );
-  console.log("discogsConsumerKey: " + discogsConsumerKey);
-  console.log("oauth_token: " + discogsToken);
-  console.log("oauth_signature: " + discogsConsumerSecret);
-  console.log("oauth_verifier: " + discogsVerifier);
-  console.log("oauth_token_secret: " + discogsTokenSecret);
 
   var requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
-  };
-
-  const customFields = async () => {
-    await fetch(`https://api.discogs.com/oauth/request_token`, requestOptions)
-      .then((res) => res.formData())
-      .then((data) => {
-        data._parts.map((r) => save(r[0], r[1]));
-        let token = data._parts.filter((r) => r[0] === "oauth_token")[0][1];
-        Linking.openURL(
-          `https://discogs.com/oauth/authorize?oauth_token=${token}`
-        );
-      });
-  };
-
-  const discogsAuth = async () => {
-    await customFields();
-    const url = Linking.useURL();
-    let verifier = url.includes("verifier")
-      ? url.split("verifier=")[1]
-      : "nope";
-    console.log(verifier);
+    headers: {
+      Authorization: `OAuth oauth_consumer_key="${discogsConsumerKey}", oauth_nonce="${dateTime}", oauth_token="${secondToken[0]}", oauth_signature="${discogsConsumerSecret}&${secondToken[1]}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${dateTime}"`,
+      "User-Agent": "Freshcogs/1.0 +exp:127.0.0.1:19000",
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
   };
 
   useEffect(() => {
-    getData();
     setKeys();
+    getData();
   }, []);
 
   // LOCAL RETRIEVAL
 
   //handles the overall retrieval from storage for all main states
   const getData = () => {
-    // albumDataGet();
+    albumDataGet();
     userDataGet();
     // listenEventsDataGet();
     // tagsDataGet();
@@ -173,7 +138,7 @@ export default function AppProduct({ navigation }) {
 
   const albumDataGet = async () => {
     try {
-      const jsonValue = await AsyncStorage.getItem("@albums");
+      // const jsonValue = await AsyncStorage.getItem("@albums");
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
       console.log(`loading albums from local, items: ${data.length}`);
       randomArray(data);
@@ -292,8 +257,9 @@ export default function AppProduct({ navigation }) {
   //FETCHES
 
   const handleAlbumFetch = async () => {
+    console.log(requestOptions);
     await fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500`,
+      `https://api.discogs.com/users/${username}/collection/folders/0/releases?per_page=500`,
       requestOptions
     )
       .then((res) => res.json())
@@ -309,12 +275,11 @@ export default function AppProduct({ navigation }) {
   };
 
   const getUserData = () => {
-    fetch(`https://api.discogs.com/oauth/identity`, requestOptions)
-      .then((response) => response.formData())
+    fetch(`https://api.discogs.com/users/${username}`, requestOptions)
+      .then((response) => response.json())
       .then((result) => {
-        console.log(result);
-        //   storeUser(result);
-        //   setUser(result);
+        storeUser(result);
+        setUser(result);
       })
       .catch((error) => console.log("user data error", error));
   };
@@ -499,23 +464,21 @@ export default function AppProduct({ navigation }) {
   };
 
   const setKeys = () => {
-    setKey("oauth_token", "discogsToken");
-    // setKey("oauth_token_secret", "discogsSecret");
-    setKey("oauth_verifier", "discogsVerifier");
+    setKey("oauth_token");
+    setKey("oauth_token_secret");
   };
 
-  const setKey = async (key, func) => {
+  const setKey = async (key) => {
     let result = await SecureStore.getItemAsync(key);
     if (result) {
-      switch (func) {
-        case "discogsToken": {
+      switch (key) {
+        case "oauth_token": {
           setDiscogsToken(result);
+          break;
         }
-        case "discogsVerifier": {
-          setDiscogsVerifier(result);
-        }
-        case "discogsSecret": {
-          setDiscogsTokenSecret(result);
+        case "oauth_token_secret": {
+          setDiscogsSecretToken(result);
+          break;
         }
       }
     } else {
@@ -794,8 +757,6 @@ export default function AppProduct({ navigation }) {
           {(props) => (
             <UserPageContainer
               albums={albums}
-              customFields={customFields}
-              discogsAuth={discogsAuth}
               getData={getData}
               getKey={getKey}
               globalResetTags={globalResetTags}

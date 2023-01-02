@@ -12,7 +12,7 @@ import {
   discogsUserSecret,
 } from "@env";
 
-export default function Auth() {
+export default function Auth({ setLoggedIn, setFirstTokens }) {
   useEffect(() => {
     discogsTokenRequest();
   }, []);
@@ -42,18 +42,18 @@ export default function Auth() {
     await fetch(`https://api.discogs.com/oauth/request_token`, requestOptions)
       .then((res) => res.formData())
       .then((data) => {
-        console.log(data._parts);
-        data._parts.map((r) => save(r[0], r[1]));
         let token = data._parts.filter((r) => r[0] === "oauth_token")[0][1];
+        let secretToken = data._parts.filter(
+          (r) => r[0] === "oauth_token_secret"
+        )[0][1];
+        setFirstTokens([token, secretToken]);
         Linking.openURL(
           `https://discogs.com/oauth/authorize?oauth_token=${token}`
         );
+      })
+      .then(() => {
+        console.log("auth success");
       });
-  };
-
-  const save = async (key, value) => {
-    await SecureStore.setItemAsync(key, value);
-    console.log(key + " " + value);
   };
 
   return <Text>auth page</Text>;

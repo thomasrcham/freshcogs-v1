@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AlbumPage from "./AlbumPage";
 import AlbumTagsPage from "./AlbumTagsPage";
 import Collection from "./Collection";
-import Auth from "./Auth";
+import Auth from "./authflow/Auth";
 
 import styles from "./styles/style.js";
 
