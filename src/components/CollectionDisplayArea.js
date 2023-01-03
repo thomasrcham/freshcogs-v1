@@ -19,6 +19,7 @@ export default function CollectionDisplayArea({
   requestOptions,
   LFMKey,
 }) {
+  console.log("collection albums: " + !!albums);
   return (
     <View>
       <View style={styles.mainPageContainer}>

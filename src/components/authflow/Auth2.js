@@ -8,6 +8,9 @@ import { discogsConsumerKey, discogsConsumerSecret } from "@env";
 export default function Auth2({
   verifier,
   firstToken,
+  save,
+  setDiscogsToken,
+  setDiscogsSecretToken,
   setLoggedIn,
   setSecondTokens,
 }) {
@@ -50,16 +53,14 @@ export default function Auth2({
         )[0][1];
         save("oauth_token", secondToken);
         save("oauth_token_secret", secondSecret);
+        setDiscogsToken(secondToken);
+        setDiscogsSecretToken(secondSecret);
         setSecondTokens([secondToken, secondSecret]);
       })
       .then(() => {
         console.log("access success");
         setLoggedIn(3);
       });
-  };
-
-  const save = async (key, value) => {
-    await SecureStore.setItemAsync(key, value);
   };
 
   return <Text>auth page</Text>;

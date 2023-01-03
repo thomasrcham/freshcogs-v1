@@ -1,4 +1,4 @@
-import { Text } from "react-native";
+import { Button, View } from "react-native";
 
 import { useEffect } from "react";
 import * as Linking from "expo-linking";
@@ -14,7 +14,7 @@ import {
 
 export default function Auth({ setLoggedIn, setFirstTokens }) {
   useEffect(() => {
-    discogsTokenRequest();
+    // discogsTokenRequest();
   }, []);
 
   console.log("auth");
@@ -56,5 +56,18 @@ export default function Auth({ setLoggedIn, setFirstTokens }) {
       });
   };
 
-  return <Text>auth page</Text>;
+  return (
+    <View
+      style={{
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "center",
+        backgroundColor: "green",
+      }}
+    >
+      <View style={{ maxWidth: "50%", alignSelf: "center" }}>
+        <Button title="click me" onPress={() => discogsTokenRequest()} />
+      </View>
+    </View>
+  );
 }

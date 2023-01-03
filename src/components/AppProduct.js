@@ -43,7 +43,11 @@ import TagsPageContainer from "./TagsPageContainer.js";
 import styles from "./styles/style.js";
 import "../../keys.js";
 
-export default function AppProduct({ username, secondToken }) {
+export default function AppProduct({
+  username,
+  discogsToken,
+  discogsSecretToken,
+}) {
   const [albums, setAlbums] = useState(null);
   const [frontPageAlbums, setFrontPageAlbums] = useState(null);
   const [user, setUser] = useState(null);
@@ -54,9 +58,6 @@ export default function AppProduct({ username, secondToken }) {
       tags: globalResetTags,
     },
   ]);
-
-  const [discogsToken, setDiscogsToken] = useState(null);
-  const [discogsSecretToken, setDiscogsSecretToken] = useState(null);
 
   const [lastFMUser, setLastFMUser] = useState([]);
   const [LFMKey, setLFMKey] = useState(null);
@@ -113,14 +114,14 @@ export default function AppProduct({ username, secondToken }) {
 
   var requestOptions = {
     headers: {
-      Authorization: `OAuth oauth_consumer_key="${discogsConsumerKey}", oauth_nonce="${dateTime}", oauth_token="${secondToken[0]}", oauth_signature="${discogsConsumerSecret}&${secondToken[1]}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${dateTime}"`,
+      Authorization: `OAuth oauth_consumer_key="${discogsConsumerKey}", oauth_nonce="${dateTime}", oauth_token="${discogsToken}", oauth_signature="${discogsConsumerSecret}&${discogsSecretToken}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${dateTime}"`,
       "User-Agent": "Freshcogs/1.0 +exp:127.0.0.1:19000",
       "Content-Type": "application/x-www-form-urlencoded",
     },
   };
 
   useEffect(() => {
-    setKeys();
+    // setKeys();
     getData();
   }, []);
 
@@ -257,7 +258,7 @@ export default function AppProduct({ username, secondToken }) {
   //FETCHES
 
   const handleAlbumFetch = async () => {
-    console.log(requestOptions);
+    console.log("product user: " + username);
     await fetch(
       `https://api.discogs.com/users/${username}/collection/folders/0/releases?per_page=500`,
       requestOptions
@@ -461,29 +462,6 @@ export default function AppProduct({ username, secondToken }) {
   const save = async (key, value) => {
     console.log(key, value);
     await SecureStore.setItemAsync(key, value);
-  };
-
-  const setKeys = () => {
-    setKey("oauth_token");
-    setKey("oauth_token_secret");
-  };
-
-  const setKey = async (key) => {
-    let result = await SecureStore.getItemAsync(key);
-    if (result) {
-      switch (key) {
-        case "oauth_token": {
-          setDiscogsToken(result);
-          break;
-        }
-        case "oauth_token_secret": {
-          setDiscogsSecretToken(result);
-          break;
-        }
-      }
-    } else {
-      console.log(key + "No values stored under that key.");
-    }
   };
 
   const getKey = async (key) => {

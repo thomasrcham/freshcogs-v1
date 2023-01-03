@@ -1,12 +1,11 @@
-import { Text } from "react-native";
-
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { discogsConsumerKey, discogsConsumerSecret } from "@env";
 
 export default function Auth3({
   verifier,
   token,
+  save,
   setLoggedIn,
   secondToken,
   setUsername,
@@ -31,7 +30,10 @@ export default function Auth3({
     fetch(`https://api.discogs.com/oauth/identity`, requestOptions)
       .then((response) => response.formData())
       .then((result) => {
-        setUsername(result._parts[0][0].split('"')[5]);
+        let username = result._parts[0][0].split('"')[5];
+        console.log("username: " + username);
+        save("username", username);
+        setUsername(username);
         setLoggedIn(4);
       })
       .catch((error) => console.log("user data error", error));
