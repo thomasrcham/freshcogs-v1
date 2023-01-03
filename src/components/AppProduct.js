@@ -41,7 +41,7 @@ import SearchDisplayArea from "./SearchDisplayArea.js";
 import TagsPageContainer from "./TagsPageContainer.js";
 
 import styles from "./styles/style.js";
-import "../../keys.js";
+// import "../../keys.js";
 
 export default function AppProduct({
   username,

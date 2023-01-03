@@ -1,22 +1,11 @@
-import { Button, View } from "react-native";
+import { ImageBackground, Pressable, Text, View } from "react-native";
 
-import { useEffect } from "react";
 import * as Linking from "expo-linking";
-import * as SecureStore from "expo-secure-store";
 
-import {
-  discogsConsumerKey,
-  discogsConsumerSecret,
-  discogsUserToken,
-  discogsOAuthtoken,
-  discogsUserSecret,
-} from "@env";
+import { discogsConsumerKey, discogsConsumerSecret } from "@env";
+import style from "../styles/style";
 
-export default function Auth({ setLoggedIn, setFirstTokens }) {
-  useEffect(() => {
-    // discogsTokenRequest();
-  }, []);
-
+export default function Auth({ setFirstTokens }) {
   console.log("auth");
 
   var dateTime = Math.round(new Date().getTime() / 1000);
@@ -57,17 +46,23 @@ export default function Auth({ setLoggedIn, setFirstTokens }) {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "center",
-        backgroundColor: "green",
-      }}
-    >
-      <View style={{ maxWidth: "50%", alignSelf: "center" }}>
-        <Button title="click me" onPress={() => discogsTokenRequest()} />
-      </View>
+    <View style={style.authPageContainer}>
+      <ImageBackground source={require("./splash.png")} resizeMode="cover">
+        <View>
+          <View style={style.authPageBox}>
+            <Text style={style.authPageHeaderText}>Welcome to FRESHCOGS!</Text>
+            <Text style={style.authPageText}>
+              In order to use the app, you'll need to authorize via Discogs.
+            </Text>
+            <Pressable
+              style={style.authPageButton}
+              onPress={() => discogsTokenRequest()}
+            >
+              <Text style={style.authPageButtonText}>AUTHORIZE</Text>
+            </Pressable>
+          </View>
+        </View>
+      </ImageBackground>
     </View>
   );
 }

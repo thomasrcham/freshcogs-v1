@@ -61,6 +61,57 @@ export default StyleSheet.create({
     aspectRatio: 1,
     resizeMode: "contain",
   },
+  //auth page
+  authPageContainer: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    backgroundColor: "#124242",
+  },
+  authPageBox: {
+    top: "10%",
+    maxWidth: "60%",
+    alignSelf: "center",
+    maxHeight: "65%",
+    padding: 30,
+    backgroundColor: "#8786849B",
+    borderRadius: 5,
+    borderColor: "black",
+    borderWidth: 2,
+  },
+  authPageHeaderText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 22,
+    alignSelf: "center",
+    flex: 1,
+    opacity: 1,
+  },
+
+  authPageText: {
+    color: "white",
+    flex: 1,
+    alignSelf: "center",
+  },
+  authPageButton: {
+    backgroundColor: "#124242",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "white",
+    alignSelf: "center",
+    margin: 1,
+
+    width: "80%",
+    padding: 4,
+  },
+  authPageButtonText: {
+    fontSize: 14,
+    color: "white",
+    fontWeight: "bold",
+    alignSelf: "center",
+    padding: 3,
+  },
+
   //collection page
   albumDisplayContainer: {
     height: mainWindowHeight,
