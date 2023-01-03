@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { View } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import * as Linking from "expo-linking";
@@ -18,13 +18,11 @@ export default function App() {
   const [discogsToken, setDiscogsToken] = useState(null);
   const [discogsSecretToken, setDiscogsSecretToken] = useState(null);
 
-  // useEffect(() => {
   if (loaded === 0) {
     SecureStore.deleteItemAsync("oauth_token");
     SecureStore.deleteItemAsync("oauth_token_secret");
     setLoaded(1);
   }
-  // }, []);
 
   let url = Linking.useURL();
   if (url && url.includes("verifier") && loggedin === 1) {
