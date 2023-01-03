@@ -12,34 +12,33 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { format } from "date-fns";
 import * as Linking from "expo-linking";
-import * as WebBrowser from "expo-web-browser";
 
 import styles from "./styles/style.js";
 
 export default function UserPage({
   albums,
   getData,
-  handleGlobalTags,
+  getValueFor,
   globalTags,
   globalResetTags,
-  setGlobalTags,
-  setAlbums,
-  storeAlbums,
-  setUser,
-  listenEvents,
-  requestOptions,
-  user,
-  updateLibraryFetch,
-  setListenEvents,
-  save,
-  getValueFor,
-  lastFMUsername,
-  onChangelastFMUsername,
-  lastFMPassword,
-  onChangelastFMPassword,
+  handleGlobalTags,
   lastFMauth,
+  lastFMPassword,
   lastFMUser,
   lastFMUserFetch,
+  lastFMUsername,
+  listenEvents,
+  onChangelastFMPassword,
+  onChangelastFMUsername,
+  requestOptions,
+  save,
+  setAlbums,
+  setGlobalTags,
+  setListenEvents,
+  setUser,
+  storeAlbums,
+  updateLibraryFetch,
+  user,
 }) {
   const navigation = useNavigation();
   const ref_input2 = useRef();
@@ -99,6 +98,76 @@ export default function UserPage({
         album.year = result.year;
       });
   }
+
+  let lfmDisplay = lastFMUser ? (
+    <View style={styles.userPageContainer}>
+      <View style={styles.userTextContainer}>
+        <Text style={styles.userText}>Username: {lastFMUser.username}</Text>
+        <Text style={styles.userText}>
+          Last.fm Member Since:{" "}
+          {/* {format(new Date(lastFMUser.dateRegistered), "MM/dd/yyyy")} */}
+        </Text>
+        <Text style={styles.userText}>
+          Total Playcount: {lastFMUser.playcount}
+        </Text>
+        <Pressable
+          onPress={() => handleProfileClick(lastFMUser.lfmURL)}
+          style={styles.userText}
+        >
+          <View
+            style={{
+              flex: 1,
+            }}
+          >
+            <Image
+              style={{
+                aspectRatio: 1,
+                height: 25,
+                marginRight: 3,
+              }}
+              source={require("../icons/vinyl.png")}
+            />
+          </View>
+          <Text style={(styles.userText, styles.discogsLinkText)}>
+            Open Profile
+          </Text>
+        </Pressable>
+      </View>
+      <View style={styles.userImageContainer}>
+        <Image
+          style={styles.userImage}
+          source={{
+            uri: `${lastFMUser.lfmPFP}`,
+          }}
+        />
+      </View>
+    </View>
+  ) : (
+    <>
+      <View style={styles.lastfmLoginContainer}>
+        <Text style={styles.lastfmLoginText}>No Last.fm Profile</Text>
+        <Text style={styles.userText}>
+          Please login here:
+          {/* {format(new Date(lastFMUser.dateRegistered), "MM/dd/yyyy")} */}
+        </Text>
+        <Pressable
+          onPress={() => handleProfileClick(lastFMUser.lfmURL)}
+          style={styles.lastfmLoginButton}
+        >
+          <Text style={(styles.userText, styles.discogsLinkText)}>
+            Open Profile
+          </Text>
+        </Pressable>
+      </View>
+      <View style={styles.userImageContainer}>
+        <Image
+          style={styles.lastfmImage}
+          source={require("../icons/last-fm-logo.png")}
+          resizeMode="contain"
+        />
+      </View>
+    </>
+  );
 
   return (
     <View style={styles.mainUserContainer}>
@@ -193,48 +262,7 @@ export default function UserPage({
         </View>
       </View>
       <Text style={styles.tagsPageTitle}>Last.fm Profile:</Text>
-      <View style={styles.userPageContainer}>
-        <View style={styles.userTextContainer}>
-          <Text style={styles.userText}>Username: {lastFMUser.username}</Text>
-          <Text style={styles.userText}>
-            Last.fm Member Since:{" "}
-            {format(new Date(lastFMUser.dateRegistered), "MM/dd/yyyy")}
-          </Text>
-          <Text style={styles.userText}>
-            Total Playcount: {lastFMUser.playcount}
-          </Text>
-          <Pressable
-            onPress={() => handleProfileClick(lastFMUser.lfmURL)}
-            style={styles.userText}
-          >
-            <View
-              style={{
-                flex: 1,
-              }}
-            >
-              <Image
-                style={{
-                  aspectRatio: 1,
-                  height: 25,
-                  marginRight: 3,
-                }}
-                source={require("../icons/vinyl.png")}
-              />
-            </View>
-            <Text style={(styles.userText, styles.discogsLinkText)}>
-              Open Profile
-            </Text>
-          </Pressable>
-        </View>
-        <View style={styles.userImageContainer}>
-          <Image
-            style={styles.userImage}
-            source={{
-              uri: `${lastFMUser.lfmPFP}`,
-            }}
-          />
-        </View>
-      </View>
+      <View style={styles.userPageContainer}>{lfmDisplay}</View>
       <View
         style={{
           flexDirection: "row",

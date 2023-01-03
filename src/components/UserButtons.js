@@ -12,9 +12,10 @@ export default function UserButtons({
   globalTags,
   globalResetTags,
   handleGlobalTags,
+  requestOptions,
+  setLastFMUser,
   setListenEvents,
   updateLibraryFetch,
-  requestOptions,
 }) {
   const clearStorage = () => {
     removeItemValue();
@@ -101,6 +102,7 @@ export default function UserButtons({
         {/* <Button title="log key" onPress={() => getValueFor("lfmauth")} /> */}
         <Button title="custom field" onPress={() => discogsAuth()} />
         <Button title="get key" onPress={() => getKey("oauth_token")} />
+        <Button title="resetLFM" onPress={() => setLastFMUser(null)} />
       </View>
     </View>
   );

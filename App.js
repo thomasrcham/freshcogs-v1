@@ -11,7 +11,7 @@ import Auth3 from "./src/components/authflow/Auth3";
 export default function App() {
   const [loggedin, setLoggedIn] = useState(0);
   const [verifier, setVerifier] = useState(null);
-  const [loaded, setLoaded] = useState(0);
+  const [loaded, setLoaded] = useState(1);
   const [firstToken, setFirstTokens] = useState([]);
   const [secondToken, setSecondTokens] = useState([]);
   const [username, setUsername] = useState(null);
@@ -21,6 +21,7 @@ export default function App() {
   if (loaded === 0) {
     SecureStore.deleteItemAsync("oauth_token");
     SecureStore.deleteItemAsync("oauth_token_secret");
+    SecureStore.deleteItemAsync("lfmauth");
     setLoaded(1);
   }
 
@@ -31,8 +32,6 @@ export default function App() {
     setVerifier(url.split("verifier=")[1]);
   } else {
   }
-
-  console.log(loggedin);
 
   const setKeys = async () => {
     await setKey("oauth_token");
@@ -59,7 +58,7 @@ export default function App() {
         }
       }
     } else {
-      console.log("no keys");
+      console.log(key + ": no keys");
       setLoggedIn(1);
     }
   };

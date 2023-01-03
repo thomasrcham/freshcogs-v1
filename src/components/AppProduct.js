@@ -41,7 +41,6 @@ import SearchDisplayArea from "./SearchDisplayArea.js";
 import TagsPageContainer from "./TagsPageContainer.js";
 
 import styles from "./styles/style.js";
-// import "../../keys.js";
 
 export default function AppProduct({
   username,
@@ -59,7 +58,7 @@ export default function AppProduct({
     },
   ]);
 
-  const [lastFMUser, setLastFMUser] = useState([]);
+  const [lastFMUser, setLastFMUser] = useState(null);
   const [LFMKey, setLFMKey] = useState(null);
 
   //VARIABLE ESTABLISHMENT
@@ -436,7 +435,7 @@ export default function AppProduct({
       await AsyncStorage.setItem("@lfmuser", jsonValue);
       // await firebaseStore("tags", jsonValue);
     } catch (e) {
-      console.log(`Tags Storage failure: ${e}`);
+      console.log(`LFM User Storage failure: ${e}`);
     }
   };
 
@@ -514,17 +513,17 @@ export default function AppProduct({
     redirect: "follow",
   };
   const lastFMUserFetch = () => {
-    fetch(
-      "http://ws.audioscrobbler.com/2.0/?method=user.getinfo&api_key=b650b6efea21e952669a541014c5b4ff&user=guseldorph",
-      userRequestOptions
-    )
-      .then((response) => response.text())
-      .then((result) =>
-        parseString(result, function (err, output) {
-          lfmUserParse(output.lfm.user[0]);
-        })
-      )
-      .catch((error) => console.log("error", error));
+    // fetch(
+    //   `http://ws.audioscrobbler.com/2.0/?method=user.getinfo&api_key=${lfm_api_key}&user=${lfmUsername}`,
+    //   userRequestOptions
+    // )
+    //   .then((response) => response.text())
+    //   .then((result) =>
+    //     parseString(result, function (err, output) {
+    //       lfmUserParse(output.lfm.user[0]);
+    //     })
+    //   )
+    //   .catch((error) => console.log("lfm user fetch error", error));
   };
 
   const lfmUserParse = (lfmResponse) => {
@@ -753,6 +752,7 @@ export default function AppProduct({
               save={save}
               setAlbums={setAlbums}
               setGlobalTags={setGlobalTags}
+              setLastFMUser={setLastFMUser}
               setListenEvents={setListenEvents}
               setUser={setUser}
               storeAlbums={storeAlbums}

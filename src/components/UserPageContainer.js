@@ -29,6 +29,7 @@ export default function UserPageContainer({
   save,
   setAlbums,
   setGlobalTags,
+  setLastFMUser,
   setListenEvents,
   setUser,
   storeAlbums,
@@ -82,14 +83,15 @@ export default function UserPageContainer({
             <Stack.Screen name="Buttons">
               {(props) => (
                 <UserButtons
-                  listenEvents={listenEvents}
                   albums={albums}
                   customFields={customFields}
                   discogsAuth={discogsAuth}
-                  getKey={getKey}
-                  requestOptions={requestOptions}
-                  LFMKey={LFMKey}
                   getData={getData}
+                  getKey={getKey}
+                  LFMKey={LFMKey}
+                  listenEvents={listenEvents}
+                  requestOptions={requestOptions}
+                  setLastFMUser={setLastFMUser}
                 />
               )}
             </Stack.Screen>
