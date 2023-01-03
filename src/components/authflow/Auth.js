@@ -47,7 +47,10 @@ export default function Auth({ setFirstTokens }) {
 
   return (
     <View style={style.authPageContainer}>
-      <ImageBackground source={require("./splash.png")} resizeMode="cover">
+      <ImageBackground
+        source={require("../../icons/splash.png")}
+        resizeMode="cover"
+      >
         <View>
           <View style={style.authPageBox}>
             <Text style={style.authPageHeaderText}>Welcome to FRESHCOGS!</Text>
