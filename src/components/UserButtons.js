@@ -48,22 +48,62 @@ export default function UserButtons({
     getData();
   };
 
-  // var myHeaders = new Headers();
-  // myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-  // myHeaders.append(
-  //   "User-Agent",
-  //   "Flashcogs/1.0 +https://github.com/thomasrcham/discogs-app-v3"
-  // );
-  // myHeaders.append(
-  //   "Authorization",
-  //   `OAuth oauth_consumer_key=${discogsConsumerKey},oauth_token=${discogsUserToken},oauth_signature_method="PLAINTEXT",oauth_timestamp="${dateTime}",oauth_nonce="${dateTime}",oauth_version="1.0",oauth_signature=""&"consumer_secret=${discogsConsumerKey}`
-  // );
+  const scrobbleEvent = (album) => {
+    let URL;
+    if (album[0].id === album[0].master_id) {
+      URL = `releases/${album[0].id}`;
+    } else {
+      URL = `masters/${album[0].master_id}`;
+    }
 
-  // var discogsTagsRequestOptions = {
-  //   method: "POST",
-  //   headers: myHeaders,
-  //   redirect: "follow",
-  // };
+    fetch(`https://api.discogs.com/${URL}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        let tracklist = tracklistFetch(
+          result.tracklist,
+          album[0],
+          !!album[0].artist.includes("Various")
+        );
+        // console.log(result.tracklist.map((t) => t.artists[0].name));
+        console.log(tracklist);
+        // let scrobbleInterval = setInterval(() => {
+        //   if (tracklist.length === 0) {
+        //     console.log("finished");
+        //     clearInterval(scrobbleInterval);
+        //   } else {
+        //     scrobbleTrack(tracklist[0], album);
+        //     tracklist.shift();
+        //   }
+        // }, 10000);
+      })
+      .catch((e) => console.log(e));
+  };
+
+  const tracklistFetch = (tracklist, album, various) => {
+    let tracklistArray = [];
+    if (various) {
+      for (let i = 0; i < tracklist.length; i++) {
+        let track = {
+          trackNo: i,
+          title: tracklist[i].title,
+          artist: tracklist[i].artists[0].name,
+          album: album.title,
+        };
+        tracklistArray.push(track);
+      }
+    } else {
+      for (let i = 0; i < tracklist.length; i++) {
+        let track = {
+          trackNo: i,
+          title: tracklist[i].title,
+          artist: album.artist,
+          album: album.title,
+        };
+        tracklistArray.push(track);
+      }
+    }
+    return tracklistArray;
+  };
 
   return (
     <View style={styles.mainPageContainer}>
@@ -89,20 +129,21 @@ export default function UserButtons({
         <Button
           title="console.log random album"
           onPress={() =>
-            console.log(albums[Math.floor(Math.random() * albums.length)])
+            // console.log(albums[Math.floor(Math.random() * albums.length)])
+            console.log(albums.filter((a) => a.id === 16179631))
+          }
+        />
+        <Button
+          title="various artists test"
+          onPress={
+            () => scrobbleEvent(albums.filter((a) => a.id === 8357933))
+            // scrobbleEvent(albums.filter((a) => a.id === 16179631))
           }
         />
         {/* <Button
         title="clear global tags"
         onPress={() => handleGlobalTags([])}
       /> */}
-        <Button
-          title="Last.fm auth"
-          onPress={() => setModalVisible(!modalVisible)}
-        />
-        {/* <Button title="log key" onPress={() => getValueFor("lfmauth")} /> */}
-        <Button title="custom field" onPress={() => discogsAuth()} />
-        <Button title="get key" onPress={() => getKey("oauth_token")} />
         <Button
           title="resetLFM"
           onPress={() => {
