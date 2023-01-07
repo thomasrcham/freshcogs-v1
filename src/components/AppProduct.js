@@ -9,7 +9,6 @@ import {
 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
-import * as Linking from "expo-linking";
 
 import {
   FIREBASE_API_KEY,
@@ -120,7 +119,6 @@ export default function AppProduct({
   };
 
   useEffect(() => {
-    // setKeys();
     getData();
   }, []);
 
@@ -130,15 +128,15 @@ export default function AppProduct({
   const getData = () => {
     albumDataGet();
     userDataGet();
-    // listenEventsDataGet();
-    // tagsDataGet();
-    // lfmUserDataGet();
-    // setKey("lfmauth");
+    listenEventsDataGet();
+    tagsDataGet();
+    lfmUserDataGet();
+    getKey("lfmauth");
   };
 
   const albumDataGet = async () => {
     try {
-      // const jsonValue = await AsyncStorage.getItem("@albums");
+      const jsonValue = await AsyncStorage.getItem("@albums");
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
       console.log(`loading albums from local, items: ${data.length}`);
       randomArray(data);
@@ -146,7 +144,7 @@ export default function AppProduct({
     } catch (e) {
       console.log(`Album retrieval failure: ${e}`);
       try {
-        // const jsonValue = await firebaseRead("albums");
+        const jsonValue = await firebaseRead("albums");
         let data = jsonValue != null ? JSON.parse(jsonValue) : null;
         console.log(`loading albums from firebase, items: ${data.length}`);
         randomArray(data);
@@ -161,7 +159,7 @@ export default function AppProduct({
 
   const userDataGet = async () => {
     try {
-      // const jsonValue = await AsyncStorage.getItem("@userProfile");
+      const jsonValue = await AsyncStorage.getItem("@userProfile");
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
       data.username ? console.log(`loading user from local`) : getUserData();
       setUser(data);
@@ -175,13 +173,12 @@ export default function AppProduct({
     try {
       const jsonValue = await AsyncStorage.getItem("@listenEvents");
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
-
       console.log(`loading ${data.length} listen events from local`);
       setListenEvents(data);
     } catch (e) {
       console.log(`Listen Events storage retrieval failure: ${e}`);
       try {
-        // const jsonValue = await firebaseRead("listenEvents");
+        const jsonValue = await firebaseRead("listenEvents");
         let data = jsonValue != null ? JSON.parse(jsonValue) : null;
         console.log(
           `loading listen events from firebase, items: ${data.length}`
@@ -202,7 +199,7 @@ export default function AppProduct({
     } catch (e) {
       console.log(`Tag retrieval failure: ${e}`);
       try {
-        // const jsonValue = await firebaseRead("tags");
+        const jsonValue = await firebaseRead("tags");
         let data = jsonValue != null ? JSON.parse(jsonValue) : null;
         console.log(`loading tags from firebase, items: ${data.length}`);
         setGlobalTags(data);
@@ -219,11 +216,10 @@ export default function AppProduct({
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
       data.username
         ? console.log(`loading lfm user data from local`)
-        : lastFMUserFetch();
+        : console.log(`User storage retrieval failure: ${e}`);
       setLastFMUser(data);
     } catch (e) {
       console.log(`User storage retrieval failure: ${e}`);
-      lastFMUserFetch();
     }
   };
 
@@ -365,7 +361,7 @@ export default function AppProduct({
     return singleParsedRelease;
   };
 
-  function randomArray(releases) {
+  const randomArray = (releases) => {
     let newArray = [];
     let filteredAlbums = releases.filter(
       (a) => !a.genres.includes("Classical") && !a.genres.includes("Christmas")
@@ -380,7 +376,7 @@ export default function AppProduct({
       }
     }
     setFrontPageAlbums(newArray);
-  }
+  };
 
   //storage
 
@@ -466,7 +462,12 @@ export default function AppProduct({
   const getKey = async (key) => {
     let result = await SecureStore.getItemAsync(key);
     if (result) {
-      console.log(result);
+      switch (key) {
+        case "lfmauth": {
+          setLFMKey(result);
+        }
+      }
+      console.log(key + " key set");
     } else {
       console.log(key + "No values stored under that key.");
     }
@@ -498,6 +499,7 @@ export default function AppProduct({
       .then((result) => {
         console.log(result);
         parseString(result, function (err, output) {
+          lastFMUserFetch(output.lfm.session[0].name[0]);
           save("lfmauth", output.lfm.session[0].key[0]);
           onChangelastFMPassword("");
           onChangelastFMUsername("");
@@ -512,18 +514,18 @@ export default function AppProduct({
     method: "GET",
     redirect: "follow",
   };
-  const lastFMUserFetch = () => {
-    // fetch(
-    //   `http://ws.audioscrobbler.com/2.0/?method=user.getinfo&api_key=${lfm_api_key}&user=${lfmUsername}`,
-    //   userRequestOptions
-    // )
-    //   .then((response) => response.text())
-    //   .then((result) =>
-    //     parseString(result, function (err, output) {
-    //       lfmUserParse(output.lfm.user[0]);
-    //     })
-    //   )
-    //   .catch((error) => console.log("lfm user fetch error", error));
+  const lastFMUserFetch = (username) => {
+    fetch(
+      `http://ws.audioscrobbler.com/2.0/?method=user.getinfo&api_key=${lfm_api_key}&user=${username}`,
+      userRequestOptions
+    )
+      .then((response) => response.text())
+      .then((result) =>
+        parseString(result, function (err, output) {
+          lfmUserParse(output.lfm.user[0]);
+        })
+      )
+      .catch((error) => console.log("lfm user fetch error", error));
   };
 
   const lfmUserParse = (lfmResponse) => {

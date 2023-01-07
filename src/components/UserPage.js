@@ -1,5 +1,6 @@
 import {
   Button,
+  Dimensions,
   View,
   Image,
   Modal,
@@ -58,10 +59,6 @@ export default function UserPage({
     });
   };
 
-  useEffect(() => {
-    lastFMUserFetch();
-  }, []);
-
   function yearReplaceTimer() {
     setUpdating("In Progress");
     let myInterval = setInterval(() => {
@@ -100,12 +97,12 @@ export default function UserPage({
   }
 
   let lfmDisplay = lastFMUser ? (
-    <View style={styles.userPageContainer}>
+    <>
       <View style={styles.userTextContainer}>
         <Text style={styles.userText}>Username: {lastFMUser.username}</Text>
         <Text style={styles.userText}>
           Last.fm Member Since:{" "}
-          {/* {format(new Date(lastFMUser.dateRegistered), "MM/dd/yyyy")} */}
+          {format(new Date(lastFMUser.dateRegistered), "MM/dd/yyyy")}
         </Text>
         <Text style={styles.userText}>
           Total Playcount: {lastFMUser.playcount}
@@ -141,22 +138,19 @@ export default function UserPage({
           }}
         />
       </View>
-    </View>
+    </>
   ) : (
     <>
       <View style={styles.lastfmLoginContainer}>
-        <Text style={styles.lastfmLoginText}>No Last.fm Profile</Text>
-        <Text style={styles.userText}>
-          Please login here:
-          {/* {format(new Date(lastFMUser.dateRegistered), "MM/dd/yyyy")} */}
-        </Text>
+        <View>
+          <Text style={styles.lastfmLoginText}>No Last.fm</Text>
+          <Text style={styles.lastfmLoginText}>Profile Found</Text>
+        </View>
         <Pressable
-          onPress={() => handleProfileClick(lastFMUser.lfmURL)}
+          onPress={() => setModalVisible(!modalVisible)}
           style={styles.lastfmLoginButton}
         >
-          <Text style={(styles.userText, styles.discogsLinkText)}>
-            Open Profile
-          </Text>
+          <Text style={styles.lastfmLoginText}>Login to Last.fm</Text>
         </Pressable>
       </View>
       <View style={styles.userImageContainer}>
@@ -180,29 +174,38 @@ export default function UserPage({
         }}
       >
         <Pressable
-          onPress={() => {
-            setModalVisible(!modalVisible);
+          onPress={
+            modalVisible
+              ? () => {
+                  setModalVisible(!modalVisible);
+                }
+              : null
+          }
+          style={{
+            flex: 1,
+            backgroundColor: modalVisible ? "#838285CC" : "",
           }}
-          style={{ flex: 1, backgroundColor: modalVisible ? "#838285CC" : "" }}
         >
-          <View style={styles.centeredView}>
+          <View style={styles.lfmLoginCenter}>
             <TouchableWithoutFeedback>
-              <View style={styles.modalView}>
+              <View style={styles.lfmLoginModal}>
                 <TextInput
-                  style={styles.input}
+                  style={styles.lfmLoginInput}
                   placeholder="Last.fm Username"
                   autoFocus={true}
                   onChangeText={onChangelastFMUsername}
                   value={lastFMUsername}
                   blurOnSubmit={false}
+                  returnKeyType="next"
+                  onSubmitEditing={() => ref_input2.current.focus()}
                 />
                 <TextInput
                   placeholder="Last.fm Password"
                   ref={ref_input2}
-                  style={styles.input}
+                  style={styles.lfmLoginInput}
                   onChangeText={onChangelastFMPassword}
                   value={lastFMPassword}
-                  textContentType={"password"}
+                  secureTextEntry={true}
                 />
 
                 <Pressable

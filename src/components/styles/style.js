@@ -372,15 +372,6 @@ export default StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
   input: {
     backgroundColor: "#ccc2a6",
     // height: 40,
@@ -565,6 +556,15 @@ export default StyleSheet.create({
     padding: 2,
     fontWeight: "bold",
   },
+  discogsLinkText: {
+    color: "white",
+    fontWeight: "bold",
+    marginLeft: 30,
+    marginTop: 2,
+    alignSelf: "flex-start",
+    fontSize: 14,
+  },
+
   lastfmLoginContainer: {
     margin: 10,
     maxHeight: 185,
@@ -579,9 +579,10 @@ export default StyleSheet.create({
   },
   lastfmLoginText: {
     color: "white",
-    padding: 2,
+    // padding: 2,
     fontSize: 15,
     fontWeight: "bold",
+    alignSelf: "center",
   },
   lastfmImage: {
     maxWidth: 185,
@@ -601,19 +602,42 @@ export default StyleSheet.create({
     width: "80%",
     padding: 4,
   },
+  lfmLoginCenter: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  lfmLoginModal: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 5,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  lfmLoginInput: {
+    backgroundColor: "#ccc2a6",
+    // height: 40,
+    width: 150,
+    margin: 5,
+    borderWidth: 1,
+    paddingLeft: 10,
+    borderRadius: 5,
+  },
   userPageButtons: {
     paddingTop: 30,
     width: "60%",
     alignSelf: "center",
   },
-  discogsLinkText: {
-    color: "white",
-    fontWeight: "bold",
-    marginLeft: 30,
-    marginTop: 2,
-    alignSelf: "flex-start",
-    fontSize: 14,
-  },
+
   //listen events page
   tableContainer: {
     flex: 1,

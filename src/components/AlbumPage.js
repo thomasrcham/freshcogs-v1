@@ -215,7 +215,7 @@ function AlbumPage({
                             .sort()
                             .reverse()[0]
                         ),
-                        "MMMM d yyyy"
+                        "MMMM d, yyyy"
                       )}
                     </Text>
                   </View>

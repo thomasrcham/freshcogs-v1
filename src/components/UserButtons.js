@@ -22,14 +22,15 @@ export default function UserButtons({
     setListenEvents(null);
   };
 
-  const removeItemValue = async () => {
-    let keys = [
-      "@albums",
-      // "@userProfile",
-      "@tags",
-      "@listenEvents",
-    ];
-    await AsyncStorage.multiRemove(keys);
+  const removeItemValue = async (key) => {
+    // let keys = [
+    //   "@albums",
+    //   // "@userProfile",
+    //   "@tags",
+    //   "@listenEvents",
+    // ];
+    await AsyncStorage.removeItem(key);
+    console.log("removed " + key);
   };
 
   const resetGlobalTags = (globalTags, globalResetTags) => {
@@ -102,7 +103,13 @@ export default function UserButtons({
         {/* <Button title="log key" onPress={() => getValueFor("lfmauth")} /> */}
         <Button title="custom field" onPress={() => discogsAuth()} />
         <Button title="get key" onPress={() => getKey("oauth_token")} />
-        <Button title="resetLFM" onPress={() => setLastFMUser(null)} />
+        <Button
+          title="resetLFM"
+          onPress={() => {
+            removeItemValue("@lfmuser");
+            setLastFMUser(null);
+          }}
+        />
       </View>
     </View>
   );
