@@ -282,7 +282,7 @@ export default function AppProduct({
 
   const updateLibraryFetch = () => {
     fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500`,
+      `https://api.discogs.com/users/${username}/collection/folders/0/releases?per_page=500`,
       requestOptions
     )
       .then((res) => res.json())
@@ -429,7 +429,6 @@ export default function AppProduct({
       console.log(`storing lfm user locally`);
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem("@lfmuser", jsonValue);
-      // await firebaseStore("tags", jsonValue);
     } catch (e) {
       console.log(`LFM User Storage failure: ${e}`);
     }
@@ -621,12 +620,6 @@ export default function AppProduct({
             backgroundColor: "black",
           }}
           options={{
-            // header: () => (
-            //   <View style={styles.header}>
-            //     <Text style={styles.headerText}>Collection Browser</Text>
-            //   </View>
-            // ),
-            // headerTintColor: "white",
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
@@ -655,11 +648,6 @@ export default function AppProduct({
         <Tab.Screen
           name="Browse"
           options={{
-            // header: () => (
-            //   <View style={styles.header}>
-            //     <Text style={styles.headerText}>Search your Collection:</Text>
-            //   </View>
-            // ),
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
@@ -688,11 +676,6 @@ export default function AppProduct({
         <Tab.Screen
           name="Tags"
           options={{
-            // header: () => (
-            //   <View style={styles.header}>
-            //     <Text style={styles.headerText}>Tags</Text>
-            //   </View>
-            // ),
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>

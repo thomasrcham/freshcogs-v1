@@ -92,6 +92,7 @@ export default function UserPageContainer({
                   listenEvents={listenEvents}
                   requestOptions={requestOptions}
                   setLastFMUser={setLastFMUser}
+                  updateLibraryFetch={updateLibraryFetch}
                 />
               )}
             </Stack.Screen>

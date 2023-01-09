@@ -147,6 +147,12 @@ export default function UserPage({
           <Text style={styles.lastfmLoginText}>Profile Found</Text>
         </View>
         <Pressable
+          onPress={() => Linking.openURL("https://www.last.fm/join")}
+          style={styles.lastfmLoginButton}
+        >
+          <Text style={styles.lastfmLoginText}>Signup for Last.fm</Text>
+        </Pressable>
+        <Pressable
           onPress={() => setModalVisible(!modalVisible)}
           style={styles.lastfmLoginButton}
         >
@@ -241,7 +247,7 @@ export default function UserPage({
             Records in Collection: {user.num_collection}
           </Text>
           <Pressable
-            onPress={() => Linking.openURL("https://expo.dev")}
+            onPress={() => Linking.openURL(user.uri)}
             style={styles.userText}
           >
             <View
@@ -319,11 +325,10 @@ export default function UserPage({
         </View>
       </View>
       <View style={styles.userPageButtons}>
-        {/* <Button
-          title="Last.fm auth"
-          onPress={() => setModalVisible(!modalVisible)}
-        /> */}
-        <Button title="Admin" onPress={() => navigation.navigate("Buttons")} />
+        <Button
+          title="Advanced"
+          onPress={() => navigation.navigate("Buttons")}
+        />
       </View>
     </View>
   );

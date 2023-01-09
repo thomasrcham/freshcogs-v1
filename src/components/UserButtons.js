@@ -48,81 +48,24 @@ export default function UserButtons({
     getData();
   };
 
-  const scrobbleEvent = (album) => {
-    let URL;
-    if (album[0].id === album[0].master_id) {
-      URL = `releases/${album[0].id}`;
-    } else {
-      URL = `masters/${album[0].master_id}`;
-    }
-
-    fetch(`https://api.discogs.com/${URL}`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        let tracklist = tracklistFetch(
-          result.tracklist,
-          album[0],
-          !!album[0].artist.includes("Various")
-        );
-        // console.log(result.tracklist.map((t) => t.artists[0].name));
-        console.log(tracklist);
-        // let scrobbleInterval = setInterval(() => {
-        //   if (tracklist.length === 0) {
-        //     console.log("finished");
-        //     clearInterval(scrobbleInterval);
-        //   } else {
-        //     scrobbleTrack(tracklist[0], album);
-        //     tracklist.shift();
-        //   }
-        // }, 10000);
-      })
-      .catch((e) => console.log(e));
-  };
-
-  const tracklistFetch = (tracklist, album, various) => {
-    let tracklistArray = [];
-    if (various) {
-      for (let i = 0; i < tracklist.length; i++) {
-        let track = {
-          trackNo: i,
-          title: tracklist[i].title,
-          artist: tracklist[i].artists[0].name,
-          album: album.title,
-        };
-        tracklistArray.push(track);
-      }
-    } else {
-      for (let i = 0; i < tracklist.length; i++) {
-        let track = {
-          trackNo: i,
-          title: tracklist[i].title,
-          artist: album.artist,
-          album: album.title,
-        };
-        tracklistArray.push(track);
-      }
-    }
-    return tracklistArray;
-  };
-
   return (
     <View style={styles.mainPageContainer}>
       <View style={styles.userPageButtons}>
-        <Button title="reset storage" onPress={() => clearStorage()} />
+        {/*<Button title="reset storage" onPress={() => clearStorage()} />
         <Button
           title="import firebase data"
           onPress={() => {
             importFirebase();
           }}
         />
-        {/*<Button
+        <Button
         title="refresh fetch data"
         onPress={() => {
           getData();
         }}
       /> */}
         <Button title="update library" onPress={() => updateLibraryFetch()} />
-        <Button
+        {/* <Button
           title="reset default tags"
           onPress={() => resetGlobalTags(globalTags, globalResetTags)}
         />
@@ -140,12 +83,12 @@ export default function UserButtons({
             // scrobbleEvent(albums.filter((a) => a.id === 16179631))
           }
         />
-        {/* <Button
+        <Button
         title="clear global tags"
         onPress={() => handleGlobalTags([])}
       /> */}
         <Button
-          title="resetLFM"
+          title="Logout Last.fm"
           onPress={() => {
             removeItemValue("@lfmuser");
             setLastFMUser(null);

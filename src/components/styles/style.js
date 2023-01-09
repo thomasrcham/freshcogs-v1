@@ -583,6 +583,7 @@ export default StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     alignSelf: "center",
+    textAlign: "center",
   },
   lastfmImage: {
     maxWidth: 185,

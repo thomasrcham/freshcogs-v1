@@ -1,4 +1,4 @@
-import { Image, Pressable, Text, View } from "react-native";
+import { Alert, Image, Pressable, Text, View } from "react-native";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -93,7 +93,7 @@ function AlbumPage({
             scrobbleTrack(tracklist[0], album);
             tracklist.shift();
           }
-        }, 10000);
+        }, 1000);
       })
       .catch((e) => console.log(e));
   };
@@ -104,7 +104,7 @@ function AlbumPage({
   const scrobbleTrack = (singleTrack, album) => {
     let dateTime = Math.round(Date.now() / 1000);
     let md5String = CryptoJS.MD5(
-      `albumArtist[0]${singleTrack.albumArtist}album[0]${singleTrack.album}api_key${lfm_api_key}artist[0]${singleTrack.artist}methodtrack.scrobblesk${LFMKey}timestamp[0]${dateTime}track[0]${singleTrack.title}${lfm_secret}`
+      `albumArtist[0]${singleTrack.albumArtis}album[0]${singleTrack.album}api_key${lfm_api_key}artist[0]${singleTrack.artist}methodtrack.scrobblesk${LFMKey}timestamp[0]${dateTime}track[0]${singleTrack.title}${lfm_secret}`
     ).toString();
     let fullString = `method=track.scrobble&artist[0]=${singleTrack.artist.replace(
       "&",
@@ -127,9 +127,13 @@ function AlbumPage({
       .then((response) => response.text())
       .then((result) => {
         parseString(result, function (err, output) {
-          console.log(
-            "scrobbled " + output.lfm.scrobbles[0].scrobble[0].track[0]._
-          );
+          if (output.lfm.$.status === "ok") {
+            console.log(
+              "scrobbled " + output.lfm.scrobbles[0].scrobble[0].track[0]._
+            );
+          } else {
+            Alert.alert("scrobbling failed");
+          }
         });
       })
       .catch((error) => console.log("error", error));
