@@ -23,3 +23,7 @@ android/
 *.example
 firebaseConfig.js
 *.env
+
+.expo-shared/
+.idea/
+.vscode/
