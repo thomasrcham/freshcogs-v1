@@ -93,7 +93,7 @@ function AlbumPage({
             scrobbleTrack(tracklist[0], album);
             tracklist.shift();
           }
-        }, 1000);
+        }, 10000);
       })
       .catch((e) => console.log(e));
   };
@@ -104,7 +104,7 @@ function AlbumPage({
   const scrobbleTrack = (singleTrack, album) => {
     let dateTime = Math.round(Date.now() / 1000);
     let md5String = CryptoJS.MD5(
-      `albumArtist[0]${singleTrack.albumArtis}album[0]${singleTrack.album}api_key${lfm_api_key}artist[0]${singleTrack.artist}methodtrack.scrobblesk${LFMKey}timestamp[0]${dateTime}track[0]${singleTrack.title}${lfm_secret}`
+      `albumArtist[0]${singleTrack.albumArtist}album[0]${singleTrack.album}api_key${lfm_api_key}artist[0]${singleTrack.artist}methodtrack.scrobblesk${LFMKey}timestamp[0]${dateTime}track[0]${singleTrack.title}${lfm_secret}`
     ).toString();
     let fullString = `method=track.scrobble&artist[0]=${singleTrack.artist.replace(
       "&",
