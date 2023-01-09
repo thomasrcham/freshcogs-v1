@@ -9,29 +9,33 @@ import UserButtons from "./UserButtons";
 const Stack = createNativeStackNavigator();
 export default function UserPageContainer({
   albums,
+  customFields,
+  discogsAuth,
   getData,
-  setAlbums,
-  storeAlbums,
-  handleGlobalTags,
-  globalTags,
+  getKey,
   globalResetTags,
-  setGlobalTags,
-  setUser,
-  listenEvents,
-  requestOptions,
-  user,
-  updateLibraryFetch,
-  storeListenEvents,
-  setListenEvents,
-  save,
-  lastFMUsername,
-  onChangelastFMUsername,
-  lastFMPassword,
-  onChangelastFMPassword,
+  globalTags,
+  handleGlobalTags,
   lastFMauth,
+  lastFMPassword,
   lastFMUser,
-  LFMKey,
   lastFMUserFetch,
+  lastFMUsername,
+  LFMKey,
+  listenEvents,
+  onChangelastFMPassword,
+  onChangelastFMUsername,
+  requestOptions,
+  save,
+  setAlbums,
+  setGlobalTags,
+  setLastFMUser,
+  setListenEvents,
+  setUser,
+  storeAlbums,
+  storeListenEvents,
+  updateLibraryFetch,
+  user,
 }) {
   return (
     <View>
@@ -79,11 +83,16 @@ export default function UserPageContainer({
             <Stack.Screen name="Buttons">
               {(props) => (
                 <UserButtons
-                  listenEvents={listenEvents}
                   albums={albums}
-                  requestOptions={requestOptions}
-                  LFMKey={LFMKey}
+                  customFields={customFields}
+                  discogsAuth={discogsAuth}
                   getData={getData}
+                  getKey={getKey}
+                  LFMKey={LFMKey}
+                  listenEvents={listenEvents}
+                  requestOptions={requestOptions}
+                  setLastFMUser={setLastFMUser}
+                  updateLibraryFetch={updateLibraryFetch}
                 />
               )}
             </Stack.Screen>

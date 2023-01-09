@@ -61,6 +61,56 @@ export default StyleSheet.create({
     aspectRatio: 1,
     resizeMode: "contain",
   },
+  //auth page
+  authPageContainer: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    backgroundColor: "#124242",
+  },
+  authPageBox: {
+    top: "10%",
+    maxWidth: "60%",
+    alignSelf: "center",
+    maxHeight: "65%",
+    padding: 30,
+    backgroundColor: "#8786849B",
+    borderRadius: 5,
+    borderColor: "black",
+    borderWidth: 2,
+  },
+  authPageHeaderText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 22,
+    alignSelf: "center",
+    flex: 1,
+    opacity: 1,
+  },
+
+  authPageText: {
+    color: "white",
+    flex: 1,
+    alignSelf: "center",
+  },
+  authPageButton: {
+    backgroundColor: "#124242",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "white",
+    alignSelf: "center",
+    margin: 1,
+    width: "80%",
+    padding: 4,
+  },
+  authPageButtonText: {
+    fontSize: 14,
+    color: "white",
+    fontWeight: "bold",
+    alignSelf: "center",
+    padding: 3,
+  },
+
   //collection page
   albumDisplayContainer: {
     height: mainWindowHeight,
@@ -322,15 +372,6 @@ export default StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
   input: {
     backgroundColor: "#ccc2a6",
     // height: 40,
@@ -489,7 +530,8 @@ export default StyleSheet.create({
   },
   userImageContainer: {
     padding: 10,
-    width: "50%",
+    maxWidth: "50%",
+    resizeMode: "contain",
   },
   userTextContainer: {
     margin: 10,
@@ -514,11 +556,6 @@ export default StyleSheet.create({
     padding: 2,
     fontWeight: "bold",
   },
-  userPageButtons: {
-    paddingTop: 30,
-    width: "60%",
-    alignSelf: "center",
-  },
   discogsLinkText: {
     color: "white",
     fontWeight: "bold",
@@ -527,6 +564,81 @@ export default StyleSheet.create({
     alignSelf: "flex-start",
     fontSize: 14,
   },
+
+  lastfmLoginContainer: {
+    margin: 10,
+    maxHeight: 185,
+    width: "50%",
+    flex: 1,
+    flexGrow: 1,
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    padding: 10,
+    backgroundColor: "grey",
+    borderRadius: 5,
+  },
+  lastfmLoginText: {
+    color: "white",
+    // padding: 2,
+    fontSize: 15,
+    fontWeight: "bold",
+    alignSelf: "center",
+    textAlign: "center",
+  },
+  lastfmImage: {
+    maxWidth: 185,
+    maxHeight: 185,
+    aspectRatio: 1,
+    borderWidth: 3,
+    borderColor: "#523129",
+    borderRadius: 6,
+  },
+  lastfmLoginButton: {
+    backgroundColor: "#e31b23",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "white",
+    alignSelf: "center",
+    margin: 1,
+    width: "80%",
+    padding: 4,
+  },
+  lfmLoginCenter: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  lfmLoginModal: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 5,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  lfmLoginInput: {
+    backgroundColor: "#ccc2a6",
+    // height: 40,
+    width: 150,
+    margin: 5,
+    borderWidth: 1,
+    paddingLeft: 10,
+    borderRadius: 5,
+  },
+  userPageButtons: {
+    paddingTop: 30,
+    width: "60%",
+    alignSelf: "center",
+  },
+
   //listen events page
   tableContainer: {
     flex: 1,

@@ -1,4 +1,4 @@
-import { Image, Pressable, Text, View } from "react-native";
+import { Alert, Image, Pressable, Text, View } from "react-native";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -12,6 +12,7 @@ function AlbumPage({
   route,
   navigation,
   globalTags,
+  lastFMUser,
   LFMKey,
   requestOptions,
   storeListenEvents,
@@ -64,34 +65,44 @@ function AlbumPage({
     let newTotalArray = totalListenEvents
       ? [...totalListenEvents, newEvent]
       : [newEvent];
-    scrobbleEvent();
+    scrobbleEvent(album);
     setLocalListenEvents(newArray);
     setTotalListenEvents(newTotalArray);
     storeListenEvents(newTotalArray);
   };
 
-  const scrobbleEvent = () => {
-    let URL;
-    if (album.id === album.master_id) {
-      URL = `releases/${album.id}`;
+  const scrobbleEvent = (album) => {
+    if (lastFMUser) {
+      let URL;
+      if (album.id === album.master_id) {
+        URL = `releases/${album.id}`;
+      } else {
+        URL = `masters/${album.master_id}`;
+      }
+      fetch(`https://api.discogs.com/${URL}`, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          let tracklist = tracklistFetch(
+            result.tracklist.filter((r) => r.type_ === "track"),
+            album,
+            !!album.artist.includes("Various")
+          );
+          let scrobbleInterval = setInterval(() => {
+            if (tracklist.length === 0) {
+              console.log("finished");
+              clearInterval(scrobbleInterval);
+            } else {
+              scrobbleTrack(tracklist[0], album);
+              tracklist.shift();
+            }
+          }, 10000);
+        })
+        .catch((e) => console.log(e));
     } else {
-      URL = `masters/${album.master_id}`;
+      Alert.alert(
+        "Your listen has been saved locally. Sign in to Last.fm to enable scrobbling."
+      );
     }
-    fetch(`https://api.discogs.com/${URL}`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        let tracklist = tracklistFetch(result.tracklist);
-        let scrobbleInterval = setInterval(() => {
-          if (tracklist.length === 0) {
-            console.log("finished");
-            clearInterval(scrobbleInterval);
-          } else {
-            scrobbleTrack(tracklist[0], album);
-            tracklist.shift();
-          }
-        }, 10000);
-      })
-      .catch((e) => console.log(e));
   };
 
   var CryptoJS = require("crypto-js");
@@ -100,10 +111,17 @@ function AlbumPage({
   const scrobbleTrack = (singleTrack, album) => {
     let dateTime = Math.round(Date.now() / 1000);
     let md5String = CryptoJS.MD5(
-      `album[0]${album.title}api_key${lfm_api_key}artist[0]${album.artist}methodtrack.scrobblesk${LFMKey}timestamp[0]${dateTime}track[0]${singleTrack.title}${lfm_secret}`
+      `albumArtist[0]${singleTrack.albumArtist}album[0]${singleTrack.album}api_key${lfm_api_key}artist[0]${singleTrack.artist}methodtrack.scrobblesk${LFMKey}timestamp[0]${dateTime}track[0]${singleTrack.title}${lfm_secret}`
     ).toString();
-    let fullString = `method=track.scrobble&artist[0]=${album.artist}&track[0]=${singleTrack.title}&timestamp[0]=${dateTime}&album[0]=${album.title}&api_key=${lfm_api_key}&sk=${LFMKey}&api_sig=${md5String}`;
-
+    let fullString = `method=track.scrobble&artist[0]=${singleTrack.artist.replace(
+      "&",
+      "and"
+    )}&track[0]=${singleTrack.title}&timestamp[0]=${dateTime}&album[0]=${
+      singleTrack.album
+    }&albumArtist[0]=${singleTrack.albumArtist.replace(
+      "&",
+      "and"
+    )}&api_key=${lfm_api_key}&sk=${LFMKey}&api_sig=${md5String}`;
     var scrobbleRequestOptions = {
       method: "POST",
       redirect: "follow",
@@ -116,24 +134,42 @@ function AlbumPage({
       .then((response) => response.text())
       .then((result) => {
         parseString(result, function (err, output) {
-          output.lfm.scrobbles[0].$.accepted
-            ? console.log(
-                "scrobbled " + output.lfm.scrobbles[0].scrobble[0].track[0]._
-              )
-            : Alert.alert("failed");
+          if (output.lfm.$.status === "ok") {
+            console.log(
+              "scrobbled " + output.lfm.scrobbles[0].scrobble[0].track[0]._
+            );
+          } else {
+            Alert.alert("scrobbling failed");
+          }
         });
       })
       .catch((error) => console.log("error", error));
   };
 
-  const tracklistFetch = (tracklist) => {
+  const tracklistFetch = (tracklist, album, various) => {
     let tracklistArray = [];
-    for (let i = 0; i < tracklist.length; i++) {
-      let track = {
-        trackNo: i,
-        title: tracklist[i].title,
-      };
-      tracklistArray.push(track);
+    if (various) {
+      for (let i = 0; i < tracklist.length; i++) {
+        let track = {
+          trackNo: i,
+          title: tracklist[i].title.replace("&", "and"),
+          artist: tracklist[i].artists[0].name.replace("&", "and"),
+          album: album.title.replace("&", "and"),
+          albumArtist: album.artist.replace("&", "and"),
+        };
+        tracklistArray.push(track);
+      }
+    } else {
+      for (let i = 0; i < tracklist.length; i++) {
+        let track = {
+          trackNo: i,
+          title: tracklist[i].title.replace("&", "and"),
+          artist: album.artist.replace("&", "and"),
+          album: album.title.replace("&", "and"),
+          albumArtist: album.artist.replace("&", "and"),
+        };
+        tracklistArray.push(track);
+      }
     }
     return tracklistArray;
   };
@@ -215,7 +251,7 @@ function AlbumPage({
                             .sort()
                             .reverse()[0]
                         ),
-                        "MMMM d yyyy"
+                        "MMMM d, yyyy"
                       )}
                     </Text>
                   </View>
