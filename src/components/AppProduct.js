@@ -610,6 +610,7 @@ export default function AppProduct({
               randomArray={randomArray}
               allAlbums={albums}
               requestOptions={requestOptions}
+              lastFMUser={lastFMUser}
               LFMKey={LFMKey}
             />
           )}
@@ -639,6 +640,7 @@ export default function AppProduct({
               albums={albums}
               globalTags={globalTags}
               handleGlobalTags={handleGlobalTags}
+              lastFMUser={lastFMUser}
               storeListenEvents={storeListenEvents}
               requestOptions={requestOptions}
               LFMKey={LFMKey}
@@ -667,6 +669,7 @@ export default function AppProduct({
               albums={albums}
               globalTags={globalTags}
               handleGlobalTags={handleGlobalTags}
+              lastFMUser={lastFMUser}
               storeListenEvents={storeListenEvents}
               LFMKey={LFMKey}
               requestOptions={requestOptions}
@@ -694,6 +697,7 @@ export default function AppProduct({
               albums={albums}
               globalTags={globalTags}
               handleGlobalTags={handleGlobalTags}
+              lastFMUser={lastFMUser}
               storeListenEvents={storeListenEvents}
               LFMKey={LFMKey}
               requestOptions={requestOptions}

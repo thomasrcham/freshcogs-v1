@@ -11,6 +11,7 @@ export default function SearchDisplayArea({
   albums,
   globalTags,
   handleGlobalTags,
+  lastFMUser,
   storeListenEvents,
   LFMKey,
   requestOptions,
@@ -33,6 +34,7 @@ export default function SearchDisplayArea({
                 <AlbumPage
                   {...props}
                   globalTags={globalTags}
+                  lastFMUser={lastFMUser}
                   LFMKey={LFMKey}
                   requestOptions={requestOptions}
                   storeListenEvents={storeListenEvents}

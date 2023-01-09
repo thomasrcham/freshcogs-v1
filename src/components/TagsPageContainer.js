@@ -15,6 +15,7 @@ export default function TagsPageContainer({
   albums,
   globalTags,
   handleGlobalTags,
+  lastFMUser,
   storeListenEvents,
   LFMKey,
   requestOptions,
@@ -41,6 +42,7 @@ export default function TagsPageContainer({
                 <AlbumPage
                   {...props}
                   globalTags={globalTags}
+                  lastFMUser={lastFMUser}
                   LFMKey={LFMKey}
                   requestOptions={requestOptions}
                   storeListenEvents={storeListenEvents}

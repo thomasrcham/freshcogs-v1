@@ -14,6 +14,7 @@ export default function CollectionDisplayArea({
   allAlbums,
   globalTags,
   handleGlobalTags,
+  lastFMUser,
   storeListenEvents,
   randomArray,
   requestOptions,
@@ -45,6 +46,7 @@ export default function CollectionDisplayArea({
                 <AlbumPage
                   {...props}
                   globalTags={globalTags}
+                  lastFMUser={lastFMUser}
                   LFMKey={LFMKey}
                   requestOptions={requestOptions}
                   storeListenEvents={storeListenEvents}

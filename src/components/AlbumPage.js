@@ -12,6 +12,7 @@ function AlbumPage({
   route,
   navigation,
   globalTags,
+  lastFMUser,
   LFMKey,
   requestOptions,
   storeListenEvents,
@@ -71,31 +72,37 @@ function AlbumPage({
   };
 
   const scrobbleEvent = (album) => {
-    let URL;
-    if (album.id === album.master_id) {
-      URL = `releases/${album.id}`;
+    if (lastFMUser) {
+      let URL;
+      if (album.id === album.master_id) {
+        URL = `releases/${album.id}`;
+      } else {
+        URL = `masters/${album.master_id}`;
+      }
+      fetch(`https://api.discogs.com/${URL}`, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          let tracklist = tracklistFetch(
+            result.tracklist.filter((r) => r.type_ === "track"),
+            album,
+            !!album.artist.includes("Various")
+          );
+          let scrobbleInterval = setInterval(() => {
+            if (tracklist.length === 0) {
+              console.log("finished");
+              clearInterval(scrobbleInterval);
+            } else {
+              scrobbleTrack(tracklist[0], album);
+              tracklist.shift();
+            }
+          }, 10000);
+        })
+        .catch((e) => console.log(e));
     } else {
-      URL = `masters/${album.master_id}`;
+      Alert.alert(
+        "Your listen has been saved locally. Sign in to Last.fm to enable scrobbling."
+      );
     }
-    fetch(`https://api.discogs.com/${URL}`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        let tracklist = tracklistFetch(
-          result.tracklist.filter((r) => r.type_ === "track"),
-          album,
-          !!album.artist.includes("Various")
-        );
-        let scrobbleInterval = setInterval(() => {
-          if (tracklist.length === 0) {
-            console.log("finished");
-            clearInterval(scrobbleInterval);
-          } else {
-            scrobbleTrack(tracklist[0], album);
-            tracklist.shift();
-          }
-        }, 10000);
-      })
-      .catch((e) => console.log(e));
   };
 
   var CryptoJS = require("crypto-js");
