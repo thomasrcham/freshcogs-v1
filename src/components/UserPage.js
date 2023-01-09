@@ -1,8 +1,8 @@
 import {
   Button,
+  Dimensions,
   View,
   Image,
-  Linking,
   Modal,
   Pressable,
   Text,
@@ -11,35 +11,35 @@ import {
 } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { format } from "date-fns";
+import * as Linking from "expo-linking";
 
 import styles from "./styles/style.js";
 
 export default function UserPage({
   albums,
   getData,
-  handleGlobalTags,
+  getValueFor,
   globalTags,
   globalResetTags,
-  setGlobalTags,
-  setAlbums,
-  storeAlbums,
-  setUser,
-  listenEvents,
-  requestOptions,
-  user,
-  updateLibraryFetch,
-  setListenEvents,
-  save,
-  getValueFor,
-  lastFMUsername,
-  onChangelastFMUsername,
-  lastFMPassword,
-  onChangelastFMPassword,
+  handleGlobalTags,
   lastFMauth,
+  lastFMPassword,
   lastFMUser,
   lastFMUserFetch,
+  lastFMUsername,
+  listenEvents,
+  onChangelastFMPassword,
+  onChangelastFMUsername,
+  requestOptions,
+  save,
+  setAlbums,
+  setGlobalTags,
+  setListenEvents,
+  setUser,
+  storeAlbums,
+  updateLibraryFetch,
+  user,
 }) {
   const navigation = useNavigation();
   const ref_input2 = useRef();
@@ -58,10 +58,6 @@ export default function UserPage({
       }
     });
   };
-
-  useEffect(() => {
-    lastFMUserFetch();
-  }, []);
 
   function yearReplaceTimer() {
     setUpdating("In Progress");
@@ -100,6 +96,79 @@ export default function UserPage({
       });
   }
 
+  let lfmDisplay = lastFMUser ? (
+    <>
+      <View style={styles.userTextContainer}>
+        <Text style={styles.userText}>Username: {lastFMUser.username}</Text>
+        <Text style={styles.userText}>
+          Last.fm Member Since:{" "}
+          {format(new Date(lastFMUser.dateRegistered), "MM/dd/yyyy")}
+        </Text>
+        <Text style={styles.userText}>
+          Total Playcount: {lastFMUser.playcount}
+        </Text>
+        <Pressable
+          onPress={() => handleProfileClick(lastFMUser.lfmURL)}
+          style={styles.userText}
+        >
+          <View
+            style={{
+              flex: 1,
+            }}
+          >
+            <Image
+              style={{
+                aspectRatio: 1,
+                height: 25,
+                marginRight: 3,
+              }}
+              source={require("../icons/vinyl.png")}
+            />
+          </View>
+          <Text style={(styles.userText, styles.discogsLinkText)}>
+            Open Profile
+          </Text>
+        </Pressable>
+      </View>
+      <View style={styles.userImageContainer}>
+        <Image
+          style={styles.userImage}
+          source={{
+            uri: `${lastFMUser.lfmPFP}`,
+          }}
+        />
+      </View>
+    </>
+  ) : (
+    <>
+      <View style={styles.lastfmLoginContainer}>
+        <View>
+          <Text style={styles.lastfmLoginText}>No Last.fm</Text>
+          <Text style={styles.lastfmLoginText}>Profile Found</Text>
+        </View>
+        <Pressable
+          onPress={() => Linking.openURL("https://www.last.fm/join")}
+          style={styles.lastfmLoginButton}
+        >
+          <Text style={styles.lastfmLoginText}>Signup for Last.fm</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => setModalVisible(!modalVisible)}
+          style={styles.lastfmLoginButton}
+        >
+          <Text style={styles.lastfmLoginText}>Login to Last.fm</Text>
+        </Pressable>
+      </View>
+      <View style={styles.userImageContainer}>
+        <Image
+          style={styles.lastfmImage}
+          source={require("../icons/last-fm-logo.png")}
+          resizeMode="contain"
+        />
+      </View>
+    </>
+  );
+
   return (
     <View style={styles.mainUserContainer}>
       <Modal
@@ -111,29 +180,38 @@ export default function UserPage({
         }}
       >
         <Pressable
-          onPress={() => {
-            setModalVisible(!modalVisible);
+          onPress={
+            modalVisible
+              ? () => {
+                  setModalVisible(!modalVisible);
+                }
+              : null
+          }
+          style={{
+            flex: 1,
+            backgroundColor: modalVisible ? "#838285CC" : "",
           }}
-          style={{ flex: 1, backgroundColor: modalVisible ? "#838285CC" : "" }}
         >
-          <View style={styles.centeredView}>
+          <View style={styles.lfmLoginCenter}>
             <TouchableWithoutFeedback>
-              <View style={styles.modalView}>
+              <View style={styles.lfmLoginModal}>
                 <TextInput
-                  style={styles.input}
+                  style={styles.lfmLoginInput}
                   placeholder="Last.fm Username"
                   autoFocus={true}
                   onChangeText={onChangelastFMUsername}
                   value={lastFMUsername}
                   blurOnSubmit={false}
+                  returnKeyType="next"
+                  onSubmitEditing={() => ref_input2.current.focus()}
                 />
                 <TextInput
                   placeholder="Last.fm Password"
                   ref={ref_input2}
-                  style={styles.input}
+                  style={styles.lfmLoginInput}
                   onChangeText={onChangelastFMPassword}
                   value={lastFMPassword}
-                  textContentType={"password"}
+                  secureTextEntry={true}
                 />
 
                 <Pressable
@@ -169,7 +247,7 @@ export default function UserPage({
             Records in Collection: {user.num_collection}
           </Text>
           <Pressable
-            onPress={() => handleProfileClick(user.uri)}
+            onPress={() => Linking.openURL(user.uri)}
             style={styles.userText}
           >
             <View
@@ -193,48 +271,7 @@ export default function UserPage({
         </View>
       </View>
       <Text style={styles.tagsPageTitle}>Last.fm Profile:</Text>
-      <View style={styles.userPageContainer}>
-        <View style={styles.userTextContainer}>
-          <Text style={styles.userText}>Username: {lastFMUser.username}</Text>
-          <Text style={styles.userText}>
-            Last.fm Member Since:{" "}
-            {format(new Date(lastFMUser.dateRegistered), "MM/dd/yyyy")}
-          </Text>
-          <Text style={styles.userText}>
-            Total Playcount: {lastFMUser.playcount}
-          </Text>
-          <Pressable
-            onPress={() => handleProfileClick(lastFMUser.lfmURL)}
-            style={styles.userText}
-          >
-            <View
-              style={{
-                flex: 1,
-              }}
-            >
-              <Image
-                style={{
-                  aspectRatio: 1,
-                  height: 25,
-                  marginRight: 3,
-                }}
-                source={require("../icons/vinyl.png")}
-              />
-            </View>
-            <Text style={(styles.userText, styles.discogsLinkText)}>
-              Open Profile
-            </Text>
-          </Pressable>
-        </View>
-        <View style={styles.userImageContainer}>
-          <Image
-            style={styles.userImage}
-            source={{
-              uri: `${lastFMUser.lfmPFP}`,
-            }}
-          />
-        </View>
-      </View>
+      <View style={styles.userPageContainer}>{lfmDisplay}</View>
       <View
         style={{
           flexDirection: "row",
@@ -288,11 +325,10 @@ export default function UserPage({
         </View>
       </View>
       <View style={styles.userPageButtons}>
-        {/* <Button
-          title="Last.fm auth"
-          onPress={() => setModalVisible(!modalVisible)}
-        /> */}
-        <Button title="Admin" onPress={() => navigation.navigate("Buttons")} />
+        <Button
+          title="Advanced"
+          onPress={() => navigation.navigate("Buttons")}
+        />
       </View>
     </View>
   );

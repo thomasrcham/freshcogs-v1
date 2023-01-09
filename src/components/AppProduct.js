@@ -18,7 +18,7 @@ import {
   FIREBASE_MESSAGING_SENDER_ID,
   FIREBASE_APP_ID,
   discogsConsumerKey,
-  discogsUserToken,
+  discogsConsumerSecret,
   lfm_api_key,
   lfm_secret,
 } from "@env";
@@ -40,9 +40,12 @@ import SearchDisplayArea from "./SearchDisplayArea.js";
 import TagsPageContainer from "./TagsPageContainer.js";
 
 import styles from "./styles/style.js";
-import "../../keys.js";
 
-export default function AppProduct({ navigation }) {
+export default function AppProduct({
+  username,
+  discogsToken,
+  discogsSecretToken,
+}) {
   const [albums, setAlbums] = useState(null);
   const [frontPageAlbums, setFrontPageAlbums] = useState(null);
   const [user, setUser] = useState(null);
@@ -53,12 +56,14 @@ export default function AppProduct({ navigation }) {
       tags: globalResetTags,
     },
   ]);
-  const [lastFMUser, setLastFMUser] = useState([]);
+
+  const [lastFMUser, setLastFMUser] = useState(null);
   const [LFMKey, setLFMKey] = useState(null);
 
   //VARIABLE ESTABLISHMENT
 
   var dateTime = Math.round(new Date().getTime() / 1000);
+
   const globalResetTags = [
     "ACOUSTIC",
     "ANGRY",
@@ -104,21 +109,13 @@ export default function AppProduct({ navigation }) {
   const db = getFirestore(app);
 
   //fetch request setup
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-  myHeaders.append(
-    "User-Agent",
-    "Flashcogs/1.0 +https://github.com/thomasrcham/discogs-app-v3"
-  );
-  myHeaders.append(
-    "Authorization",
-    `OAuth oauth_consumer_key=${discogsConsumerKey},oauth_token=${discogsUserToken},oauth_signature_method="PLAINTEXT",oauth_timestamp="${dateTime}",oauth_nonce="${dateTime}",oauth_version="1.0",oauth_signature=""&"consumer_secret=${discogsConsumerKey}`
-  );
 
   var requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
+    headers: {
+      Authorization: `OAuth oauth_consumer_key="${discogsConsumerKey}", oauth_nonce="${dateTime}", oauth_token="${discogsToken}", oauth_signature="${discogsConsumerSecret}&${discogsSecretToken}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${dateTime}"`,
+      "User-Agent": "Freshcogs/1.0 +exp:127.0.0.1:19000",
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
   };
 
   useEffect(() => {
@@ -134,7 +131,7 @@ export default function AppProduct({ navigation }) {
     listenEventsDataGet();
     tagsDataGet();
     lfmUserDataGet();
-    setKey("lfmauth");
+    getKey("lfmauth");
   };
 
   const albumDataGet = async () => {
@@ -176,7 +173,6 @@ export default function AppProduct({ navigation }) {
     try {
       const jsonValue = await AsyncStorage.getItem("@listenEvents");
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
-
       console.log(`loading ${data.length} listen events from local`);
       setListenEvents(data);
     } catch (e) {
@@ -220,11 +216,10 @@ export default function AppProduct({ navigation }) {
       let data = jsonValue != null ? JSON.parse(jsonValue) : null;
       data.username
         ? console.log(`loading lfm user data from local`)
-        : lastFMUserFetch();
+        : console.log(`User storage retrieval failure: ${e}`);
       setLastFMUser(data);
     } catch (e) {
       console.log(`User storage retrieval failure: ${e}`);
-      lastFMUserFetch();
     }
   };
 
@@ -258,8 +253,9 @@ export default function AppProduct({ navigation }) {
   //FETCHES
 
   const handleAlbumFetch = async () => {
+    console.log("product user: " + username);
     await fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500`,
+      `https://api.discogs.com/users/${username}/collection/folders/0/releases?per_page=500`,
       requestOptions
     )
       .then((res) => res.json())
@@ -275,7 +271,7 @@ export default function AppProduct({ navigation }) {
   };
 
   const getUserData = () => {
-    fetch(`https://api.discogs.com/users/theyear1000`, requestOptions)
+    fetch(`https://api.discogs.com/users/${username}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         storeUser(result);
@@ -286,7 +282,7 @@ export default function AppProduct({ navigation }) {
 
   const updateLibraryFetch = () => {
     fetch(
-      `https://api.discogs.com/users/theyear1000/collection/folders/0/releases?per_page=500`,
+      `https://api.discogs.com/users/${username}/collection/folders/0/releases?per_page=500`,
       requestOptions
     )
       .then((res) => res.json())
@@ -365,7 +361,7 @@ export default function AppProduct({ navigation }) {
     return singleParsedRelease;
   };
 
-  function randomArray(releases) {
+  const randomArray = (releases) => {
     let newArray = [];
     let filteredAlbums = releases.filter(
       (a) => !a.genres.includes("Classical") && !a.genres.includes("Christmas")
@@ -380,7 +376,7 @@ export default function AppProduct({ navigation }) {
       }
     }
     setFrontPageAlbums(newArray);
-  }
+  };
 
   //storage
 
@@ -433,9 +429,8 @@ export default function AppProduct({ navigation }) {
       console.log(`storing lfm user locally`);
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem("@lfmuser", jsonValue);
-      // await firebaseStore("tags", jsonValue);
     } catch (e) {
-      console.log(`Tags Storage failure: ${e}`);
+      console.log(`LFM User Storage failure: ${e}`);
     }
   };
 
@@ -459,15 +454,21 @@ export default function AppProduct({ navigation }) {
   //secure storage for keys
 
   const save = async (key, value) => {
+    console.log(key, value);
     await SecureStore.setItemAsync(key, value);
   };
 
-  const setKey = async (key) => {
+  const getKey = async (key) => {
     let result = await SecureStore.getItemAsync(key);
     if (result) {
-      setLFMKey(result);
+      switch (key) {
+        case "lfmauth": {
+          setLFMKey(result);
+        }
+      }
+      console.log(key + " key set");
     } else {
-      // alert("No values stored under that key.");
+      console.log(key + "No values stored under that key.");
     }
   };
 
@@ -497,6 +498,7 @@ export default function AppProduct({ navigation }) {
       .then((result) => {
         console.log(result);
         parseString(result, function (err, output) {
+          lastFMUserFetch(output.lfm.session[0].name[0]);
           save("lfmauth", output.lfm.session[0].key[0]);
           onChangelastFMPassword("");
           onChangelastFMUsername("");
@@ -511,9 +513,9 @@ export default function AppProduct({ navigation }) {
     method: "GET",
     redirect: "follow",
   };
-  const lastFMUserFetch = () => {
+  const lastFMUserFetch = (username) => {
     fetch(
-      "http://ws.audioscrobbler.com/2.0/?method=user.getinfo&api_key=b650b6efea21e952669a541014c5b4ff&user=guseldorph",
+      `http://ws.audioscrobbler.com/2.0/?method=user.getinfo&api_key=${lfm_api_key}&user=${username}`,
       userRequestOptions
     )
       .then((response) => response.text())
@@ -522,7 +524,7 @@ export default function AppProduct({ navigation }) {
           lfmUserParse(output.lfm.user[0]);
         })
       )
-      .catch((error) => console.log("error", error));
+      .catch((error) => console.log("lfm user fetch error", error));
   };
 
   const lfmUserParse = (lfmResponse) => {
@@ -608,6 +610,7 @@ export default function AppProduct({ navigation }) {
               randomArray={randomArray}
               allAlbums={albums}
               requestOptions={requestOptions}
+              lastFMUser={lastFMUser}
               LFMKey={LFMKey}
             />
           )}
@@ -618,12 +621,6 @@ export default function AppProduct({ navigation }) {
             backgroundColor: "black",
           }}
           options={{
-            // header: () => (
-            //   <View style={styles.header}>
-            //     <Text style={styles.headerText}>Collection Browser</Text>
-            //   </View>
-            // ),
-            // headerTintColor: "white",
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
@@ -643,6 +640,7 @@ export default function AppProduct({ navigation }) {
               albums={albums}
               globalTags={globalTags}
               handleGlobalTags={handleGlobalTags}
+              lastFMUser={lastFMUser}
               storeListenEvents={storeListenEvents}
               requestOptions={requestOptions}
               LFMKey={LFMKey}
@@ -652,11 +650,6 @@ export default function AppProduct({ navigation }) {
         <Tab.Screen
           name="Browse"
           options={{
-            // header: () => (
-            //   <View style={styles.header}>
-            //     <Text style={styles.headerText}>Search your Collection:</Text>
-            //   </View>
-            // ),
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
@@ -676,6 +669,7 @@ export default function AppProduct({ navigation }) {
               albums={albums}
               globalTags={globalTags}
               handleGlobalTags={handleGlobalTags}
+              lastFMUser={lastFMUser}
               storeListenEvents={storeListenEvents}
               LFMKey={LFMKey}
               requestOptions={requestOptions}
@@ -685,11 +679,6 @@ export default function AppProduct({ navigation }) {
         <Tab.Screen
           name="Tags"
           options={{
-            // header: () => (
-            //   <View style={styles.header}>
-            //     <Text style={styles.headerText}>Tags</Text>
-            //   </View>
-            // ),
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
@@ -708,6 +697,7 @@ export default function AppProduct({ navigation }) {
               albums={albums}
               globalTags={globalTags}
               handleGlobalTags={handleGlobalTags}
+              lastFMUser={lastFMUser}
               storeListenEvents={storeListenEvents}
               LFMKey={LFMKey}
               requestOptions={requestOptions}
@@ -717,11 +707,6 @@ export default function AppProduct({ navigation }) {
         <Tab.Screen
           name="User"
           options={{
-            // header: () => (
-            //   <View style={styles.header}>
-            //     <Text style={styles.headerText}>User Profile</Text>
-            //   </View>
-            // ),
             tabBarIcon: ({ size, focused, color }) => {
               return (
                 <View style={styles.tabButtonBox}>
@@ -737,30 +722,32 @@ export default function AppProduct({ navigation }) {
         >
           {(props) => (
             <UserPageContainer
-              user={user}
               albums={albums}
-              storeAlbums={storeAlbums}
-              requestOptions={requestOptions}
-              listenEvents={listenEvents}
               getData={getData}
-              setAlbums={setAlbums}
-              setUser={setUser}
-              updateLibraryFetch={updateLibraryFetch}
-              globalTags={globalTags}
+              getKey={getKey}
               globalResetTags={globalResetTags}
+              globalTags={globalTags}
               handleGlobalTags={handleGlobalTags}
-              setGlobalTags={setGlobalTags}
-              storeListenEvents={storeListenEvents}
-              setListenEvents={setListenEvents}
-              save={save}
-              lastFMUsername={lastFMUsername}
-              onChangelastFMUsername={onChangelastFMUsername}
-              lastFMPassword={lastFMPassword}
-              onChangelastFMPassword={onChangelastFMPassword}
               lastFMauth={lastFMauth}
+              lastFMPassword={lastFMPassword}
               lastFMUser={lastFMUser}
-              LFMKey={LFMKey}
               lastFMUserFetch={lastFMUserFetch}
+              lastFMUsername={lastFMUsername}
+              LFMKey={LFMKey}
+              listenEvents={listenEvents}
+              onChangelastFMPassword={onChangelastFMPassword}
+              onChangelastFMUsername={onChangelastFMUsername}
+              requestOptions={requestOptions}
+              save={save}
+              setAlbums={setAlbums}
+              setGlobalTags={setGlobalTags}
+              setLastFMUser={setLastFMUser}
+              setListenEvents={setListenEvents}
+              setUser={setUser}
+              storeAlbums={storeAlbums}
+              storeListenEvents={storeListenEvents}
+              updateLibraryFetch={updateLibraryFetch}
+              user={user}
             />
           )}
         </Tab.Screen>

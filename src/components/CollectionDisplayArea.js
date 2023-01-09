@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AlbumPage from "./AlbumPage";
 import AlbumTagsPage from "./AlbumTagsPage";
 import Collection from "./Collection";
+import Auth from "./authflow/Auth";
+
 import styles from "./styles/style.js";
 
 const Stack = createNativeStackNavigator();
@@ -12,6 +14,7 @@ export default function CollectionDisplayArea({
   allAlbums,
   globalTags,
   handleGlobalTags,
+  lastFMUser,
   storeListenEvents,
   randomArray,
   requestOptions,
@@ -43,6 +46,7 @@ export default function CollectionDisplayArea({
                 <AlbumPage
                   {...props}
                   globalTags={globalTags}
+                  lastFMUser={lastFMUser}
                   LFMKey={LFMKey}
                   requestOptions={requestOptions}
                   storeListenEvents={storeListenEvents}
@@ -58,6 +62,9 @@ export default function CollectionDisplayArea({
                   handleGlobalTags={handleGlobalTags}
                 />
               )}
+            </Stack.Screen>
+            <Stack.Screen name="Auth" options={{ animation: "none" }}>
+              {(props) => <Auth {...props} />}
             </Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
