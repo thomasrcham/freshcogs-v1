@@ -98,10 +98,6 @@ function AlbumPage({
           }, 10000);
         })
         .catch((e) => console.log(e));
-    } else {
-      Alert.alert(
-        "Your listen has been saved locally. Sign in to Last.fm to enable scrobbling."
-      );
     }
   };
 
